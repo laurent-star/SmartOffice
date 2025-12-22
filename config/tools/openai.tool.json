@@ -1,0 +1,8 @@
+{
+  "tool": "openai",
+  "actions": [
+    "summarize",
+    "classify",
+    "extract"
+  ]
+}

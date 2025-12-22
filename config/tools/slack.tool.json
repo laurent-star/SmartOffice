@@ -1,0 +1,8 @@
+{
+  "tool": "slack",
+  "actions": [
+    "send_message",
+    "find_channel",
+    "invite_user"
+  ]
+}

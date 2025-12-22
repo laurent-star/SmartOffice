@@ -1,0 +1,46 @@
+{
+  "id": "uc.training.convention.v1",
+  "version": "1.0.0",
+  "description": "Génération de convention de formation.",
+  "steps": [
+    {
+      "id": "fetch_crm",
+      "type": "tool",
+      "ref": "monday",
+      "params": { "action": "items.get", "itemId": "={{memory.state.itemId}}" },
+      "save": {
+        "to": {
+          "client.siret": "$.data.client.siret",
+          "client.name": "$.data.client.name",
+          "training.hours": "$.data.training.hours"
+        }
+      },
+      "on_error": { "mode": "stop" }
+    },
+    {
+      "id": "missing_siret_alert",
+      "type": "tool",
+      "ref": "slack",
+      "when": { "path": "memory.state.client.siret", "eq": "" },
+      "params": {
+        "action": "chat.postMessage",
+        "channel": "#ops",
+        "text": "SIRET manquant pour {{memory.state.client.name}} — convention non générée."
+      },
+      "on_error": { "mode": "continue" }
+    },
+    {
+      "id": "generate_doc",
+      "type": "tool",
+      "ref": "drive",
+      "when": "memory.state.client.siret != ''",
+      "params": {
+        "action": "files.copyTemplate",
+        "templateId": "tpl_convention_v1",
+        "folderId": "={{memory.state.clientFolderId}}"
+      },
+      "save": { "to": { "doc.fileId": "$.data.fileId" } },
+      "on_error": { "mode": "stop" }
+    }
+  ]
+}

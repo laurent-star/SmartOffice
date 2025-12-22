@@ -1,0 +1,31 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+    "json.schemas": [
+      {
+        "fileMatch": ["config/tools/*.tool.json"],
+        "url": "./contracts/tool-call.schema.json"
+      },
+      {
+        "fileMatch": ["config/capabilities/*.capability.json"],
+        "url": "./contracts/capability.schema.json"
+      },
+      {
+        "fileMatch": ["config/use-cases/*.usecase.json"],
+        "url": "./contracts/usecase.schema.json"
+      }
+    ],
+
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true
+    }
+  }
+}

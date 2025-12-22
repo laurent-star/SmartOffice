@@ -1,0 +1,22 @@
+{
+  "capability": "notify_user",
+  "steps": [
+    {
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "summarize",
+        "text": "{{input.message}}"
+      }
+    },
+    {
+      "type": "tool",
+      "ref": "slack",
+      "params": {
+        "action": "send_message",
+        "channel": "{{context.slack.channel}}",
+        "text": "{{output.summary}}"
+      }
+    }
+  ]
+}

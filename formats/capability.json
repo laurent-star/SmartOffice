@@ -1,0 +1,12 @@
+{
+  "id": "cap.slack.notify.v1",
+  "version": "1.0.0",
+  "description": "Notify a Slack channel using a tool_call step.",
+  "steps": [
+    {
+      "type": "tool",
+      "ref": "minimal-tool",
+      "params": { "action": "do" }
+    }
+  ]
+}

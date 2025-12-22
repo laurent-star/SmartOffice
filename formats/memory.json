@@ -1,0 +1,8 @@
+{
+  "session_id": "sess_001",
+  "state": {
+    "current_client": "isoluce",
+    "last_channel": "#ops"
+  },
+  "stack": ["uc.alerting.simple.v1"]
+}
