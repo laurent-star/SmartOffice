@@ -1,5 +1,8 @@
 {
-  "capability": "notify_user",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "notify_user",
+  "version": "1.0.0",
+  "description": "Notifie un utilisateur via Slack après création d'une tâche Jira.",
   "steps": [
     {
       "type": "tool",
