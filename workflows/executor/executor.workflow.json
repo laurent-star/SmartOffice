@@ -14,26 +14,90 @@
       }
     },
     {
-      "id": "parse-envelope",
-      "name": "Parse Envelope",
+      "id": "normalize-envelope",
+      "name": "Normalize Envelope",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [420, 300],
       "parameters": {
-        "functionCode": "// Envelope unique (legacy ou execution)\nconst envelope = items[0].json;\n\nlet steps;\nlet memory;\n\nif (envelope.payload) {\n  steps = envelope.payload.steps;\n  memory = envelope.payload.memory || { session_id: 'auto', state: {} };\n} else {\n  steps = envelope.input.steps;\n  memory = envelope.context.memory;\n}\n\nreturn [{\n  json: {\n    steps,\n    memory,\n    index: 0\n  }\n}];"
+        "functionCode": "const input = items[0].json || {};\nconst isExecution = Boolean(input.payload);\nconst now = new Date().toISOString();\n\nlet steps = [];\nlet memory = {};\nconst header = input.header || {};\nconst source = header.source || input.context?.source || (isExecution ? 'execution' : 'legacy');\nconst runId = header.runId || header.id || input.context?.run?.id || `run-${Date.now()}`;\n\nif (isExecution) {\n  steps = input.payload?.steps || [];\n  memory = input.payload?.memory || {};\n} else {\n  steps = input.input?.steps || [];\n  memory = input.context?.memory || {};\n}\n\nconst defaultOptions = { maxSteps: 30, maxDepth: 5, debug: true };\nconst providedOptions = input.payload?.options || input.input?.options || {};\nconst options = Object.assign({}, defaultOptions, providedOptions);\noptions.stepCount = typeof options.stepCount === 'number' ? options.stepCount : 0;\noptions.stepHistory = Array.isArray(options.stepHistory) ? options.stepHistory : [];\n\nreturn [{\n  json: {\n    header,\n    run: { id: runId, timestamp: now, source },\n    memory,\n    steps,\n    cursor: { index: 0, depth: 0 },\n    options,\n    results: [],\n    trace: [],\n    registry: null,\n    registryHash: null,\n    error: null\n  }\n}];"
       }
     },
     {
-      "id": "has-step",
+      "id": "parse-json-safe",
+      "name": "Parse JSON Safe",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [640, 300],
+      "parameters": {
+        "functionCode": "const state = items[0].json;\n\nfunction parseIfJsonString(value, path) {\n  if (typeof value !== 'string') return { value };\n  const trimmed = value.trim();\n  if (!trimmed) return { value };\n  if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) return { value };\n  try {\n    return { value: JSON.parse(trimmed) };\n  } catch (error) {\n    return { error: { code: 'INVALID_JSON_FROM_AGENT', message: `Failed to parse JSON at ${path}`, details: { path, raw: value } } };\n  }\n}\n\nconst parsedSteps = parseIfJsonString(state.steps, 'steps');\nif (parsedSteps.error) {\n  state.error = parsedSteps.error;\n  return [{ json: state }];\n}\nstate.steps = parsedSteps.value;\n\nconst parsedMemory = parseIfJsonString(state.memory, 'memory');\nif (parsedMemory.error) {\n  state.error = parsedMemory.error;\n  return [{ json: state }];\n}\nstate.memory = parsedMemory.value;\n\nconst parsedOptions = parseIfJsonString(state.options, 'options');\nif (parsedOptions.error) {\n  state.error = parsedOptions.error;\n  return [{ json: state }];\n}\nstate.options = parsedOptions.value;\n\nif (Array.isArray(state.steps)) {\n  for (let i = 0; i < state.steps.length; i += 1) {\n    const step = state.steps[i];\n    if (!step || typeof step !== 'object') continue;\n    const parsedParams = parseIfJsonString(step.params, `steps[${i}].params`);\n    if (parsedParams.error) {\n      state.error = parsedParams.error;\n      return [{ json: state }];\n    }\n    step.params = parsedParams.value;\n\n    if (step.params && typeof step.params === 'object') {\n      if (step.params.message && typeof step.params.message === 'object') {\n        const parsedMessage = parseIfJsonString(step.params.message.content, `steps[${i}].params.message.content`);\n        if (parsedMessage.error) {\n          state.error = parsedMessage.error;\n          return [{ json: state }];\n        }\n        step.params.message.content = parsedMessage.value;\n      }\n      const parsedContent = parseIfJsonString(step.params.content, `steps[${i}].params.content`);\n      if (parsedContent.error) {\n        state.error = parsedContent.error;\n        return [{ json: state }];\n      }\n      step.params.content = parsedContent.value;\n    }\n  }\n}\n\nreturn [{ json: state }];"
+      }
+    },
+    {
+      "id": "validate-contracts",
+      "name": "Validate Contracts",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [860, 300],
+      "parameters": {
+        "functionCode": "const state = items[0].json;\nconst errors = [];\n\nif (!Array.isArray(state.steps) || state.steps.length === 0) {\n  errors.push('steps must be a non-empty array');\n}\n\nif (Array.isArray(state.steps)) {\n  const allowed = new Set(['tool', 'capability', 'usecase']);\n  state.steps.forEach((step, index) => {\n    if (!step || typeof step !== 'object') {\n      errors.push(`steps[${index}] must be an object`);\n      return;\n    }\n    if (!allowed.has(step.type)) {\n      errors.push(`steps[${index}].type must be tool, capability, or usecase`);\n    }\n    if (typeof step.ref !== 'string' || !step.ref.trim()) {\n      errors.push(`steps[${index}].ref must be a non-empty string`);\n    }\n    if (!step.params || typeof step.params !== 'object' || Array.isArray(step.params)) {\n      errors.push(`steps[${index}].params must be an object`);\n    }\n  });\n}\n\nif (errors.length) {\n  state.error = {\n    code: 'INVALID_CONTRACT',\n    message: 'Input contract validation failed',\n    details: { errors }\n  };\n}\n\nreturn [{ json: state }];"
+      }
+    },
+    {
+      "id": "has-error-init",
+      "name": "Has Error? (Init)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1080, 300],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{Boolean($json.error)}}",
+              "operation": "isTrue"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "load-registry",
+      "name": "Load Registry",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1300, 300],
+      "parameters": {
+        "functionCode": "const state = items[0].json;\n\nconst registry = { tools: {}, capabilities: {}, usecases: {} };\nconst files = Array.isArray(state.registryFiles) ? state.registryFiles : [];\n\nfor (const file of files) {\n  if (!file || typeof file !== 'object') continue;\n  const category = file.category;\n  const ref = file.ref;\n  const content = file.content;\n  if (!registry[category] || typeof ref !== 'string' || !content) continue;\n  registry[category][ref] = content;\n}\n\nconst fallback = state.options?.fallbackRegistry;\nif (fallback && typeof fallback === 'object') {\n  if (fallback.tools && typeof fallback.tools === 'object') {\n    Object.assign(registry.tools, fallback.tools);\n  }\n  if (fallback.capabilities && typeof fallback.capabilities === 'object') {\n    Object.assign(registry.capabilities, fallback.capabilities);\n  }\n  if (fallback.usecases && typeof fallback.usecases === 'object') {\n    Object.assign(registry.usecases, fallback.usecases);\n  }\n}\n\nconst registryEmpty =\n  Object.keys(registry.tools).length === 0 &&\n  Object.keys(registry.capabilities).length === 0 &&\n  Object.keys(registry.usecases).length === 0;\n\nif (registryEmpty) {\n  state.error = {\n    code: 'REGISTRY_EMPTY',\n    message: 'Registry is empty; expected Google Drive registry files or fallback',\n    details: {}\n  };\n  return [{ json: state }];\n}\n\nconst registryString = JSON.stringify(registry);\nlet hash = 0;\nfor (let i = 0; i < registryString.length; i += 1) {\n  hash = (hash * 31 + registryString.charCodeAt(i)) >>> 0;\n}\n\nstate.registry = registry;\nstate.registryHash = `h${hash}`;\n\nreturn [{ json: state }];"
+      }
+    },
+    {
+      "id": "has-error-registry",
+      "name": "Has Error? (Registry)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1520, 300],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{Boolean($json.error)}}",
+              "operation": "isTrue"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "has-next-step",
       "name": "Has Next Step?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [640, 300],
+      "position": [1740, 300],
       "parameters": {
         "conditions": {
           "number": [
             {
-              "value1": "={{$json.index}}",
+              "value1": "={{$json.cursor.index}}",
               "operation": "smaller",
               "value2": "={{$json.steps.length}}"
             }
@@ -42,13 +106,57 @@
       }
     },
     {
-      "id": "pick-step",
-      "name": "Pick Step",
+      "id": "execution-guards",
+      "name": "Execution Guards",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [860, 200],
+      "position": [1960, 200],
       "parameters": {
-        "functionCode": "const step = $json.steps[$json.index];\n\nreturn [{\n  json: {\n    step,\n    steps: $json.steps,\n    memory: $json.memory,\n    index: $json.index\n  }\n}];"
+        "functionCode": "const state = items[0].json;\n\nstate.options.stepCount = (state.options.stepCount || 0) + 1;\nconst maxSteps = Number(state.options.maxSteps) || 30;\nconst maxDepth = Number(state.options.maxDepth) || 5;\n\nif (state.options.stepCount > maxSteps) {\n  state.error = {\n    code: 'MAX_STEPS_EXCEEDED',\n    message: 'Max steps exceeded',\n    details: { maxSteps }\n  };\n  return [{ json: state }];\n}\n\nif (state.cursor.depth > maxDepth) {\n  state.error = {\n    code: 'MAX_DEPTH_EXCEEDED',\n    message: 'Max depth exceeded',\n    details: { maxDepth }\n  };\n  return [{ json: state }];\n}\n\nconst step = state.steps[state.cursor.index];\nif (step && typeof step === 'object') {\n  const key = JSON.stringify({ type: step.type, ref: step.ref, params: step.params });\n  state.options.stepHistory.push(key);\n  if (state.options.stepHistory.length > 10) {\n    state.options.stepHistory = state.options.stepHistory.slice(-10);\n  }\n  const lastThree = state.options.stepHistory.slice(-3);\n  if (lastThree.length === 3 && lastThree.every((value) => value === key)) {\n    state.error = {\n      code: 'REPEATED_STEP',\n      message: 'Same step repeated 3 times',\n      details: { key }\n    };\n  }\n}\n\nreturn [{ json: state }];"
+      }
+    },
+    {
+      "id": "has-error-guards",
+      "name": "Has Error? (Guards)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2180, 200],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{Boolean($json.error)}}",
+              "operation": "isTrue"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "resolve-step",
+      "name": "Resolve Step",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [2400, 200],
+      "parameters": {
+        "functionCode": "const state = items[0].json;\nconst step = state.steps[state.cursor.index];\n\nif (!step) {\n  state.error = {\n    code: 'NO_STEP',\n    message: 'No step at current cursor index',\n    details: { index: state.cursor.index }\n  };\n  return [{ json: state }];\n}\n\nconst registry = state.registry || { tools: {}, capabilities: {}, usecases: {} };\n\nif (step.type === 'tool') {\n  const toolDef = registry.tools[step.ref];\n  if (!toolDef) {\n    state.error = {\n      code: 'UNKNOWN_REF',\n      message: 'Tool ref not found in registry',\n      details: { ref: step.ref }\n    };\n    return [{ json: state }];\n  }\n\n  const provider = toolDef.provider || step.provider;\n  const operation = toolDef.operation || step.operation;\n  if (!provider || !operation) {\n    state.error = {\n      code: 'INVALID_TOOL_DEF',\n      message: 'Tool definition missing provider or operation',\n      details: { ref: step.ref }\n    };\n    return [{ json: state }];\n  }\n\n  state.currentStep = {\n    id: `${state.cursor.index}-${step.ref}`,\n    type: 'tool',\n    ref: step.ref,\n    params: step.params || {},\n    saveAs: step.saveAs,\n    tool: { ref: step.ref, provider, operation }\n  };\n  state.stepStartedAt = Date.now();\n  return [{ json: state }];\n}\n\nif (step.type === 'capability') {\n  const capability = registry.capabilities[step.ref];\n  if (!capability || !Array.isArray(capability.steps) || capability.steps.length === 0) {\n    state.error = {\n      code: 'UNKNOWN_REF',\n      message: 'Capability ref not found or empty in registry',\n      details: { ref: step.ref }\n    };\n    return [{ json: state }];\n  }\n  state.steps.splice(state.cursor.index, 1, ...capability.steps);\n  state.cursor.depth += 1;\n  const maxDepth = Number(state.options?.maxDepth) || 5;\n  if (state.cursor.depth > maxDepth) {\n    state.error = {\n      code: 'MAX_DEPTH_EXCEEDED',\n      message: 'Max depth exceeded',\n      details: { maxDepth }\n    };\n    return [{ json: state }];\n  }\n  if (!state.steps[state.cursor.index]) {\n    state.error = {\n      code: 'INVALID_EXPANSION',\n      message: 'Capability expansion produced no steps',\n      details: { ref: step.ref }\n    };\n    return [{ json: state }];\n  }\n  state.currentStep = { type: 'capability' };\n  return [{ json: state }];\n}\n\nif (step.type === 'usecase') {\n  const usecase = registry.usecases[step.ref];\n  if (!usecase || !Array.isArray(usecase.steps) || usecase.steps.length === 0) {\n    state.error = {\n      code: 'UNKNOWN_REF',\n      message: 'Usecase ref not found or empty in registry',\n      details: { ref: step.ref }\n    };\n    return [{ json: state }];\n  }\n  state.steps.splice(state.cursor.index, 1, ...usecase.steps);\n  state.cursor.depth += 1;\n  const maxDepth = Number(state.options?.maxDepth) || 5;\n  if (state.cursor.depth > maxDepth) {\n    state.error = {\n      code: 'MAX_DEPTH_EXCEEDED',\n      message: 'Max depth exceeded',\n      details: { maxDepth }\n    };\n    return [{ json: state }];\n  }\n  if (!state.steps[state.cursor.index]) {\n    state.error = {\n      code: 'INVALID_EXPANSION',\n      message: 'Usecase expansion produced no steps',\n      details: { ref: step.ref }\n    };\n    return [{ json: state }];\n  }\n  state.currentStep = { type: 'usecase' };\n  return [{ json: state }];\n}\n\nstate.error = {\n  code: 'INVALID_STEP_TYPE',\n  message: 'Unsupported step type',\n  details: { type: step.type }\n};\n\nreturn [{ json: state }];"
+      }
+    },
+    {
+      "id": "has-error-resolve",
+      "name": "Has Error? (Resolve)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2620, 200],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{Boolean($json.error)}}",
+              "operation": "isTrue"
+            }
+          ]
+        }
       }
     },
     {
@@ -56,9 +164,9 @@
       "name": "Switch Step Type",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 1,
-      "position": [1080, 200],
+      "position": [2840, 200],
       "parameters": {
-        "value1": "={{$json.step.type}}",
+        "value1": "={{$json.currentStep.type}}",
         "rules": [
           { "value2": "tool" },
           { "value2": "capability" },
@@ -66,104 +174,162 @@
         ]
       }
     },
-
     {
-      "id": "exec-tool",
+      "id": "switch-provider",
+      "name": "Switch Tool Provider",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [3060, 80],
+      "parameters": {
+        "value1": "={{$json.currentStep.tool.provider}}",
+        "rules": [
+          { "value2": "gmail" },
+          { "value2": "drive" },
+          { "value2": "monday" },
+          { "value2": "slack" },
+          { "value2": "axonaut" },
+          { "value2": "brevo" }
+        ]
+      }
+    },
+    {
+      "id": "execute-tool",
       "name": "Execute Tool",
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1,
-      "position": [1300, 80],
-      "parameters": {
-        "workflowId": "={{$json.step.ref}}",
-        "inputData": {
-          "json": {
-            "params": "={{$json.step.params}}",
-            "memory": "={{$json.memory}}"
-          }
-        }
-      }
-    },
-
-    {
-      "id": "exec-capability",
-      "name": "Execute Capability",
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1,
-      "position": [1300, 200],
-      "parameters": {
-        "workflowId": "executor",
-        "inputData": {
-          "json": {
-            "payload": {
-              "steps": "={{$json.step.steps}}",
-              "memory": "={{$json.memory}}"
-            }
-          }
-        }
-      }
-    },
-
-    {
-      "id": "exec-usecase",
-      "name": "Execute Usecase",
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1,
-      "position": [1300, 320],
-      "parameters": {
-        "workflowId": "executor",
-        "inputData": {
-          "json": {
-            "payload": {
-              "steps": "={{$json.step.steps}}",
-              "memory": "={{$json.memory}}"
-            }
-          }
-        }
-      }
-    },
-
-    {
-      "id": "next-step",
-      "name": "Next Step",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [1520, 200],
+      "position": [3280, 80],
       "parameters": {
-        "functionCode": "return [{\n  json: {\n    steps: $json.steps,\n    memory: $json.memory,\n    index: $json.index + 1\n  }\n}];"
+        "functionCode": "const state = items[0].json;\nconst step = state.currentStep;\n\nconst toolInput = {\n  runId: state.run.id,\n  stepId: step.id,\n  tool: step.tool,\n  params: step.params || {},\n  context: { memory: state.memory }\n};\n\nlet toolResult;\nif (toolInput.params && toolInput.params.mockResult !== undefined) {\n  toolResult = { ok: true, data: toolInput.params.mockResult, meta: { mock: true } };\n} else {\n  toolResult = { ok: false, error: { code: 'TOOL_NOT_IMPLEMENTED', message: 'Tool execution not implemented', details: toolInput.tool } };\n}\n\nstate.toolInput = toolInput;\nstate.toolResult = toolResult;\n\nreturn [{ json: state }];"
+      }
+    },
+    {
+      "id": "append-step-result",
+      "name": "Append Step Result",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [3500, 80],
+      "parameters": {
+        "functionCode": "const state = items[0].json;\nconst step = state.currentStep;\nconst result = state.toolResult;\n\nconst entry = {\n  stepId: step.id,\n  ref: step.ref,\n  ok: result.ok\n};\n\nif (result.ok) {\n  entry.data = result.data;\n  entry.meta = result.meta || {};\n} else {\n  entry.error = result.error;\n  state.error = result.error;\n}\n\nstate.results.push(entry);\n\nif (step.saveAs && result.ok) {\n  state.memory[step.saveAs] = result.data;\n}\n\nif (state.options.debug) {\n  const duration = state.stepStartedAt ? Date.now() - state.stepStartedAt : null;\n  state.trace.push({\n    stepId: step.id,\n    ref: step.ref,\n    duration,\n    ok: result.ok\n  });\n}\n\nstate.cursor.index += 1;\n\nreturn [{ json: state }];"
+      }
+    },
+    {
+      "id": "has-error-append",
+      "name": "Has Error? (Append)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3720, 80],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{Boolean($json.error)}}",
+              "operation": "isTrue"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "build-output-envelope",
+      "name": "Build Output Envelope",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1960, 400],
+      "parameters": {
+        "functionCode": "const state = items[0].json;\n\nconst output = {\n  results: state.results || [],\n  memory: state.memory || {}\n};\n\nif (state.options?.debug) {\n  output.trace = state.trace || [];\n  output.debug = {\n    stepCount: state.options.stepCount || 0,\n    depth: state.cursor?.depth || 0,\n    registry: {\n      hash: state.registryHash || null,\n      version: state.registry?.version || null\n    }\n  };\n}\n\nreturn [{\n  json: {\n    header: state.header || {},\n    output,\n    error: null\n  }\n}];"
+      }
+    },
+    {
+      "id": "build-error-envelope",
+      "name": "Build Error Envelope",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1300, 520],
+      "parameters": {
+        "functionCode": "const state = items[0].json;\n\nconst output = {\n  results: state.results || [],\n  memory: state.memory || {}\n};\n\nif (state.options?.debug) {\n  output.trace = state.trace || [];\n  output.debug = {\n    stepCount: state.options.stepCount || 0,\n    depth: state.cursor?.depth || 0,\n    registry: {\n      hash: state.registryHash || null,\n      version: state.registry?.version || null\n    }\n  };\n}\n\nreturn [{\n  json: {\n    header: state.header || {},\n    output,\n    error: state.error || { code: 'UNKNOWN_ERROR', message: 'Unknown error', details: {} }\n  }\n}];"
       }
     }
   ],
   "connections": {
     "Executor Trigger": {
-      "main": [[{ "node": "Parse Envelope", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "Normalize Envelope", "type": "main", "index": 0 }]]
     },
-    "Parse Envelope": {
-      "main": [[{ "node": "Has Next Step?", "type": "main", "index": 0 }]]
+    "Normalize Envelope": {
+      "main": [[{ "node": "Parse JSON Safe", "type": "main", "index": 0 }]]
+    },
+    "Parse JSON Safe": {
+      "main": [[{ "node": "Validate Contracts", "type": "main", "index": 0 }]]
+    },
+    "Validate Contracts": {
+      "main": [[{ "node": "Has Error? (Init)", "type": "main", "index": 0 }]]
+    },
+    "Has Error? (Init)": {
+      "main": [
+        [{ "node": "Build Error Envelope", "type": "main", "index": 0 }],
+        [{ "node": "Load Registry", "type": "main", "index": 0 }]
+      ]
+    },
+    "Load Registry": {
+      "main": [[{ "node": "Has Error? (Registry)", "type": "main", "index": 0 }]]
+    },
+    "Has Error? (Registry)": {
+      "main": [
+        [{ "node": "Build Error Envelope", "type": "main", "index": 0 }],
+        [{ "node": "Has Next Step?", "type": "main", "index": 0 }]
+      ]
     },
     "Has Next Step?": {
-      "main": [[{ "node": "Pick Step", "type": "main", "index": 0 }], []]
+      "main": [
+        [{ "node": "Execution Guards", "type": "main", "index": 0 }],
+        [{ "node": "Build Output Envelope", "type": "main", "index": 0 }]
+      ]
     },
-    "Pick Step": {
-      "main": [[{ "node": "Switch Step Type", "type": "main", "index": 0 }]]
+    "Execution Guards": {
+      "main": [[{ "node": "Has Error? (Guards)", "type": "main", "index": 0 }]]
+    },
+    "Has Error? (Guards)": {
+      "main": [
+        [{ "node": "Build Error Envelope", "type": "main", "index": 0 }],
+        [{ "node": "Resolve Step", "type": "main", "index": 0 }]
+      ]
+    },
+    "Resolve Step": {
+      "main": [[{ "node": "Has Error? (Resolve)", "type": "main", "index": 0 }]]
+    },
+    "Has Error? (Resolve)": {
+      "main": [
+        [{ "node": "Build Error Envelope", "type": "main", "index": 0 }],
+        [{ "node": "Switch Step Type", "type": "main", "index": 0 }]
+      ]
     },
     "Switch Step Type": {
       "main": [
+        [{ "node": "Switch Tool Provider", "type": "main", "index": 0 }],
+        [{ "node": "Resolve Step", "type": "main", "index": 0 }],
+        [{ "node": "Resolve Step", "type": "main", "index": 0 }]
+      ]
+    },
+    "Switch Tool Provider": {
+      "main": [
         [{ "node": "Execute Tool", "type": "main", "index": 0 }],
-        [{ "node": "Execute Capability", "type": "main", "index": 0 }],
-        [{ "node": "Execute Usecase", "type": "main", "index": 0 }]
+        [{ "node": "Execute Tool", "type": "main", "index": 0 }],
+        [{ "node": "Execute Tool", "type": "main", "index": 0 }],
+        [{ "node": "Execute Tool", "type": "main", "index": 0 }],
+        [{ "node": "Execute Tool", "type": "main", "index": 0 }],
+        [{ "node": "Execute Tool", "type": "main", "index": 0 }]
       ]
     },
     "Execute Tool": {
-      "main": [[{ "node": "Next Step", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "Append Step Result", "type": "main", "index": 0 }]]
     },
-    "Execute Capability": {
-      "main": [[{ "node": "Next Step", "type": "main", "index": 0 }]]
+    "Append Step Result": {
+      "main": [[{ "node": "Has Error? (Append)", "type": "main", "index": 0 }]]
     },
-    "Execute Usecase": {
-      "main": [[{ "node": "Next Step", "type": "main", "index": 0 }]]
-    },
-    "Next Step": {
-      "main": [[{ "node": "Has Next Step?", "type": "main", "index": 0 }]]
+    "Has Error? (Append)": {
+      "main": [
+        [{ "node": "Build Error Envelope", "type": "main", "index": 0 }],
+        [{ "node": "Has Next Step?", "type": "main", "index": 0 }]
+      ]
     }
   },
   "active": false

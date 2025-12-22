@@ -1,0 +1,107 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Trigger Workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [100, 300],
+      "id": "node-trigger-workflow"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "list",
+        "options": {}
+      },
+      "name": "List Files",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 1,
+      "position": [300, 300],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "srne6dUOtNtqGhMU",
+          "name": "Google Drive account"
+        }
+      },
+      "id": "node-list-files"
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "Generated file content",
+        "name": "GeneratedFile.json",
+        "folderId": {
+          "__rl": true,
+          "value": "1Vh9O0Dt2IXw-3Y5iomG0KTmuSe6_BjdA",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "name": "Create File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [500, 300],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "srne6dUOtNtqGhMU",
+          "name": "Google Drive account"
+        }
+      },
+      "id": "node-create-file"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "share",
+        "fileId": "={{$json[\"id\"]}}",
+        "permissionsUi": {
+          "permissionsValues": [
+            {
+              "type": "user",
+              "role": "reader",
+              "emailAddress": "test@example.com"
+            }
+          ]
+        }
+      },
+      "name": "Share File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 1,
+      "position": [700, 300],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "srne6dUOtNtqGhMU",
+          "name": "Google Drive account"
+        }
+      },
+      "id": "node-share-file"
+    },
+    {
+      "parameters": {
+        "functionCode": "return [\n  {\n    json: {\n      message: \"Workflow completed successfully\",\n      filesListed: $node[\"List Files\"].json,\n      fileCreated: $node[\"Create File\"].json,\n      fileShared: {\n        success: true,\n        status: \"File shared\"\n      }\n    }\n  }\n];"
+      },
+      "name": "Prepare Result",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [900, 300],
+      "id": "node-prepare-result"
+    }
+  ],
+  "connections": {
+    "node-trigger-workflow": {
+      "main": [[{ "node": "node-list-files", "type": "main", "index": 0 }]]
+    },
+    "node-list-files": {
+      "main": [[{ "node": "node-create-file", "type": "main", "index": 0 }]]
+    },
+    "node-create-file": {
+      "main": [[{ "node": "node-share-file", "type": "main", "index": 0 }]]
+    },
+    "node-share-file": {
+      "main": [[{ "node": "node-prepare-result", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}
