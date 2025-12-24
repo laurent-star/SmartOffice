@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "data": {
+    "messageId": "msg_123",
+    "status": "sent"
+  },
+  "error": null,
+  "meta": {
+    "provider": "slack",
+    "operation": "chat.postMessage"
+  }
+}

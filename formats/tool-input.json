@@ -1,0 +1,20 @@
+{
+  "runId": "run-123",
+  "stepId": "0-slack.postMessage",
+  "tool": {
+    "ref": "slack",
+    "provider": "slack",
+    "operation": "chat.postMessage"
+  },
+  "params": {
+    "channel": "#ops",
+    "text": "Hello"
+  },
+  "context": {
+    "memory": {
+      "session_id": "sess_001",
+      "state": {},
+      "stack": []
+    }
+  }
+}

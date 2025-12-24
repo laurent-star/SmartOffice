@@ -39,6 +39,15 @@ et des **use cases métier**, exécutés par un **executor récursif**.
 - Toute communication passe par une **envelope standard**
 - Les schemas sont la source de vérité
 
+## Documentation runtime
+
+- docs/executor-runtime.md
+- docs/agent-runtime.md
+- docs/tools-runtime.md
+- docs/triggers-runtime.md
+- docs/utils-runtime.md
+- docs/golden-workflows.md
+
 ## Hors scope volontaire (bootstrap)
 
 - policies complexes

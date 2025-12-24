@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/tool-input.schema.json",
+  "title": "ToolInput",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "runId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifiant de run de l'execution."
+    },
+    "stepId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifiant du step en cours."
+    },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reference du tool dans le registry."
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Provider technique (ex: slack, gmail)."
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Operation a executer."
+        }
+      },
+      "required": ["ref", "provider", "operation"]
+    },
+    "params": {
+      "type": "object",
+      "default": {},
+      "additionalProperties": true,
+      "description": "Parametres d'entree du tool."
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "memory": {
+          "$ref": "https://smart-office.local/schemas/memory.schema.json",
+          "description": "Memoire de session."
+        }
+      },
+      "required": ["memory"]
+    }
+  },
+  "required": ["runId", "stepId", "tool", "params", "context"]
+}

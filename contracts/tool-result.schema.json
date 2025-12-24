@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/tool-result.schema.json",
+  "title": "ToolResult",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean",
+      "description": "Indique si l'execution a reussi."
+    },
+    "data": {
+      "type": ["object", "null"],
+      "description": "Donnees retournees par le tool."
+    },
+    "error": {
+      "type": ["object", "null"],
+      "description": "Erreur retournee par le tool."
+    },
+    "meta": {
+      "type": "object",
+      "description": "Metadonnees optionnelles.",
+      "additionalProperties": true
+    }
+  },
+  "required": ["ok", "data", "error"]
+}
