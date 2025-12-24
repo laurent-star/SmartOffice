@@ -20,3 +20,9 @@ Regles
 - L'agent ne declenche aucun tool directement.
 - L'agent doit produire une execution envelope valide.
 - Les decisions restent dans l'agent, jamais dans l'executor.
+
+Utilisation des utils
+
+- Normalisation d'entrees (legacy -> execution envelope)
+- Validation des steps avant envoi a l'executor
+- Evaluation des conditions when lors de la planification

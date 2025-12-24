@@ -92,6 +92,13 @@ Trigger
 - I/O explicites et deterministes.
 - Modifications directes permises si elles améliorent clarte et cohérence.
 
+## Utilisation des utils
+
+- Normalisation d'enveloppe en entree
+- Validation Ajv des contrats
+- Guards d'execution (maxSteps, maxDepth)
+- Application des policies (when, save, on_error)
+
 ---
 
 Fin du README.

@@ -27,3 +27,9 @@ Regles
 - Un tool est execute par l'executor.
 - Le routage se fait par provider et operation.
 - Le resultat doit suivre le schema tool-result.
+
+Utilisation des utils
+
+- Normalisation des params d'entree
+- Validation du tool-input et du tool-result
+- Mapping uniforme des erreurs

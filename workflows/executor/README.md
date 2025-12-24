@@ -97,6 +97,15 @@ Notes d'implementation (n8n)
 - Orchestration via nodes de type Code / Function
 - Appel des tools via Execute Workflow
 
+Utilisation des utils
+
+Les utils peuvent etre appeles depuis l'executor pour factoriser :
+- Normalisation d'enveloppe
+- Validation AJV des contrats
+- Guards de controle (maxSteps, maxDepth)
+- Expansion de steps (capability/usecase)
+- Application des policies (when, save, on_error)
+
 Hors scope
 
 - Policies complexes

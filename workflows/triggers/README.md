@@ -20,3 +20,9 @@ Regles
 - Un trigger ne planifie pas de steps.
 - Un trigger n'execute pas de tools.
 - Un trigger doit emettre une envelope conforme aux schemas.
+
+Utilisation des utils
+
+- Normalisation des payloads entrants
+- Construction d'enveloppe minimale
+- Validation Ajv avant emission
