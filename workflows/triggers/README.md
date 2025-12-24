@@ -1,11 +1,11 @@
-README — Trigger Workflows (Smart Office)
+README — Workflows Triggers (Smart Office)
 
-Purpose
+But
 
-Trigger workflows ingest external events and emit envelopes.
-They are entry points into the system.
+Les triggers ingestent des evenements externes et emettent des envelopes.
+Ce sont les points d'entree du systeme.
 
-Reference spec: docs/triggers-runtime.md
+Spec de reference : docs/triggers-runtime.md
 
 Workflows
 
@@ -15,7 +15,8 @@ Workflows
 - slack.trigger.workflow.json
 - webhook.trigger.workflow.json
 
-Notes
+Regles
 
-- Triggers should not plan or execute steps.
-- Triggers should emit schema-valid envelopes.
+- Un trigger ne planifie pas de steps.
+- Un trigger n'execute pas de tools.
+- Un trigger doit emettre une envelope conforme aux schemas.

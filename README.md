@@ -1,43 +1,43 @@
 # Smart Office
 
-Smart Office est une architecture d’automatisation pilotée par agent,
-basée sur des **tools atomiques**, des **capabilities réutilisables**
-et des **use cases métier**, exécutés par un **executor récursif**.
+Smart Office est une architecture d'automatisation pilotee par agent,
+bassee sur des tools atomiques, des capabilities reutilisables
+et des use cases metier, executes par un executor recursif.
 
-## Concepts clés
+## Concepts cles
 
-- **Tool**
-  Action atomique liée à une API (Slack, Google Drive, Gmail, Monday, OpenAI…).
-  Implémenté comme un workflow n8n avec un switch sur `action`.
+- Tool
+  Action atomique liee a une API (Slack, Google Drive, Gmail, Monday, OpenAI...).
+  Implemente comme un workflow n8n avec un switch sur l'action.
 
-- **Capability**
-  Suite déclarative de `steps`.
-  Indépendante des tools.
-  Peut être cross-tools.
-  Réutilisable.
+- Capability
+  Suite declarative de steps.
+  Independante des tools.
+  Peut etre cross-tools.
+  Reutilisable.
 
-- **Use case**
+- Use case
   Suite de capabilities.
-  Représente un scénario métier complet.
+  Represente un scenario metier complet.
 
-- **Agent**
+- Agent
   Lit les configurations (tools, capabilities, use cases),
-  choisit quoi exécuter, mais **n’exécute rien directement**.
+  choisit quoi executer, mais n'execute rien directement.
 
-- **Executor**
+- Executor
   Workflow n8n unique.
-  Exécute récursivement :
+  Execute recursivement :
   - tool
   - capability
   - use case
 
-## Règles d’architecture
+## Regles d'architecture
 
-- Les **tools ne contiennent aucune logique métier**
-- Les **capabilities ne connaissent pas les workflows**
-- Les **use cases n’appellent que des capabilities**
-- Toute communication passe par une **envelope standard**
-- Les schemas sont la source de vérité
+- Les tools ne contiennent aucune logique metier
+- Les capabilities ne connaissent pas les workflows
+- Les use cases n'appellent que des capabilities
+- Toute communication passe par une envelope standard
+- Les schemas sont la source de verite
 
 ## Documentation runtime
 
@@ -48,15 +48,37 @@ et des **use cases métier**, exécutés par un **executor récursif**.
 - docs/utils-runtime.md
 - docs/golden-workflows.md
 
-## Hors scope volontaire (bootstrap)
+## Readme par repertoire
 
-- policies complexes
-- mappings dédiés
-- gestion avancée de la mémoire
+- contracts/README.md
+- workflows/agent/README.md
+- workflows/executor/README.md
+- workflows/tools/README.md
+- workflows/triggers/README.md
+- workflows/utils/README.md
+- workflows/golden/README.md
 
-## Validation des schémas
+## Architecture du repertoire
 
-Pour valider les schémas JSON localement, certains outils (ex : `ajv-cli`) ont besoin du plugin `ajv-formats` pour reconnaitre les formats standards (`date`, `date-time`, etc.). Si vous obtenez un avertissement `unknown format`, installez et utilisez `ajv-formats` ou validez via un petit script Node.
+- contracts/ : schemas JSON de reference
+- docs/ : specifications runtime et regles non negociables
+- formats/ : exemples de donnees valides pour les schemas
+- workflows/
+  - agent/ : planification et supervision
+  - executor/ : moteur d'execution
+  - tools/ : actions atomiques
+  - triggers/ : entrees systeme
+  - utils/ : utilitaires sans effets de bord
+  - golden/ : implementations de reference
+- registries/ : definitions de tools, capabilities, use cases
+- scripts/ : utilitaires d'automatisation (validation, etc.)
+
+## Validation des schemas
+
+Pour valider les schemas JSON localement, certains outils (ex: ajv-cli)
+ont besoin du plugin ajv-formats pour reconnaitre les formats standards
+(date, date-time, etc.). Si vous obtenez un avertissement unknown format,
+installez et utilisez ajv-formats ou validez via un petit script Node.
 
 - Installer (globalement) :
 
@@ -70,25 +92,25 @@ npm install -g ajv-cli ajv-formats
 node -e "const Ajv=require('ajv'); const addFormats=require('ajv-formats'); const ajv=new Ajv({allErrors:true}); addFormats(ajv); const s=require('./contracts/envelope.schema.json'); const d=require('./formats/envelope.json'); console.log(ajv.validate(s,d)?'valid':JSON.stringify(ajv.errors,null,2));"
 ```
 
-Cette note évite les faux positifs d'avertissement lors de la validation locale tout en gardant les schémas inchangés.
+## Prechargement et resolution des $ref
 
-### Préchargement et résolution des `$ref`
+Les schemas dans contracts/ utilisent des $id (parfois des URI) pour permettre
+les references croisees robustes. Lors de la validation avec Ajv :
 
-Les schémas dans `contracts/` utilisent désormais des `"$id"` (parfois des URI) pour permettre des références croisées robustes. Lors de la validation avec Ajv, deux points importants :
+- Ajv doit connaitre les formats (installer ajv-formats)
+- Si un $ref pointe vers une URI, Ajv la resolvra seulement si le schema
+  correspondant est precharge (ajv.addSchema)
 
-- Ajv doit connaître les formats (installer `ajv-formats`) pour valider les champs `format`.
-- Si un `$ref` pointe vers une URI (ex. `https://smart-office.local/schemas/step.schema.json`), Ajv ne la résoudra que si le schéma correspondant a été préchargé (via `ajv.addSchema(schema, schema.$id)`) ou si le schéma est accessible à l'URI.
+Un script utilitaire existe : scripts/validate_contracts_preload.js.
+Il precharge tous les schemas contracts/*.schema.json puis valide
+les fichiers formats/*.json non vides.
 
-Pour faciliter la validation locale, un script utilitaire existe : `scripts/validate_contracts_preload.js`. Il précharge tous les schémas `contracts/*.schema.json` dans Ajv (en utilisant leur `$id`) puis valide les fichiers `formats/*.json` non vides.
-
-Exécution rapide :
+Execution rapide :
 
 ```bash
-# installer localement les dépendances (si nécessaire)
+# installer localement les dependances (si necessaire)
 npm install --prefix . ajv@8 ajv-formats --save-dev
 
-# lancer le validateur qui précharge les schémas
+# lancer le validateur qui precharge les schemas
 NODE_PATH=./node_modules node scripts/validate_contracts_preload.js
 ```
-
-Le script évite les erreurs de résolution liées aux `$id` et permet d'avoir un rapport clair des fichiers valides, invalides ou ignorés (ex : exemples vides).

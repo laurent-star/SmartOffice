@@ -1,13 +1,14 @@
-README — Tools Workflows (Smart Office)
+README — Workflows Tools (Smart Office)
 
-Purpose
+But
 
-Tool workflows implement atomic API actions.
-They execute one operation and return a structured result.
+Les tools implementent des actions atomiques liees a des APIs.
+Chaque tool execute une operation unique et renvoie un resultat structure.
 
-Reference spec: docs/tools-runtime.md
-Tool input schema: contracts/tool-input.schema.json
-Tool result schema: contracts/tool-result.schema.json
+Spec de reference : docs/tools-runtime.md
+Schemas :
+- contracts/tool-input.schema.json
+- contracts/tool-result.schema.json
 
 Workflows
 
@@ -20,7 +21,8 @@ Workflows
 - openai.workflow.json
 - slack.workflow.json
 
-Notes
+Regles
 
-- Tools do not plan or orchestrate steps.
-- Tools are executed by the Executor.
+- Un tool ne planifie pas et n'orchestre pas.
+- Un tool est execute par l'executor.
+- Le resultat doit suivre le schema tool-result.

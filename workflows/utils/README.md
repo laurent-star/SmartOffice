@@ -1,11 +1,18 @@
-README — Utils Workflows (Smart Office)
+README — Workflows Utils (Smart Office)
 
-Purpose
+But
 
-Utils are shared, side-effect-free helpers used by other workflows.
+Les utils sont des helpers deterministes, sans effets de bord.
+Ils factorisent des transformations communes.
 
-Reference spec: docs/utils-runtime.md
+Spec de reference : docs/utils-runtime.md
 
-Status
+Statut
 
-No utility workflows are defined yet.
+Aucun workflow utilitaire n'est defini pour le moment.
+
+Regles
+
+- Pas d'appels API externes.
+- Pas de mutation d'etat hors payload.
+- I/O JSON deterministe.

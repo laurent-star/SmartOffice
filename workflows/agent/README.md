@@ -1,21 +1,22 @@
-README — Agent Workflows (Smart Office)
+README — Workflows Agent (Smart Office)
 
-Purpose
+But
 
-Agent workflows implement the decision and planning layer.
-They translate incoming intent into an ordered list of execution steps.
+Les workflows agent implementent la couche de decision et de planification.
+Ils traduisent une intention en une liste ordonnee de steps pour l'executor.
 
-Reference spec: docs/agent-runtime.md
+Spec de reference : docs/agent-runtime.md
 
 Workflows
 
 - planner.workflow.json
-  Builds execution plans (steps) from input context.
+  Construit un plan d'execution (steps) a partir d'un contexte.
 
 - supervisor.workflow.json
-  Supervises or refines plans before execution.
+  Supervise ou ajuste le plan avant execution.
 
-Notes
+Regles
 
-- Agents never execute tools directly.
-- Agents must output a valid execution envelope.
+- L'agent ne declenche aucun tool directement.
+- L'agent doit produire une execution envelope valide.
+- Les decisions restent dans l'agent, jamais dans l'executor.
