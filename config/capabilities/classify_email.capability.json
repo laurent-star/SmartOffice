@@ -1,0 +1,44 @@
+{
+  "id": "classify_email",
+  "version": "1.0.0",
+  "description": "Analyse un email entrant et catégorise la demande avant routage.",
+  "steps": [
+    {
+      "id": "classify",
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "classify",
+        "text": "{{memory.state.email.body}}",
+        "labels": ["incident", "demande", "information"]
+      },
+      "save": {
+        "to": {
+          "memory.state.email.category": "$.data.classification"
+        }
+      }
+    },
+    {
+      "id": "notify_incident",
+      "type": "tool",
+      "ref": "slack",
+      "when": { "path": "memory.state.email.category", "eq": "incident" },
+      "params": {
+        "action": "send_message",
+        "channel": "{{context.slack.incident_channel}}",
+        "text": "Incident détecté pour {{memory.state.email.from}} : {{memory.state.email.subject}}"
+      }
+    },
+    {
+      "id": "archive_information",
+      "type": "tool",
+      "ref": "google-drive",
+      "when": { "path": "memory.state.email.category", "eq": "information" },
+      "params": {
+        "action": "upload_file",
+        "path": "{{memory.state.email.attachment}}",
+        "folder": "{{context.drive.archive_folder}}"
+      }
+    }
+  ]
+}

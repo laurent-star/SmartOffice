@@ -1,0 +1,47 @@
+{
+  "id": "generate_document",
+  "version": "1.0.0",
+  "description": "Génère un document à partir d'un modèle et le partage avec les parties prenantes.",
+  "steps": [
+    {
+      "id": "draft_content",
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "extract",
+        "text": "{{memory.state.document.brief}}",
+        "schema": "{{memory.state.document.schema}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.document.payload": "$.data.structured_data"
+        }
+      }
+    },
+    {
+      "id": "fill_template",
+      "type": "tool",
+      "ref": "google-docs",
+      "params": {
+        "action": "fill_template",
+        "template_id": "{{context.docs.template_id}}",
+        "data": "{{memory.state.document.payload}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.document.id": "$.data.document_id"
+        }
+      }
+    },
+    {
+      "id": "share",
+      "type": "tool",
+      "ref": "google-drive",
+      "params": {
+        "action": "share_file",
+        "file_id": "{{memory.state.document.id}}",
+        "emails": "{{context.docs.recipients}}"
+      }
+    }
+  ]
+}

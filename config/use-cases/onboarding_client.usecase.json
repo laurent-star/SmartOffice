@@ -1,0 +1,10 @@
+{
+  "id": "onboarding_client",
+  "version": "1.0.0",
+  "description": "Déploie le kit d'onboarding client et partage les documents nécessaires.",
+  "steps": [
+    { "type": "capability", "ref": "generate_document", "params": { "document": { "brief": "{{input.brief}}", "schema": "{{input.schema}}" } } },
+    { "type": "capability", "ref": "sync_crm_client" },
+    { "type": "capability", "ref": "notify_user", "params": { "message": "Dossier d'onboarding partagé" } }
+  ]
+}

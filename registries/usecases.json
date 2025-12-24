@@ -1,0 +1,6 @@
+[
+  { "id": "generate_convention_formation", "version": "1.0.0", "description": "Génération d'une convention de formation et diffusion.", "path": "config/use-cases/generate_convention_formation.usecase.json" },
+  { "id": "incident_management", "version": "1.0.0", "description": "Classification et notification autour des incidents.", "path": "config/use-cases/incident_management.usecase.json" },
+  { "id": "lead_to_client", "version": "1.0.0", "description": "Conversion d'un lead vers client avec sync CRM.", "path": "config/use-cases/lead_to_client.usecase.json" },
+  { "id": "onboarding_client", "version": "1.0.0", "description": "Onboarding client avec génération documentaire et notifications.", "path": "config/use-cases/onboarding_client.usecase.json" }
+]

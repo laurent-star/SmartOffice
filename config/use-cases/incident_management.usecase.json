@@ -1,0 +1,10 @@
+{
+  "id": "incident_management",
+  "version": "1.0.0",
+  "description": "Gère un incident en classifiant le ticket, en produisant un résumé et en notifiant l'équipe.",
+  "steps": [
+    { "type": "capability", "ref": "classify_email" },
+    { "type": "capability", "ref": "summarize_content", "params": { "content": { "raw": "{{memory.state.email.body}}" } } },
+    { "type": "capability", "ref": "notify_user", "params": { "message": "Résumé incident prêt" } }
+  ]
+}

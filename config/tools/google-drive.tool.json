@@ -1,0 +1,9 @@
+{
+  "id": "google-drive",
+  "version": "1.0.0",
+  "description": "Stockage et partage de fichiers via Google Drive.",
+  "actions": [
+    { "name": "upload_file", "input": ["path", "folder"], "output": "file_id" },
+    { "name": "share_file", "input": ["file_id", "emails"], "output": "sharing_status" }
+  ]
+}

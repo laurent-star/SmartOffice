@@ -1,0 +1,10 @@
+{
+  "id": "lead_to_client",
+  "version": "1.0.0",
+  "description": "Convertit un lead entrant en client en classifiant la demande puis en synchronisant le CRM.",
+  "steps": [
+    { "type": "capability", "ref": "classify_email" },
+    { "type": "capability", "ref": "sync_crm_client" },
+    { "type": "capability", "ref": "notify_user", "params": { "message": "Lead converti et synchronisé" } }
+  ]
+}
