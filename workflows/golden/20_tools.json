@@ -1,0 +1,29 @@
+{
+  "name": "golden-tools",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Tool Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "node-mock-result",
+      "name": "Mock Tool Result",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nconst tool = input.tool || { ref: 'slack', provider: 'slack', operation: 'chat.postMessage' };\nconst params = input.params || { channel: '#ops', text: 'Hello from tool' };\n\nconst result = {\n  ok: true,\n  data: { echoed: params },\n  error: null,\n  meta: { tool }\n};\n\nreturn [{ json: result }];"
+      }
+    }
+  ],
+  "connections": {
+    "Tool Trigger": {
+      "main": [[{ "node": "Mock Tool Result", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "golden-utils",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Utils Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "node-normalize",
+      "name": "Normalize Text",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nconst text = typeof input.text === 'string' ? input.text : 'Hello Utils';\nconst normalized = text.trim().toLowerCase();\n\nreturn [{ json: { text, normalized } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Utils Trigger": {
+      "main": [[{ "node": "Normalize Text", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}
