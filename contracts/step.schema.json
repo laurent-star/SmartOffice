@@ -94,20 +94,5 @@
     }
   },
 
-  "required": ["type", "ref"],
-
-  "allOf": [
-    {
-      "if": { "properties": { "type": { "const": "tool" } } },
-      "then": {
-        "properties": {
-          "params": {
-            "type": "object",
-            "properties": { "action": { "type": "string", "minLength": 1 } },
-            "required": ["action"]
-          }
-        }
-      }
-    }
-  ]
+  "required": ["type", "ref"]
 }

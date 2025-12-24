@@ -8,7 +8,7 @@ et des use cases metier, executes par un executor recursif.
 
 - Tool
   Action atomique liee a une API (Slack, Google Drive, Gmail, Monday, OpenAI...).
-  Implemente comme un workflow n8n avec un switch sur l'action.
+  Implemente comme un workflow n8n route par provider et operation.
 
 - Capability
   Suite declarative de steps.

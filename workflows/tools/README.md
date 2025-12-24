@@ -25,4 +25,5 @@ Regles
 
 - Un tool ne planifie pas et n'orchestre pas.
 - Un tool est execute par l'executor.
+- Le routage se fait par provider et operation.
 - Le resultat doit suivre le schema tool-result.

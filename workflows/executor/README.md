@@ -38,10 +38,11 @@ Types de steps supportes
 
 Tool step
 
-{ "type": "tool", "ref": "slack", "params": { "action": "chat.postMessage" } }
+{ "type": "tool", "ref": "slack", "params": { "channel": "#ops", "text": "Bonjour" } }
 
 Comportement :
 - Resout la definition du tool dans le registry
+- Utilise provider et operation pour router l'execution
 - Execute le tool
 - Gere resultats, save, on_error
 
