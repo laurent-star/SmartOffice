@@ -39,9 +39,10 @@ function validateWorkflow(file, schema) {
   const nodes = Array.isArray(data.nodes) ? data.nodes : [];
 
   (schema.required_nodes || []).forEach((req) => {
-    const node = nodes.find((n) => n.name === req.name);
+    const names = Array.isArray(req.name) ? req.name : [req.name];
+    const node = nodes.find((n) => names.includes(n.name));
     if (!node) {
-      errors.push(`missing node: ${req.name}`);
+      errors.push(`missing node: ${names.join(" or ")}`);
       return;
     }
     if (req.type && node.type !== req.type) {
