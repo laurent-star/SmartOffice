@@ -1,174 +1,150 @@
 const fs = require("fs");
 const path = require("path");
 
-const registryPath = path.join(__dirname, "..", "registries", "n8n-official-ops.json");
 const toolsDir = path.join(__dirname, "..", "config", "tools");
 const workflowsDir = path.join(__dirname, "..", "workflows", "tools");
+const opsPath = path.join(__dirname, "..", "registries", "n8n-official-ops.json");
 
-function loadJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+function loadJson(p) {
+  return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 
-function allowedOperationsByProvider(officialOps) {
+function buildAllowedOperations(ops) {
   const map = {};
-  for (const [provider, providerDef] of Object.entries(officialOps.providers || {})) {
+  for (const [provider, def] of Object.entries(ops.providers || {})) {
     const allowed = new Set();
-    for (const [resourceName, resourceDef] of Object.entries(providerDef.resources || {})) {
-      for (const operationName of Object.keys(resourceDef.operations || {})) {
-        allowed.add(`${resourceName}.${operationName}`);
+    for (const [resource, resourceDef] of Object.entries(def.resources || {})) {
+      for (const opName of Object.keys(resourceDef.operations || {})) {
+        allowed.add(`${resource}.${opName}`);
       }
     }
-    map[provider] = { nodeType: providerDef.nodeType, operations: allowed };
+    map[provider] = { nodeType: def.nodeType, operations: allowed };
   }
   return map;
 }
 
-function buildWorkflow(provider, nodeType, actions) {
-  const baseY = 300;
-  const manualTrigger = {
-    id: "manual-trigger",
-    name: "Tool Trigger",
-    type: "n8n-nodes-base.manualTrigger",
-    typeVersion: 1,
-    position: [200, baseY]
-  };
-
-  const dispatch = {
-    id: "dispatch-operation",
-    name: "Dispatch Operation",
-    type: "n8n-nodes-base.function",
-    typeVersion: 1,
-    position: [420, baseY],
-    parameters: {
-      functionCode: [
-        "const input = items[0]?.json || {};",
-        "const tool = input.tool || {};",
-        "const normalized = {",
-        "  runId: input.runId || 'run-unknown',",
-        "  stepId: input.stepId || ((tool.ref || tool.provider || 'tool') + '-step'),",
-        "  tool: {",
-        "    ref: tool.ref || '" + provider + "',",
-        "    provider: tool.provider || '" + provider + "',",
-        "    operation: tool.operation || ''",
-        "  },",
-        "  params: input.params || {},",
-        "  context: input.context || {}",
-        "};",
-        "return [{ json: { toolInput: normalized } }];"
-      ].join("\n")
+function buildWorkflow(tool, nodeType) {
+  const actions = (tool.actions || []).slice().sort((a, b) => a.name.localeCompare(b.name));
+  const rules = actions.map((action) => ({ operation: "equal", value: action.name }));
+  const nodes = [
+    {
+      id: "node-trigger",
+      name: "Manual Trigger",
+      type: "n8n-nodes-base.manualTrigger",
+      typeVersion: 1,
+      position: [200, 300]
+    },
+    {
+      id: "node-normalize",
+      name: "Normalize Input",
+      type: "n8n-nodes-base.function",
+      typeVersion: 1,
+      position: [420, 300],
+      parameters: {
+        functionCode: `const input = items[0].json || {};\nconst params = input.params || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-id',\n  stepId: input.stepId || 'step',\n  tool: {\n    ref: tool.ref || '${tool.id}',\n    provider: '${tool.id}',\n    operation: tool.operation || params.operation || ''\n  },\n  params,\n  context: input.context || {}\n};\nreturn [{ json: normalized }];`
+      }
+    },
+    {
+      id: "node-switch",
+      name: "Dispatch Operation",
+      type: "n8n-nodes-base.switch",
+      typeVersion: 1,
+      position: [660, 300],
+      parameters: {
+        propertyName: "={{$json.tool.operation}}",
+        dataType: "string",
+        rules,
+        outputData: "inputData"
+      }
     }
-  };
-
-  const switchNode = {
-    id: "route-operation",
-    name: "Route Operation",
-    type: "n8n-nodes-base.switch",
-    typeVersion: 1,
-    position: [650, baseY],
-    parameters: {
-      dataType: "string",
-      value1: "={{$json.toolInput.tool.operation}}",
-      rules: actions.map((action) => ({ operation: "equal", type: "string", value: action.name }))
-    }
-  };
-
-  const actionNodes = actions.map((action, index) => ({
-    id: `action-${index + 1}`,
-    name: `tool-result ${action.name}`,
-    type: "n8n-nodes-base.code",
-    typeVersion: 2,
-    position: [900, baseY + index * 200],
-    parameters: {
-      language: "javascript",
-      code: [
-        "const toolInput = items[0].json.toolInput;",
-        "return [{",
-        "  json: {",
-        "    ok: true,",
-        "    data: {",
-        "      operation: toolInput.tool.operation || '" + action.name + "' ,",
-        "      params: toolInput.params",
-        "    },",
-        "    error: null,",
-        "    meta: {",
-        "      tool: {",
-        "        ref: toolInput.tool.ref,",
-        "        provider: toolInput.tool.provider,",
-        "        operation: toolInput.tool.operation || '" + action.name + "'",
-        "      },",
-        "      runId: toolInput.runId,",
-        "      stepId: toolInput.stepId",
-        "    }",
-        "  }",
-        "}];"
-      ].join("\n")
-    }
-  }));
+  ];
 
   const connections = {
-    [manualTrigger.name]: { main: [[{ node: dispatch.name, type: "main", index: 0 }]] },
-    [dispatch.name]: { main: [[{ node: switchNode.name, type: "main", index: 0 }]] },
-    [switchNode.name]: {
-      main: actionNodes.map((actionNode) => [{ node: actionNode.name, type: "main", index: 0 }])
-    }
+    "Manual Trigger": { main: [[{ node: "Normalize Input", type: "main", index: 0 }]] },
+    "Normalize Input": { main: [[{ node: "Dispatch Operation", type: "main", index: 0 }]] },
+    "Dispatch Operation": { main: [] }
   };
 
+  actions.forEach((action, idx) => {
+    const actionName = action.name;
+    const [resource, operation] = actionName.split(".");
+    const parameters = { resource, operation };
+
+    for (const param of action.input || []) {
+      parameters[param] = `={{$json.params.${param}}}`;
+    }
+
+    const nodeId = `node-action-${idx + 1}`;
+    nodes.push({
+      id: nodeId,
+      name: `Action ${actionName}`,
+      type: nodeType,
+      typeVersion: 1,
+      position: [900, 200 + idx * 120],
+      parameters
+    });
+    if (!connections["Dispatch Operation"].main[idx]) {
+      connections["Dispatch Operation"].main[idx] = [];
+    }
+    connections["Dispatch Operation"].main[idx].push({ node: `Action ${actionName}`, type: "main", index: 0 });
+  });
+
   return {
-    name: `tool-${provider}`,
-    nodes: [manualTrigger, dispatch, switchNode, ...actionNodes],
+    name: `tool-${tool.id}`,
+    nodes,
     connections,
     active: false,
-    settings: { executionOrder: "v1" },
-    versionId: "auto-generated"
+    settings: { executionOrder: "v1" }
   };
 }
 
-function generateWorkflows() {
-  const officialOps = loadJson(registryPath);
-  const allowedByProvider = allowedOperationsByProvider(officialOps);
-
+function main() {
+  const ops = loadJson(opsPath);
+  const allowed = buildAllowedOperations(ops);
   const toolFiles = fs
     .readdirSync(toolsDir)
     .filter((f) => f.endsWith(".tool.json"))
     .sort();
 
   const errors = [];
+  const workflows = [];
 
   for (const file of toolFiles) {
-    const fullPath = path.join(toolsDir, file);
-    const tool = loadJson(fullPath);
+    const tool = loadJson(path.join(toolsDir, file));
     const provider = tool.id;
-    const providerOps = allowedByProvider[provider];
-
-    if (!providerOps) {
-      errors.push({ file, message: `Provider ${provider} non reference dans n8n-official-ops` });
+    const providerInfo = allowed[provider];
+    if (!providerInfo) {
+      errors.push(`Provider ${provider} missing from n8n-official-ops`);
       continue;
     }
-
-    if (!providerOps.nodeType) {
-      errors.push({ file, message: `nodeType manquant pour ${provider}` });
+    if (!providerInfo.nodeType) {
+      errors.push(`Provider ${provider} missing nodeType in n8n-official-ops`);
     }
 
-    const invalidAction = (tool.actions || []).find((action) => !providerOps.operations.has(action.name));
-    if (invalidAction) {
-      errors.push({ file, message: `Action ${invalidAction.name} non supportee pour ${provider}` });
-      continue;
+    for (const action of tool.actions || []) {
+      if (!providerInfo.operations.has(action.name)) {
+        errors.push(`Action ${provider}:${action.name} not declared in n8n-official-ops`);
+      }
     }
 
-    const workflow = buildWorkflow(provider, providerOps.nodeType, tool.actions || []);
-    const outputPath = path.join(workflowsDir, `${provider}.workflow.json`);
-    fs.writeFileSync(outputPath, `${JSON.stringify(workflow, null, 2)}\n`, "utf8");
+    workflows.push({ tool, nodeType: providerInfo.nodeType });
   }
 
   if (errors.length) {
-    console.error("Generation des workflows tools echouee:");
+    console.error("Cannot generate workflows:");
     for (const err of errors) {
-      console.error(JSON.stringify(err, null, 2));
+      console.error("-", err);
     }
     process.exit(1);
   }
 
-  console.log("Tool workflows generated successfully ✅");
+  workflows.forEach(({ tool, nodeType }) => {
+    const workflow = buildWorkflow(tool, nodeType);
+    const dest = path.join(workflowsDir, `${tool.id}.workflow.json`);
+    fs.writeFileSync(dest, JSON.stringify(workflow, null, 2) + "\n");
+  });
+
+  console.log("Tool workflows generated.");
 }
 
-generateWorkflows();
+main();

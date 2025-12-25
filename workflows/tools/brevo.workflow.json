@@ -52,27 +52,34 @@
     {
       "id": "node-action-1",
       "name": "Action campaign.create",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.brevo",
       "typeVersion": 1,
       "position": [
         900,
         200
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'campaign.create', input }, error: null, meta: { provider: 'brevo', operation: 'campaign.create' } } }];"
+        "resource": "campaign",
+        "operation": "create",
+        "name": "={{$json.params.name}}",
+        "content": "={{$json.params.content}}"
       }
     },
     {
       "id": "node-action-2",
       "name": "Action transactionalEmail.send",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.brevo",
       "typeVersion": 1,
       "position": [
         900,
         320
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'transactionalEmail.send', input }, error: null, meta: { provider: 'brevo', operation: 'transactionalEmail.send' } } }];"
+        "resource": "transactionalEmail",
+        "operation": "send",
+        "to": "={{$json.params.to}}",
+        "subject": "={{$json.params.subject}}",
+        "html": "={{$json.params.html}}"
       }
     }
   ],

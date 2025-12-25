@@ -56,40 +56,48 @@
     {
       "id": "node-action-1",
       "name": "Action file.get",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 1,
       "position": [
         900,
         200
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'file.get', input }, error: null, meta: { provider: 'google-drive', operation: 'file.get' } } }];"
+        "resource": "file",
+        "operation": "get",
+        "fileId": "={{$json.params.fileId}}"
       }
     },
     {
       "id": "node-action-2",
       "name": "Action file.upload",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 1,
       "position": [
         900,
         320
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'file.upload', input }, error: null, meta: { provider: 'google-drive', operation: 'file.upload' } } }];"
+        "resource": "file",
+        "operation": "upload",
+        "name": "={{$json.params.name}}",
+        "folderId": "={{$json.params.folderId}}",
+        "binary": "={{$json.params.binary}}"
       }
     },
     {
       "id": "node-action-3",
       "name": "Action fileFolder.search",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 1,
       "position": [
         900,
         440
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'fileFolder.search', input }, error: null, meta: { provider: 'google-drive', operation: 'fileFolder.search' } } }];"
+        "resource": "fileFolder",
+        "operation": "search",
+        "query": "={{$json.params.query}}"
       }
     }
   ],

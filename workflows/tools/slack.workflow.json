@@ -56,40 +56,48 @@
     {
       "id": "node-action-1",
       "name": "Action conversation.getMany",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.slack",
       "typeVersion": 1,
       "position": [
         900,
         200
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'conversation.getMany', input }, error: null, meta: { provider: 'slack', operation: 'conversation.getMany' } } }];"
+        "resource": "conversation",
+        "operation": "getMany",
+        "types": "={{$json.params.types}}",
+        "limit": "={{$json.params.limit}}"
       }
     },
     {
       "id": "node-action-2",
       "name": "Action message.search",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.slack",
       "typeVersion": 1,
       "position": [
         900,
         320
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'message.search', input }, error: null, meta: { provider: 'slack', operation: 'message.search' } } }];"
+        "resource": "message",
+        "operation": "search",
+        "query": "={{$json.params.query}}"
       }
     },
     {
       "id": "node-action-3",
       "name": "Action message.send",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.slack",
       "typeVersion": 1,
       "position": [
         900,
         440
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'message.send', input }, error: null, meta: { provider: 'slack', operation: 'message.send' } } }];"
+        "resource": "message",
+        "operation": "send",
+        "channel": "={{$json.params.channel}}",
+        "text": "={{$json.params.text}}"
       }
     }
   ],
