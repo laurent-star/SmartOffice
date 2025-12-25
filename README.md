@@ -97,6 +97,7 @@ Pour demarrer, un nouveau client ne fait que :
 - docs/utils-runtime.md
 - docs/golden-workflows.md
 - docs/codex-plan.md
+- docs/tools-catalog.md
 
 ## Readme par repertoire
 
