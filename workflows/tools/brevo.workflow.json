@@ -1,0 +1,29 @@
+{
+  "name": "tool-brevo",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Tool Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "node-dispatch",
+      "name": "Dispatch Operation",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nconst toolInput = {\n  runId: input.runId || 'run-001',\n  stepId: input.stepId || '0-brevo',\n  tool: input.tool || { ref: 'brevo', provider: 'brevo', operation: 'send_email' },\n  params: input.params || {},\n  context: input.context || { memory: { session_id: 'sess_001', state: {}, stack: [] } }\n};\n\nconst allowed = new Set(['send_email', 'create_campaign']);\nif (!allowed.has(toolInput.tool.operation)) {\n  return [{\n    json: {\n      ok: false,\n      data: null,\n      error: {\n        code: 'UNKNOWN_OPERATION',\n        message: 'Unsupported operation',\n        details: { operation: toolInput.tool.operation }\n      },\n      meta: { tool: toolInput.tool }\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ok: true,\n    data: { operation: toolInput.tool.operation, params: toolInput.params },\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
+      }
+    }
+  ],
+  "connections": {
+    "Tool Trigger": {
+      "main": [[{ "node": "Dispatch Operation", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}
