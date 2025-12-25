@@ -4,14 +4,14 @@
   "description": "LLM pour résumer, classifier ou extraire des informations textuelles.",
   "actions": [
     {
-      "name": "summarize",
+      "name": "chat.summarize",
       "input": [
         "text"
       ],
       "output": "summary"
     },
     {
-      "name": "classify",
+      "name": "chat.classify",
       "input": [
         "text",
         "labels"
@@ -19,7 +19,7 @@
       "output": "classification"
     },
     {
-      "name": "extract",
+      "name": "chat.extract",
       "input": [
         "text",
         "schema"

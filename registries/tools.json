@@ -7,16 +7,17 @@
     "path": "config/tools/axonaut.tool.json",
     "actions": [
       {
-        "name": "create_contact",
+        "name": "contact.create",
         "input": [
           "contact"
         ],
         "output": "contact_id"
       },
       {
-        "name": "update_company",
+        "name": "company.update",
         "input": [
-          "company"
+          "company_id",
+          "fields"
         ],
         "output": "company_id"
       }
@@ -30,21 +31,21 @@
     "path": "config/tools/brevo.tool.json",
     "actions": [
       {
-        "name": "send_email",
+        "name": "transactionalEmail.send",
         "input": [
           "to",
           "subject",
-          "body"
+          "html"
         ],
-        "output": "message_id"
+        "output": "messageId"
       },
       {
-        "name": "create_campaign",
+        "name": "campaign.create",
         "input": [
           "name",
           "content"
         ],
-        "output": "campaign_id"
+        "output": "campaignId"
       }
     ]
   },
@@ -56,18 +57,19 @@
     "path": "config/tools/gmail.tool.json",
     "actions": [
       {
-        "name": "send_email",
+        "name": "message.send",
         "input": [
           "to",
           "subject",
-          "body"
+          "text"
         ],
-        "output": "message_id"
+        "output": "message"
       },
       {
-        "name": "search_email",
+        "name": "message.getMany",
         "input": [
-          "query"
+          "query",
+          "limit"
         ],
         "output": "messages"
       }
@@ -81,19 +83,19 @@
     "path": "config/tools/google-calendar.tool.json",
     "actions": [
       {
-        "name": "create_event",
+        "name": "event.create",
         "input": [
-          "title",
+          "summary",
           "start",
           "end"
         ],
-        "output": "event_id"
+        "output": "eventId"
       },
       {
-        "name": "list_events",
+        "name": "event.getAll",
         "input": [
-          "time_min",
-          "time_max"
+          "timeMin",
+          "timeMax"
         ],
         "output": "events"
       }
@@ -107,20 +109,27 @@
     "path": "config/tools/google-docs.tool.json",
     "actions": [
       {
-        "name": "create_document",
+        "name": "document.create",
         "input": [
           "title",
-          "content"
+          "folderId"
         ],
-        "output": "document_id"
+        "output": "documentId"
       },
       {
-        "name": "fill_template",
+        "name": "document.update",
         "input": [
-          "template_id",
-          "data"
+          "documentId",
+          "text"
         ],
-        "output": "document_id"
+        "output": "documentId"
+      },
+      {
+        "name": "document.get",
+        "input": [
+          "documentId"
+        ],
+        "output": "document"
       }
     ]
   },
@@ -132,20 +141,27 @@
     "path": "config/tools/google-drive.tool.json",
     "actions": [
       {
-        "name": "upload_file",
+        "name": "file.upload",
         "input": [
-          "path",
-          "folder"
+          "name",
+          "folderId",
+          "binary"
         ],
-        "output": "file_id"
+        "output": "file"
       },
       {
-        "name": "share_file",
+        "name": "file.get",
         "input": [
-          "file_id",
-          "emails"
+          "fileId"
         ],
-        "output": "sharing_status"
+        "output": "file"
+      },
+      {
+        "name": "fileFolder.search",
+        "input": [
+          "query"
+        ],
+        "output": "items"
       }
     ]
   },
@@ -157,20 +173,20 @@
     "path": "config/tools/monday.tool.json",
     "actions": [
       {
-        "name": "create_item",
+        "name": "boardItem.create",
         "input": [
-          "board_id",
-          "item"
+          "boardId",
+          "itemName"
         ],
-        "output": "item_id"
+        "output": "itemId"
       },
       {
-        "name": "update_item",
+        "name": "boardItem.updateColumnValues",
         "input": [
-          "item_id",
-          "fields"
+          "itemId",
+          "columnValues"
         ],
-        "output": "item_id"
+        "output": "itemId"
       }
     ]
   },
@@ -182,14 +198,14 @@
     "path": "config/tools/openai.tool.json",
     "actions": [
       {
-        "name": "summarize",
+        "name": "chat.summarize",
         "input": [
           "text"
         ],
         "output": "summary"
       },
       {
-        "name": "classify",
+        "name": "chat.classify",
         "input": [
           "text",
           "labels"
@@ -197,7 +213,7 @@
         "output": "classification"
       },
       {
-        "name": "extract",
+        "name": "chat.extract",
         "input": [
           "text",
           "schema"
@@ -214,7 +230,7 @@
     "path": "config/tools/slack.tool.json",
     "actions": [
       {
-        "name": "send_message",
+        "name": "message.send",
         "input": [
           "channel",
           "text"
@@ -222,19 +238,19 @@
         "output": "message_id"
       },
       {
-        "name": "find_channel",
+        "name": "message.search",
         "input": [
-          "name"
+          "query"
         ],
-        "output": "channel"
+        "output": "messages"
       },
       {
-        "name": "invite_user",
+        "name": "conversation.getMany",
         "input": [
-          "channel",
-          "user"
+          "types",
+          "limit"
         ],
-        "output": "status"
+        "output": "conversations"
       }
     ]
   }

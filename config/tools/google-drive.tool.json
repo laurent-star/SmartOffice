@@ -4,20 +4,27 @@
   "description": "Stockage et partage de fichiers via Google Drive.",
   "actions": [
     {
-      "name": "upload_file",
+      "name": "file.upload",
       "input": [
-        "path",
-        "folder"
+        "name",
+        "folderId",
+        "binary"
       ],
-      "output": "file_id"
+      "output": "file"
     },
     {
-      "name": "share_file",
+      "name": "file.get",
       "input": [
-        "file_id",
-        "emails"
+        "fileId"
       ],
-      "output": "sharing_status"
+      "output": "file"
+    },
+    {
+      "name": "fileFolder.search",
+      "input": [
+        "query"
+      ],
+      "output": "items"
     }
   ],
   "category": "ged"

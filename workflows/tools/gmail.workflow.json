@@ -3,27 +3,123 @@
   "nodes": [
     {
       "id": "node-trigger",
-      "name": "Tool Trigger",
+      "name": "Manual Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [
+        200,
+        300
+      ]
     },
     {
-      "id": "node-dispatch",
-      "name": "Dispatch Operation",
+      "id": "node-normalize",
+      "name": "Normalize Input",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [420, 300],
+      "position": [
+        420,
+        300
+      ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst toolInput = {\n  runId: input.runId || 'run-001',\n  stepId: input.stepId || '0-gmail',\n  tool: input.tool || { ref: 'gmail', provider: 'gmail', operation: 'send_email' },\n  params: input.params || {},\n  context: input.context || { memory: { session_id: 'sess_001', state: {}, stack: [] } }\n};\n\nconst allowed = new Set(['send_email', 'search_email']);\nif (!allowed.has(toolInput.tool.operation)) {\n  return [{\n    json: {\n      ok: false,\n      data: null,\n      error: {\n        code: 'UNKNOWN_OPERATION',\n        message: 'Unsupported operation',\n        details: { operation: toolInput.tool.operation }\n      },\n      meta: { tool: toolInput.tool }\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ok: true,\n    data: { operation: toolInput.tool.operation, params: toolInput.params },\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
+        "functionCode": "const input = items[0].json || {};\nconst params = input.params || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-id',\n  stepId: input.stepId || 'step',\n  tool: {\n    ref: tool.ref || 'gmail',\n    provider: 'gmail',\n    operation: tool.operation || params.operation || ''\n  },\n  params,\n  context: input.context || {}\n};\nreturn [{ json: normalized }];"
+      }
+    },
+    {
+      "id": "node-switch",
+      "name": "Dispatch Operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "propertyName": "={{$json.tool.operation}}",
+        "dataType": "string",
+        "rules": [
+          {
+            "operation": "equal",
+            "value": "message.getMany"
+          },
+          {
+            "operation": "equal",
+            "value": "message.send"
+          }
+        ],
+        "outputData": "inputData"
+      }
+    },
+    {
+      "id": "node-action-1",
+      "name": "Action message.getMany",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        200
+      ],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'message.getMany', input }, error: null, meta: { provider: 'gmail', operation: 'message.getMany' } } }];"
+      }
+    },
+    {
+      "id": "node-action-2",
+      "name": "Action message.send",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        320
+      ],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'message.send', input }, error: null, meta: { provider: 'gmail', operation: 'message.send' } } }];"
       }
     }
   ],
   "connections": {
-    "Tool Trigger": {
-      "main": [[{ "node": "Dispatch Operation", "type": "main", "index": 0 }]]
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Input": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch Operation": {
+      "main": [
+        [
+          {
+            "node": "Action message.getMany",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Action message.send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" }
+  "settings": {
+    "executionOrder": "v1"
+  }
 }

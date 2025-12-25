@@ -1,5 +1,5 @@
 {
-  "name": "tool-monday",
+  "name": "tool-google-calendar",
   "nodes": [
     {
       "id": "node-trigger",
@@ -21,7 +21,7 @@
         300
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst params = input.params || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-id',\n  stepId: input.stepId || 'step',\n  tool: {\n    ref: tool.ref || 'monday',\n    provider: 'monday',\n    operation: tool.operation || params.operation || ''\n  },\n  params,\n  context: input.context || {}\n};\nreturn [{ json: normalized }];"
+        "functionCode": "const input = items[0].json || {};\nconst params = input.params || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-id',\n  stepId: input.stepId || 'step',\n  tool: {\n    ref: tool.ref || 'google-calendar',\n    provider: 'google-calendar',\n    operation: tool.operation || params.operation || ''\n  },\n  params,\n  context: input.context || {}\n};\nreturn [{ json: normalized }];"
       }
     },
     {
@@ -39,11 +39,11 @@
         "rules": [
           {
             "operation": "equal",
-            "value": "boardItem.create"
+            "value": "event.create"
           },
           {
             "operation": "equal",
-            "value": "boardItem.updateColumnValues"
+            "value": "event.getAll"
           }
         ],
         "outputData": "inputData"
@@ -51,7 +51,7 @@
     },
     {
       "id": "node-action-1",
-      "name": "Action boardItem.create",
+      "name": "Action event.create",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
@@ -59,12 +59,12 @@
         200
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'boardItem.create', input }, error: null, meta: { provider: 'monday', operation: 'boardItem.create' } } }];"
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'event.create', input }, error: null, meta: { provider: 'google-calendar', operation: 'event.create' } } }];"
       }
     },
     {
       "id": "node-action-2",
-      "name": "Action boardItem.updateColumnValues",
+      "name": "Action event.getAll",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
@@ -72,7 +72,7 @@
         320
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'boardItem.updateColumnValues', input }, error: null, meta: { provider: 'monday', operation: 'boardItem.updateColumnValues' } } }];"
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'event.getAll', input }, error: null, meta: { provider: 'google-calendar', operation: 'event.getAll' } } }];"
       }
     }
   ],
@@ -103,14 +103,14 @@
       "main": [
         [
           {
-            "node": "Action boardItem.create",
+            "node": "Action event.create",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Action boardItem.updateColumnValues",
+            "node": "Action event.getAll",
             "type": "main",
             "index": 0
           }

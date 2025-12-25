@@ -1,13 +1,18 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "source": {
     "vendor": "n8n",
     "docs": [
       "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.slack/",
       "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/",
       "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlecalendar/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledocs/",
       "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.gmail/",
-      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.mondaycom/"
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.mondaycom/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.brevo/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.axonaut/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.openai/"
     ]
   },
   "providers": {
@@ -22,8 +27,7 @@
                 "optional": ["threadTs", "blocks", "attachments"]
               },
               "returns": {
-                "data": ["channel", "ts", "message"],
-                "notes": ["Use blocks only if supported; otherwise fallback to HTTP Request."]
+                "data": ["channel", "ts", "message"]
               }
             },
             "search": {
@@ -66,7 +70,6 @@
         }
       }
     },
-
     "google-drive": {
       "nodeType": "n8n-nodes-base.googleDrive",
       "resources": {
@@ -105,7 +108,6 @@
         }
       }
     },
-
     "google-docs": {
       "nodeType": "n8n-nodes-base.googleDocs",
       "resources": {
@@ -128,7 +130,6 @@
         }
       }
     },
-
     "google-sheets": {
       "nodeType": "n8n-nodes-base.googleSheets",
       "resources": {
@@ -159,7 +160,23 @@
         }
       }
     },
-
+    "google-calendar": {
+      "nodeType": "n8n-nodes-base.googleCalendar",
+      "resources": {
+        "event": {
+          "operations": {
+            "create": {
+              "params": { "required": ["summary", "start", "end"], "optional": ["description", "attendees"] },
+              "returns": { "data": ["id", "htmlLink"] }
+            },
+            "getAll": {
+              "params": { "required": [], "optional": ["timeMin", "timeMax", "calendar"] },
+              "returns": { "data": ["events"] }
+            }
+          }
+        }
+      }
+    },
     "gmail": {
       "nodeType": "n8n-nodes-base.gmail",
       "resources": {
@@ -181,7 +198,6 @@
         }
       }
     },
-
     "monday": {
       "nodeType": "n8n-nodes-base.mondayCom",
       "resources": {
@@ -206,6 +222,69 @@
             "addUpdate": {
               "params": { "required": ["itemId", "text"], "optional": [] },
               "returns": { "data": ["id"] }
+            }
+          }
+        }
+      }
+    },
+    "brevo": {
+      "nodeType": "n8n-nodes-base.brevo",
+      "resources": {
+        "transactionalEmail": {
+          "operations": {
+            "send": {
+              "params": { "required": ["to", "subject", "html"], "optional": ["bcc", "cc", "attachments"] },
+              "returns": { "data": ["messageId"] }
+            }
+          }
+        },
+        "campaign": {
+          "operations": {
+            "create": {
+              "params": { "required": ["name", "content"], "optional": ["subject", "sender"] },
+              "returns": { "data": ["campaignId"] }
+            }
+          }
+        }
+      }
+    },
+    "axonaut": {
+      "nodeType": "n8n-nodes-base.axonaut",
+      "resources": {
+        "contact": {
+          "operations": {
+            "create": {
+              "params": { "required": ["contact"], "optional": [] },
+              "returns": { "data": ["contact_id"] }
+            }
+          }
+        },
+        "company": {
+          "operations": {
+            "update": {
+              "params": { "required": ["company_id", "fields"], "optional": [] },
+              "returns": { "data": ["company_id"] }
+            }
+          }
+        }
+      }
+    },
+    "openai": {
+      "nodeType": "n8n-nodes-base.openAi",
+      "resources": {
+        "chat": {
+          "operations": {
+            "summarize": {
+              "params": { "required": ["text"], "optional": ["model"] },
+              "returns": { "data": ["summary"] }
+            },
+            "classify": {
+              "params": { "required": ["text", "labels"], "optional": ["model"] },
+              "returns": { "data": ["classification"] }
+            },
+            "extract": {
+              "params": { "required": ["text", "schema"], "optional": ["model"] },
+              "returns": { "data": ["structured_data"] }
             }
           }
         }

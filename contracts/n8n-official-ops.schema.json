@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/n8n-official-ops.schema.json",
+  "type": "object",
+  "required": ["version", "source", "providers"],
+  "properties": {
+    "version": { "type": "string" },
+    "source": {
+      "type": "object",
+      "required": ["vendor", "docs"],
+      "properties": {
+        "vendor": { "type": "string" },
+        "docs": {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "providers": {
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+        "^[a-z0-9-]+$": {
+          "type": "object",
+          "required": ["nodeType", "resources"],
+          "properties": {
+            "nodeType": { "type": "string" },
+            "resources": {
+              "type": "object",
+              "minProperties": 1,
+              "patternProperties": {
+                "^[a-zA-Z][a-zA-Z0-9-]*$": {
+                  "type": "object",
+                  "required": ["operations"],
+                  "properties": {
+                    "operations": {
+                      "type": "object",
+                      "minProperties": 1,
+                      "patternProperties": {
+                        "^[a-zA-Z][a-zA-Z0-9-]*$": {
+                          "type": "object",
+                          "required": ["params", "returns"],
+                          "properties": {
+                            "params": {
+                              "type": "object",
+                              "required": ["required", "optional"],
+                              "properties": {
+                                "required": {
+                                  "type": "array",
+                                  "items": { "type": "string" },
+                                  "uniqueItems": true
+                                },
+                                "optional": {
+                                  "type": "array",
+                                  "items": { "type": "string" },
+                                  "uniqueItems": true
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "returns": {
+                              "type": "object",
+                              "properties": {
+                                "data": {
+                                  "type": "array",
+                                  "items": { "type": "string" },
+                                  "uniqueItems": true
+                                },
+                                "binary": {
+                                  "type": "array",
+                                  "items": { "type": "string" },
+                                  "uniqueItems": true
+                                },
+                                "notes": {
+                                  "type": "array",
+                                  "items": { "type": "string" }
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "notes": {
+                              "type": "array",
+                              "items": { "type": "string" }
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
