@@ -1,106 +1,338 @@
 [
   {
-    "id": "classify_email",
-    "version": "1.0.0",
-    "description": "Analyse un email entrant et catégorise la demande avant routage.",
-    "path": "config/capabilities/classify_email.capability.json",
-    "inputs": [
-      "memory.state.email.body",
-      "memory.state.email.from",
-      "memory.state.email.subject",
-      "memory.state.email.attachment",
-      "context.slack.incident_channel",
-      "context.drive.archive_folder"
+    "key": "append_board_item_update",
+    "description": "append board item update",
+    "categories": [
+      "work-management"
     ],
-    "outputs": [
-      "memory.state.email.category"
+    "operations": [
+      "monday.boardItem.addUpdate"
     ]
   },
   {
-    "id": "generate_document",
-    "version": "1.0.0",
-    "description": "Génère un document à partir d'un modèle et le partage avec les parties prenantes.",
-    "path": "config/capabilities/generate_document.capability.json",
-    "inputs": [
-      "memory.state.document.brief",
-      "memory.state.document.schema",
-      "context.docs.template_id",
-      "context.docs.recipients"
+    "key": "append_sheet",
+    "description": "append sheet",
+    "categories": [
+      "spreadsheets"
     ],
-    "outputs": [
-      "memory.state.document.payload",
-      "memory.state.document.id"
+    "operations": [
+      "google-sheets.sheet.append"
     ]
   },
   {
-    "id": "human_validation",
-    "version": "1.0.0",
-    "description": "Demande une validation humaine via Slack avant de continuer.",
-    "path": "config/capabilities/human_validation.capability.json",
-    "inputs": [
-      "input.message",
-      "context.slack.channel"
+    "key": "classify_assistant",
+    "description": "classify assistant",
+    "categories": [
+      "ai"
     ],
-    "outputs": [
-      "memory.state.validation.status"
+    "operations": [
+      "openai.assistant.classify"
     ]
   },
   {
-    "id": "notify_user",
-    "version": "1.0.0",
-    "description": "Notifie un utilisateur via Slack après une opération automatisée.",
-    "path": "config/capabilities/notify_user.capability.json",
-    "inputs": [
-      "input.message",
-      "context.slack.channel"
+    "key": "create_board_item",
+    "description": "create board item",
+    "categories": [
+      "work-management"
     ],
-    "outputs": [
-      "memory.state.notification.text"
+    "operations": [
+      "monday.boardItem.create"
     ]
   },
   {
-    "id": "serve_document_drive",
-    "version": "1.0.0",
-    "description": "Recupere un document Drive, produit un resume et prepare un lien partageable.",
-    "path": "config/capabilities/serve_document_drive.capability.json",
-    "inputs": [
-      "memory.state.document.file_id",
-      "context.drive.share_emails",
-      "context.slack.channel"
+    "key": "create_campaign",
+    "description": "create campaign",
+    "categories": [
+      "marketing"
     ],
-    "outputs": [
-      "memory.state.document.share_status",
-      "memory.state.document.summary"
+    "operations": [
+      "brevo.campaign.createCampaign"
     ]
   },
   {
-    "id": "summarize_content",
-    "version": "1.0.0",
-    "description": "Produit un résumé exploitable d'un contenu textuel et le partage si nécessaire.",
-    "path": "config/capabilities/summarize_content.capability.json",
-    "inputs": [
-      "memory.state.content.raw",
-      "context.slack.summary_channel"
+    "key": "create_contact",
+    "description": "create contact",
+    "categories": [
+      "crm"
     ],
-    "outputs": [
-      "memory.state.content.summary"
+    "operations": [
+      "axonaut.contact.create"
     ]
   },
   {
-    "id": "sync_crm_client",
-    "version": "1.0.0",
-    "description": "Crée ou met à jour les données clients dans Monday et Axonaut, puis informe par email.",
-    "path": "config/capabilities/sync_crm_client.capability.json",
-    "inputs": [
-      "context.monday.board_id",
-      "memory.state.client",
-      "memory.state.client.company",
-      "memory.state.client.contact.email",
-      "memory.state.client.contact.name"
+    "key": "create_document",
+    "description": "create document",
+    "categories": [
+      "documents"
     ],
-    "outputs": [
-      "memory.state.client.monday_item_id",
-      "memory.state.client.axonaut_company_id"
+    "operations": [
+      "google-docs.document.create"
+    ]
+  },
+  {
+    "key": "create_event",
+    "description": "create event",
+    "categories": [
+      "calendar"
+    ],
+    "operations": [
+      "google-calendar.event.create"
+    ]
+  },
+  {
+    "key": "create_folder",
+    "description": "create folder",
+    "categories": [
+      "storage"
+    ],
+    "operations": [
+      "google-drive.folder.create"
+    ]
+  },
+  {
+    "key": "create_spreadsheet",
+    "description": "create spreadsheet",
+    "categories": [
+      "spreadsheets"
+    ],
+    "operations": [
+      "google-sheets.spreadsheet.create"
+    ]
+  },
+  {
+    "key": "delete_message",
+    "description": "delete message",
+    "categories": [
+      "communication"
+    ],
+    "operations": [
+      "slack.message.delete"
+    ]
+  },
+  {
+    "key": "download_file",
+    "description": "download file",
+    "categories": [
+      "storage"
+    ],
+    "operations": [
+      "google-drive.file.download"
+    ]
+  },
+  {
+    "key": "extract_assistant",
+    "description": "extract assistant",
+    "categories": [
+      "ai"
+    ],
+    "operations": [
+      "openai.assistant.extract"
+    ]
+  },
+  {
+    "key": "list_board_item",
+    "description": "list board item",
+    "categories": [
+      "work-management"
+    ],
+    "operations": [
+      "monday.boardItem.getMany"
+    ]
+  },
+  {
+    "key": "list_conversation",
+    "description": "list conversation",
+    "categories": [
+      "communication"
+    ],
+    "operations": [
+      "slack.conversation.getMany"
+    ]
+  },
+  {
+    "key": "list_event",
+    "description": "list event",
+    "categories": [
+      "calendar"
+    ],
+    "operations": [
+      "google-calendar.event.getMany"
+    ]
+  },
+  {
+    "key": "list_file",
+    "description": "list file",
+    "categories": [
+      "communication"
+    ],
+    "operations": [
+      "slack.file.getMany"
+    ]
+  },
+  {
+    "key": "list_message",
+    "description": "list message",
+    "categories": [
+      "communication"
+    ],
+    "operations": [
+      "gmail.message.getMany"
+    ]
+  },
+  {
+    "key": "read_board_item",
+    "description": "read board item",
+    "categories": [
+      "work-management"
+    ],
+    "operations": [
+      "monday.boardItem.get"
+    ]
+  },
+  {
+    "key": "read_document",
+    "description": "read document",
+    "categories": [
+      "documents"
+    ],
+    "operations": [
+      "google-docs.document.get"
+    ]
+  },
+  {
+    "key": "read_file",
+    "description": "read file",
+    "categories": [
+      "communication",
+      "storage"
+    ],
+    "operations": [
+      "google-drive.file.get",
+      "slack.file.get"
+    ]
+  },
+  {
+    "key": "read_message",
+    "description": "read message",
+    "categories": [
+      "communication"
+    ],
+    "operations": [
+      "gmail.message.get",
+      "slack.message.getPermalink"
+    ]
+  },
+  {
+    "key": "read_sheet",
+    "description": "read sheet",
+    "categories": [
+      "spreadsheets"
+    ],
+    "operations": [
+      "google-sheets.sheet.read"
+    ]
+  },
+  {
+    "key": "search_filefolder",
+    "description": "search filefolder",
+    "categories": [
+      "storage"
+    ],
+    "operations": [
+      "google-drive.fileFolder.search"
+    ]
+  },
+  {
+    "key": "search_message",
+    "description": "search message",
+    "categories": [
+      "communication"
+    ],
+    "operations": [
+      "slack.message.search"
+    ]
+  },
+  {
+    "key": "send_email",
+    "description": "send email",
+    "categories": [
+      "marketing"
+    ],
+    "operations": [
+      "brevo.email.sendEmail"
+    ]
+  },
+  {
+    "key": "send_message",
+    "description": "send message",
+    "categories": [
+      "communication"
+    ],
+    "operations": [
+      "gmail.message.send",
+      "slack.message.send"
+    ]
+  },
+  {
+    "key": "summarize_assistant",
+    "description": "summarize assistant",
+    "categories": [
+      "ai"
+    ],
+    "operations": [
+      "openai.assistant.summarize"
+    ]
+  },
+  {
+    "key": "update_board_item",
+    "description": "update board item",
+    "categories": [
+      "work-management"
+    ],
+    "operations": [
+      "monday.boardItem.updateColumnValues"
+    ]
+  },
+  {
+    "key": "update_company",
+    "description": "update company",
+    "categories": [
+      "crm"
+    ],
+    "operations": [
+      "axonaut.company.update"
+    ]
+  },
+  {
+    "key": "update_document",
+    "description": "update document",
+    "categories": [
+      "documents"
+    ],
+    "operations": [
+      "google-docs.document.update"
+    ]
+  },
+  {
+    "key": "update_sheet",
+    "description": "update sheet",
+    "categories": [
+      "spreadsheets"
+    ],
+    "operations": [
+      "google-sheets.sheet.update"
+    ]
+  },
+  {
+    "key": "upload_file",
+    "description": "upload file",
+    "categories": [
+      "communication",
+      "storage"
+    ],
+    "operations": [
+      "google-drive.file.upload",
+      "slack.file.upload"
     ]
   }
 ]

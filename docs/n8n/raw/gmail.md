@@ -1,0 +1,76 @@
+# gmail (n8n)
+
+## Operations
+
+```json
+{
+  "provider": "gmail",
+  "nodeType": "n8n-nodes-base.gmail",
+  "resources": {
+    "message": {
+      "operations": {
+        "getMany": {
+          "params": {
+            "required": [],
+            "optional": [
+              "query",
+              "limit",
+              "includeSpamTrash"
+            ]
+          },
+          "returns": {
+            "data": [
+              "messages",
+              "nextPageToken"
+            ]
+          }
+        },
+        "get": {
+          "params": {
+            "required": [
+              "messageId"
+            ],
+            "optional": [
+              "format"
+            ]
+          },
+          "returns": {
+            "data": [
+              "id",
+              "threadId",
+              "snippet",
+              "payload",
+              "internalDate"
+            ]
+          }
+        },
+        "send": {
+          "params": {
+            "required": [
+              "to",
+              "subject"
+            ],
+            "optional": [
+              "text",
+              "html",
+              "attachments",
+              "threadId"
+            ]
+          },
+          "returns": {
+            "data": [
+              "id",
+              "threadId",
+              "labelIds"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "sourceDocs": [
+    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.gmail/"
+  ]
+}
+
+```

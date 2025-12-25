@@ -1,0 +1,12 @@
+{
+  "slack": "communication",
+  "gmail": "communication",
+  "google-drive": "storage",
+  "google-docs": "documents",
+  "google-sheets": "spreadsheets",
+  "google-calendar": "calendar",
+  "monday": "work-management",
+  "openai": "ai",
+  "brevo": "marketing",
+  "axonaut": "crm"
+}

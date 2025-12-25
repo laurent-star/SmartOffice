@@ -4,15 +4,22 @@
   "private": true,
   "description": "Outils internes Smart Office",
   "scripts": {
-    "validate:n8n-ops": "node scripts/validate_n8n_official_ops.js",
-    "generate:registries": "node scripts/generate_registries.js",
-    "generate:workflows:tools": "node scripts/generate_tool_workflows.js",
-    "validate:config": "node scripts/validate_config.js",
-    "validate:workflows": "node scripts/validate_workflows.js",
-    "validate": "npm run validate:n8n-ops && npm run validate:config && npm run validate:workflows"
+    "docs:validate:n8n": "node scripts/validate_n8n_docs.js",
+    "ops:parse": "node scripts/parse_n8n_docs.js",
+    "ops:fragments": "node scripts/generate_n8n_official_ops_fragments.js",
+    "ops:build": "node scripts/build_n8n_official_ops.js",
+    "ops:validate": "node scripts/validate_n8n_official_ops.js",
+    "categories:generate": "node scripts/generate_tool_categories.js",
+    "categories:validate": "node scripts/validate_tool_categories.js",
+    "capabilities:generate": "node scripts/generate_capabilities.js",
+    "capabilities:validate": "node scripts/validate_capabilities.js",
+    "tools:generate": "node scripts/generate_tools_registry.js",
+    "workflows:tools": "node scripts/generate_tool_workflows.js",
+    "build:tools": "npm run docs:validate:n8n && npm run ops:parse && npm run ops:fragments && npm run ops:build && npm run ops:validate && npm run categories:generate && npm run categories:validate && npm run capabilities:generate && npm run capabilities:validate && npm run tools:generate && npm run workflows:tools",
+    "smoke:tools": "node scripts/smoke_build_tools.js"
   },
   "devDependencies": {
-    "ajv": "^8.17.1",
+    "ajv": "^8.12.0",
     "ajv-formats": "^3.0.1"
   }
 }
