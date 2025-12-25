@@ -12,6 +12,14 @@
       "output": "itemId"
     },
     {
+      "name": "boardItem.getMany",
+      "input": [
+        "boardId",
+        "limit"
+      ],
+      "output": "items"
+    },
+    {
       "name": "boardItem.updateColumnValues",
       "input": [
         "itemId",
