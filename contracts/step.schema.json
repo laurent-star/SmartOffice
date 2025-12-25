@@ -94,5 +94,5 @@
     }
   },
 
-  "required": ["type", "ref"]
+  "required": ["type", "ref", "params"]
 }

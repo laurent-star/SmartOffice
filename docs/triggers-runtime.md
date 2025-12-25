@@ -29,6 +29,7 @@ Triggers:
 - receive external events (webhook, schedule, inbox, chat)
 - normalize raw payloads
 - emit an envelope for the next layer
+- can route incomplete requests toward the Agent for clarification (never performing the clarification themselves)
 
 ---
 
@@ -74,3 +75,4 @@ Triggers must always:
 - remain stateless beyond the event payload
 - emit schema-valid envelopes
 - avoid business logic and planning
+- include memory (even empty) so the Agent can loop through clarification if needed
