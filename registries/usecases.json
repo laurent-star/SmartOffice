@@ -108,5 +108,25 @@
       "memory.state.document.summary",
       "memory.state.email.message_id"
     ]
+  },
+  {
+    "id": "daily_briefing",
+    "version": "1.0.0",
+    "description": "Génère un récapitulatif quotidien des emails, événements et tâches avec des liens cliquables, puis l'envoie au destinataire choisi.",
+    "path": "config/use-cases/daily_briefing.usecase.json",
+    "inputs": [
+      "input.time_window.start",
+      "input.time_window.end",
+      "input.email_limit",
+      "input.task_limit",
+      "context.gmail.recipient",
+      "context.gmail.query",
+      "context.calendar.timezone",
+      "context.monday.board_id"
+    ],
+    "outputs": [
+      "memory.state.briefing.summary",
+      "memory.state.briefing.sent_message"
+    ]
   }
 ]
