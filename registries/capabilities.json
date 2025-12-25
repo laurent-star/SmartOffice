@@ -33,6 +33,19 @@
     ]
   },
   {
+    "id": "human_validation",
+    "version": "1.0.0",
+    "description": "Demande une validation humaine via Slack avant de continuer.",
+    "path": "config/capabilities/human_validation.capability.json",
+    "inputs": [
+      "input.message",
+      "context.slack.channel"
+    ],
+    "outputs": [
+      "memory.state.validation.status"
+    ]
+  },
+  {
     "id": "notify_user",
     "version": "1.0.0",
     "description": "Notifie un utilisateur via Slack après une opération automatisée.",
@@ -43,6 +56,21 @@
     ],
     "outputs": [
       "memory.state.notification.text"
+    ]
+  },
+  {
+    "id": "serve_document_drive",
+    "version": "1.0.0",
+    "description": "Recupere un document Drive, produit un resume et prepare un lien partageable.",
+    "path": "config/capabilities/serve_document_drive.capability.json",
+    "inputs": [
+      "memory.state.document.file_id",
+      "context.drive.share_emails",
+      "context.slack.channel"
+    ],
+    "outputs": [
+      "memory.state.document.share_status",
+      "memory.state.document.summary"
     ]
   },
   {

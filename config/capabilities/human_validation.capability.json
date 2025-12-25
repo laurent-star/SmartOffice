@@ -1,0 +1,29 @@
+{
+  "id": "human_validation",
+  "version": "1.0.0",
+  "description": "Demande une validation humaine via Slack avant de continuer.",
+  "inputs": [
+    "input.message",
+    "context.slack.channel"
+  ],
+  "outputs": [
+    "memory.state.validation.status"
+  ],
+  "steps": [
+    {
+      "id": "request_validation",
+      "type": "tool",
+      "ref": "slack",
+      "params": {
+        "action": "send_message",
+        "channel": "{{context.slack.channel}}",
+        "text": "{{input.message}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.validation.status": "$.data"
+        }
+      }
+    }
+  ]
+}

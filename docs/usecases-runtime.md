@@ -30,6 +30,10 @@ Definitions live in:
 - `config/use-cases/*.usecase.json`
 - `registries/usecases.json` (compiled catalog)
 
+Cross references:
+
+- `docs/capabilities-runtime.md`
+
 Each use case includes:
 
 - `inputs`: expected fields (input/context/memory)

@@ -74,6 +74,32 @@
     ]
   },
   {
+    "id": "google-calendar",
+    "version": "1.0.0",
+    "description": "Gestion des evenements calendrier via Google Calendar.",
+    "category": "calendar",
+    "path": "config/tools/google-calendar.tool.json",
+    "actions": [
+      {
+        "name": "create_event",
+        "input": [
+          "title",
+          "start",
+          "end"
+        ],
+        "output": "event_id"
+      },
+      {
+        "name": "list_events",
+        "input": [
+          "time_min",
+          "time_max"
+        ],
+        "output": "events"
+      }
+    ]
+  },
+  {
     "id": "google-docs",
     "version": "1.0.0",
     "description": "Création et mise à jour de documents Google Docs.",
@@ -127,7 +153,7 @@
     "id": "monday",
     "version": "1.0.0",
     "description": "Gestion des éléments CRM et tickets via Monday.com.",
-    "category": "task_manager",
+    "category": "sales",
     "path": "config/tools/monday.tool.json",
     "actions": [
       {
@@ -184,7 +210,7 @@
     "id": "slack",
     "version": "1.0.0",
     "description": "Notifications et collaboration via Slack.",
-    "category": "trigger_message",
+    "category": "validation_humaine",
     "path": "config/tools/slack.tool.json",
     "actions": [
       {

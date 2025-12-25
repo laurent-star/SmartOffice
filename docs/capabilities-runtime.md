@@ -31,6 +31,10 @@ Definitions live in:
 - `config/capabilities/*.capability.json`
 - `registries/capabilities.json` (compiled catalog)
 
+Cross references:
+
+- `docs/tools-runtime.md`
+
 Each capability includes:
 
 - `inputs`: expected fields (input/context/memory)

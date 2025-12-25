@@ -21,3 +21,6 @@ Chaque tool definit :
 
 Ces definitions alimentent :
 - registries/tools.json
+
+Catalogue :
+- docs/tools-catalog.md

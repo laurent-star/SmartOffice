@@ -1,0 +1,21 @@
+{
+  "id": "slack_drive_to_gmail",
+  "version": "1.0.0",
+  "description": "Repond a une requete Slack en recuperant un document Drive puis envoi Gmail.",
+  "inputs": [
+    "memory.state.document.file_id",
+    "context.drive.share_emails",
+    "context.slack.channel",
+    "memory.state.email.to",
+    "memory.state.email.subject"
+  ],
+  "outputs": [
+    "memory.state.document.share_status",
+    "memory.state.document.summary",
+    "memory.state.email.message_id"
+  ],
+  "steps": [
+    { "type": "capability", "ref": "serve_document_drive" },
+    { "type": "tool", "ref": "gmail", "params": { "action": "send_email", "to": "{{memory.state.email.to}}", "subject": "{{memory.state.email.subject}}", "body": "{{memory.state.document.summary}}" } }
+  ]
+}

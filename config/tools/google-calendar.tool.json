@@ -1,0 +1,25 @@
+{
+  "id": "google-calendar",
+  "version": "1.0.0",
+  "description": "Gestion des evenements calendrier via Google Calendar.",
+  "category": "calendar",
+  "actions": [
+    {
+      "name": "create_event",
+      "input": [
+        "title",
+        "start",
+        "end"
+      ],
+      "output": "event_id"
+    },
+    {
+      "name": "list_events",
+      "input": [
+        "time_min",
+        "time_max"
+      ],
+      "output": "events"
+    }
+  ]
+}

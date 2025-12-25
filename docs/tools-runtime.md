@@ -49,6 +49,10 @@ Each tool definition lists:
 
 `params` provided in tool steps must match the `actions[].input` list.
 
+Categories reference:
+
+- `docs/tools-catalog.md`
+
 ---
 
 ## Tool result contract

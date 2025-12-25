@@ -1,0 +1,19 @@
+{
+  "id": "drive_to_slack_notify",
+  "version": "1.0.0",
+  "description": "Partage un document Drive, le resume et notifie sur Slack.",
+  "inputs": [
+    "memory.state.document.file_id",
+    "context.drive.share_emails",
+    "context.slack.channel"
+  ],
+  "outputs": [
+    "memory.state.document.share_status",
+    "memory.state.document.summary",
+    "memory.state.notification.text"
+  ],
+  "steps": [
+    { "type": "capability", "ref": "serve_document_drive" },
+    { "type": "capability", "ref": "notify_user", "params": { "message": "Document partage et resume disponible" } }
+  ]
+}

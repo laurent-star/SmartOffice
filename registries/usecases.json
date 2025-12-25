@@ -1,5 +1,21 @@
 [
   {
+    "id": "drive_to_slack_notify",
+    "version": "1.0.0",
+    "description": "Partage un document Drive, le resume et notifie sur Slack.",
+    "path": "config/use-cases/drive_to_slack_notify.usecase.json",
+    "inputs": [
+      "memory.state.document.file_id",
+      "context.drive.share_emails",
+      "context.slack.channel"
+    ],
+    "outputs": [
+      "memory.state.document.share_status",
+      "memory.state.document.summary",
+      "memory.state.notification.text"
+    ]
+  },
+  {
     "id": "generate_convention_formation",
     "version": "1.0.0",
     "description": "Produit et partage la convention de formation à partir des informations du client.",
@@ -73,6 +89,24 @@
       "memory.state.client.monday_item_id",
       "memory.state.client.axonaut_company_id",
       "memory.state.notification.text"
+    ]
+  },
+  {
+    "id": "slack_drive_to_gmail",
+    "version": "1.0.0",
+    "description": "Repond a une requete Slack en recuperant un document Drive puis envoi Gmail.",
+    "path": "config/use-cases/slack_drive_to_gmail.usecase.json",
+    "inputs": [
+      "memory.state.document.file_id",
+      "context.drive.share_emails",
+      "context.slack.channel",
+      "memory.state.email.to",
+      "memory.state.email.subject"
+    ],
+    "outputs": [
+      "memory.state.document.share_status",
+      "memory.state.document.summary",
+      "memory.state.email.message_id"
     ]
   }
 ]

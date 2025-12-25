@@ -1,0 +1,45 @@
+{
+  "id": "serve_document_drive",
+  "version": "1.0.0",
+  "description": "Recupere un document Drive, produit un resume et prepare un lien partageable.",
+  "inputs": [
+    "memory.state.document.file_id",
+    "context.drive.share_emails",
+    "context.slack.channel"
+  ],
+  "outputs": [
+    "memory.state.document.share_status",
+    "memory.state.document.summary"
+  ],
+  "steps": [
+    {
+      "id": "share_document",
+      "type": "tool",
+      "ref": "google-drive",
+      "params": {
+        "action": "share_file",
+        "file_id": "{{memory.state.document.file_id}}",
+        "emails": "{{context.drive.share_emails}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.document.share_status": "$.data"
+        }
+      }
+    },
+    {
+      "id": "summarize_document",
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "summarize",
+        "text": "{{memory.state.document.content}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.document.summary": "$.data.summary"
+        }
+      }
+    }
+  ]
+}
