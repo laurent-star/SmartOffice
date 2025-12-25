@@ -26,3 +26,15 @@ Ce document resume les tools, leurs categories et les parametres attendus.
 | slack | validation_humaine | message.send | channel, text | message_id |
 | slack | validation_humaine | message.search | query | messages |
 | slack | validation_humaine | conversation.getMany | types, limit | conversations |
+
+## Référentiel opérations n8n
+
+Les operations officielles par provider sont definies dans des fragments `registries/n8n-official-ops/<provider>.json` puis assemblees dans `registries/n8n-official-ops.json` via `node scripts/build_n8n_official_ops.js` (docs dedupliquees, controle des doublons/providers et validation AJV).
+
+## Génération & validation
+
+- `node scripts/build_n8n_official_ops.js`
+- `node scripts/validate_n8n_official_ops.js`
+- `node scripts/generate_registries.js`
+- `node scripts/validate_tool_categories.js`
+- `node scripts/generate_tool_workflows.js`

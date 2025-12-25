@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { buildN8nOfficialOps } = require("./build_n8n_official_ops");
 
 const toolsDir = path.join(__dirname, "..", "config", "tools");
 const workflowsDir = path.join(__dirname, "..", "workflows", "tools");
@@ -7,6 +8,16 @@ const opsPath = path.join(__dirname, "..", "registries", "n8n-official-ops.json"
 
 function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
+}
+
+function ensureOfficialOps() {
+  try {
+    buildN8nOfficialOps({ quiet: true });
+  } catch (err) {
+    console.error("Unable to build n8n-official-ops registry:");
+    console.error(err.message);
+    process.exit(1);
+  }
 }
 
 function buildAllowedOperations(ops) {
@@ -99,6 +110,8 @@ function buildWorkflow(tool, nodeType) {
 }
 
 function main() {
+  ensureOfficialOps();
+
   const ops = loadJson(opsPath);
   const allowed = buildAllowedOperations(ops);
   const toolFiles = fs

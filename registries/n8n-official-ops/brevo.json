@@ -1,0 +1,48 @@
+{
+  "provider": "brevo",
+  "nodeType": "n8n-nodes-base.brevo",
+  "resources": {
+    "email": {
+      "operations": {
+        "sendEmail": {
+          "params": {
+            "required": [
+              "to",
+              "subject",
+              "body"
+            ],
+            "optional": [
+              "attachments"
+            ]
+          },
+          "returns": {
+            "data": [
+              "message_id"
+            ]
+          }
+        }
+      }
+    },
+    "campaign": {
+      "operations": {
+        "createCampaign": {
+          "params": {
+            "required": [
+              "name",
+              "content"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "campaign_id"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "sourceDocs": [
+    "https://docs.n8n.io/integrations/third-party/brevo/"
+  ]
+}
