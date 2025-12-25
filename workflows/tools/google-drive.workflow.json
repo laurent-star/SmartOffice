@@ -6,14 +6,20 @@
       "name": "Tool Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [
+        200,
+        300
+      ]
     },
     {
       "id": "node-normalize",
-      "name": "Normalize Tool Input",
+      "name": "Dispatch Operation",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [420, 300],
+      "position": [
+        420,
+        300
+      ],
       "parameters": {
         "functionCode": "const input = items[0].json || {};\nconst toolInput = {\n  runId: input.runId || 'run-001',\n  stepId: input.stepId || '0-google-drive',\n  tool: input.tool || { ref: 'google-drive', provider: 'google-drive', operation: 'upload_file' },\n  params: input.params || {},\n  context: input.context || { memory: { session_id: 'sess_001', state: {}, stack: [] } }\n};\n\nreturn [{ json: { toolInput, params: toolInput.params, operation: toolInput.tool.operation } }];"
       }
@@ -23,12 +29,19 @@
       "name": "Switch Operation",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 1,
-      "position": [640, 300],
+      "position": [
+        640,
+        300
+      ],
       "parameters": {
         "value1": "={{$json.operation}}",
         "rules": [
-          { "value2": "upload_file" },
-          { "value2": "share_file" }
+          {
+            "value2": "upload_file"
+          },
+          {
+            "value2": "share_file"
+          }
         ]
       }
     },
@@ -37,7 +50,10 @@
       "name": "Upload File",
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
-      "position": [860, 180],
+      "position": [
+        860,
+        180
+      ],
       "parameters": {
         "operation": "createFromText",
         "content": "={{$json.params.content || $json.params.text || ''}}",
@@ -57,7 +73,10 @@
       "name": "Share File",
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 1,
-      "position": [860, 420],
+      "position": [
+        860,
+        420
+      ],
       "parameters": {
         "resource": "file",
         "operation": "share",
@@ -84,7 +103,10 @@
       "name": "Build Result (Upload)",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [1080, 180],
+      "position": [
+        1080,
+        180
+      ],
       "parameters": {
         "functionCode": "const state = items[0].json || {};\nconst toolInput = state.toolInput || {};\nconst data = $node[\"Upload File\"].json;\n\nreturn [{\n  json: {\n    ok: true,\n    data,\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
       }
@@ -94,7 +116,10 @@
       "name": "Build Result (Share)",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [1080, 420],
+      "position": [
+        1080,
+        420
+      ],
       "parameters": {
         "functionCode": "const state = items[0].json || {};\nconst toolInput = state.toolInput || {};\nconst data = $node[\"Share File\"].json;\n\nreturn [{\n  json: {\n    ok: true,\n    data,\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
       }
@@ -104,7 +129,10 @@
       "name": "Build Result (Error)",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [860, 560],
+      "position": [
+        860,
+        560
+      ],
       "parameters": {
         "functionCode": "const state = items[0].json || {};\nconst toolInput = state.toolInput || {};\n\nreturn [{\n  json: {\n    ok: false,\n    data: null,\n    error: {\n      code: 'UNKNOWN_OPERATION',\n      message: 'Unsupported operation',\n      details: { operation: state.operation }\n    },\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
       }
@@ -112,25 +140,77 @@
   ],
   "connections": {
     "Tool Trigger": {
-      "main": [[{ "node": "Normalize Tool Input", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Dispatch Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
-    "Normalize Tool Input": {
-      "main": [[{ "node": "Switch Operation", "type": "main", "index": 0 }]]
+    "Dispatch Operation": {
+      "main": [
+        [
+          {
+            "node": "Switch Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Switch Operation": {
       "main": [
-        [{ "node": "Upload File", "type": "main", "index": 0 }],
-        [{ "node": "Share File", "type": "main", "index": 0 }],
-        [{ "node": "Build Result (Error)", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Upload File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Share File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Result (Error)",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Upload File": {
-      "main": [[{ "node": "Build Result (Upload)", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Build Result (Upload)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Share File": {
-      "main": [[{ "node": "Build Result (Share)", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Build Result (Share)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" }
+  "settings": {
+    "executionOrder": "v1"
+  }
 }

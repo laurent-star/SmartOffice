@@ -3,27 +3,43 @@
   "nodes": [
     {
       "id": "node-trigger",
-      "name": "Manual Trigger",
+      "name": "Trigger Event",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [
+        200,
+        300
+      ]
     },
     {
       "id": "node-build-envelope",
       "name": "Build Legacy Envelope",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [420, 300],
+      "position": [
+        420,
+        300
+      ],
       "parameters": {
         "functionCode": "const envelope = {\n  context: {\n    memory: {\n      session_id: 'sess_001',\n      state: {},\n      stack: []\n    }\n  },\n  input: {\n    steps: [\n      {\n        type: 'tool',\n        ref: 'slack',\n        params: {\n          channel: '#ops',\n          text: 'Hello from manual trigger'\n        }\n      }\n    ]\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];"
       }
     }
   ],
   "connections": {
-    "Manual Trigger": {
-      "main": [[{ "node": "Build Legacy Envelope", "type": "main", "index": 0 }]]
+    "Trigger Event": {
+      "main": [
+        [
+          {
+            "node": "Build Legacy Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" }
+  "settings": {
+    "executionOrder": "v1"
+  }
 }

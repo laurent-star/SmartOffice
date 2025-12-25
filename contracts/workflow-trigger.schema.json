@@ -1,0 +1,14 @@
+{
+  "title": "WorkflowTrigger",
+  "required_fields": ["name", "nodes", "connections"],
+  "required_nodes": [
+    { "name": "Trigger Event", "types": [
+      "n8n-nodes-base.manualTrigger",
+      "n8n-nodes-base.webhook",
+      "n8n-nodes-base.scheduleTrigger",
+      "n8n-nodes-base.gmailTrigger",
+      "n8n-nodes-base.slackTrigger"
+    ] },
+    { "name": "Build Legacy Envelope", "type": "n8n-nodes-base.function" }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "title": "WorkflowTool",
+  "required_fields": ["name", "nodes", "connections"],
+  "required_nodes": [
+    { "name": "Tool Trigger", "type": "n8n-nodes-base.manualTrigger" },
+    { "name": "Dispatch Operation", "type": "n8n-nodes-base.function" }
+  ]
+}

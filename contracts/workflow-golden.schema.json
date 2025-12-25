@@ -1,0 +1,4 @@
+{
+  "title": "WorkflowGolden",
+  "required_fields": ["name", "nodes", "connections"]
+}

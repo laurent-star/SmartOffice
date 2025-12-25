@@ -1,0 +1,8 @@
+{
+  "title": "WorkflowUtils",
+  "required_fields": ["name", "nodes", "connections"],
+  "required_node_types": [
+    "n8n-nodes-base.manualTrigger",
+    "n8n-nodes-base.function"
+  ]
+}

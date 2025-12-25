@@ -14,6 +14,12 @@ du systeme. Ces schemas sont la source de verite pour la validation runtime.
 - agent-tool-selection.schema.json
 - tool-call.schema.json
 - tool-definition.schema.json
+- workflow-agent.schema.json
+- workflow-executor.schema.json
+- workflow-golden.schema.json
+- workflow-tool.schema.json
+- workflow-trigger.schema.json
+- workflow-utils.schema.json
 - tool-input.schema.json
 - tool-result.schema.json
 - usecase.schema.json

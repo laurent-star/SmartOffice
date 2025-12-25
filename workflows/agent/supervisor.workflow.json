@@ -3,27 +3,43 @@
   "nodes": [
     {
       "id": "node-trigger",
-      "name": "Supervisor Trigger",
+      "name": "Agent Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [
+        200,
+        300
+      ]
     },
     {
       "id": "node-supervise",
-      "name": "Supervise Plan",
+      "name": "Build Execution Envelope",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [420, 300],
+      "position": [
+        420,
+        300
+      ],
       "parameters": {
         "functionCode": "const input = items[0].json || {};\n\nif (input.header && input.payload && Array.isArray(input.payload.steps)) {\n  return [{ json: input }];\n}\n\nconst now = new Date().toISOString();\nconst envelope = {\n  header: {\n    id: `env-${Date.now()}`,\n    version: '1.0',\n    timestamp: now,\n    source: 'agent.supervisor',\n    destination: 'executor',\n    type: 'execution'\n  },\n  payload: {\n    steps: [],\n    memory: {\n      session_id: 'sess_001',\n      state: {},\n      stack: []\n    }\n  }\n};\n\nreturn [{ json: envelope }];"
       }
     }
   ],
   "connections": {
-    "Supervisor Trigger": {
-      "main": [[{ "node": "Supervise Plan", "type": "main", "index": 0 }]]
+    "Agent Trigger": {
+      "main": [
+        [
+          {
+            "node": "Build Execution Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" }
+  "settings": {
+    "executionOrder": "v1"
+  }
 }

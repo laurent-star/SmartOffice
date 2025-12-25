@@ -3,14 +3,19 @@
   "nodes": [
     {
       "id": "node-trigger",
-      "name": "Gmail Trigger",
+      "name": "Trigger Event",
       "type": "n8n-nodes-base.gmailTrigger",
       "typeVersion": 1,
-      "position": [200, 300],
+      "position": [
+        200,
+        300
+      ],
       "parameters": {
         "resource": "message",
         "operation": "watch",
-        "labelIds": ["INBOX"]
+        "labelIds": [
+          "INBOX"
+        ]
       }
     },
     {
@@ -18,17 +23,30 @@
       "name": "Build Legacy Envelope",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [420, 300],
+      "position": [
+        420,
+        300
+      ],
       "parameters": {
         "functionCode": "const envelope = {\n  context: {\n    memory: {\n      session_id: 'sess_001',\n      state: {},\n      stack: []\n    }\n  },\n  input: {\n    steps: [\n      {\n        type: 'tool',\n        ref: 'gmail',\n        params: {\n          query: 'is:unread',\n          maxResults: 5\n        }\n      }\n    ]\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];"
       }
     }
   ],
   "connections": {
-    "Gmail Trigger": {
-      "main": [[{ "node": "Build Legacy Envelope", "type": "main", "index": 0 }]]
+    "Trigger Event": {
+      "main": [
+        [
+          {
+            "node": "Build Legacy Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" }
+  "settings": {
+    "executionOrder": "v1"
+  }
 }
