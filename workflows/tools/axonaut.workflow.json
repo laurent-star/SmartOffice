@@ -52,27 +52,32 @@
     {
       "id": "node-action-1",
       "name": "Action company.update",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.axonaut",
       "typeVersion": 1,
       "position": [
         900,
         200
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'company.update', input }, error: null, meta: { provider: 'axonaut', operation: 'company.update' } } }];"
+        "resource": "company",
+        "operation": "update",
+        "company_id": "={{$json.params.company_id}}",
+        "fields": "={{$json.params.fields}}"
       }
     },
     {
       "id": "node-action-2",
       "name": "Action contact.create",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.axonaut",
       "typeVersion": 1,
       "position": [
         900,
         320
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'contact.create', input }, error: null, meta: { provider: 'axonaut', operation: 'contact.create' } } }];"
+        "resource": "contact",
+        "operation": "create",
+        "contact": "={{$json.params.contact}}"
       }
     }
   ],

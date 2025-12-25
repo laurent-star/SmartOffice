@@ -52,27 +52,34 @@
     {
       "id": "node-action-1",
       "name": "Action message.getMany",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.gmail",
       "typeVersion": 1,
       "position": [
         900,
         200
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'message.getMany', input }, error: null, meta: { provider: 'gmail', operation: 'message.getMany' } } }];"
+        "resource": "message",
+        "operation": "getMany",
+        "query": "={{$json.params.query}}",
+        "limit": "={{$json.params.limit}}"
       }
     },
     {
       "id": "node-action-2",
       "name": "Action message.send",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.gmail",
       "typeVersion": 1,
       "position": [
         900,
         320
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'message.send', input }, error: null, meta: { provider: 'gmail', operation: 'message.send' } } }];"
+        "resource": "message",
+        "operation": "send",
+        "to": "={{$json.params.to}}",
+        "subject": "={{$json.params.subject}}",
+        "text": "={{$json.params.text}}"
       }
     }
   ],

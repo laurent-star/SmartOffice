@@ -56,40 +56,48 @@
     {
       "id": "node-action-1",
       "name": "Action chat.classify",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
       "position": [
         900,
         200
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'chat.classify', input }, error: null, meta: { provider: 'openai', operation: 'chat.classify' } } }];"
+        "resource": "chat",
+        "operation": "classify",
+        "text": "={{$json.params.text}}",
+        "labels": "={{$json.params.labels}}"
       }
     },
     {
       "id": "node-action-2",
       "name": "Action chat.extract",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
       "position": [
         900,
         320
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'chat.extract', input }, error: null, meta: { provider: 'openai', operation: 'chat.extract' } } }];"
+        "resource": "chat",
+        "operation": "extract",
+        "text": "={{$json.params.text}}",
+        "schema": "={{$json.params.schema}}"
       }
     },
     {
       "id": "node-action-3",
       "name": "Action chat.summarize",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
       "position": [
         900,
         440
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'chat.summarize', input }, error: null, meta: { provider: 'openai', operation: 'chat.summarize' } } }];"
+        "resource": "chat",
+        "operation": "summarize",
+        "text": "={{$json.params.text}}"
       }
     }
   ],

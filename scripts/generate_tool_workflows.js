@@ -24,8 +24,8 @@ function buildAllowedOperations(ops) {
 }
 
 function buildWorkflow(tool, nodeType) {
-  const actions = tool.actions.map((action) => action.name).sort();
-  const rules = actions.map((name) => ({ operation: "equal", value: name }));
+  const actions = (tool.actions || []).slice().sort((a, b) => a.name.localeCompare(b.name));
+  const rules = actions.map((action) => ({ operation: "equal", value: action.name }));
   const nodes = [
     {
       id: "node-trigger",
@@ -65,17 +65,23 @@ function buildWorkflow(tool, nodeType) {
     "Dispatch Operation": { main: [] }
   };
 
-  actions.forEach((actionName, idx) => {
+  actions.forEach((action, idx) => {
+    const actionName = action.name;
+    const [resource, operation] = actionName.split(".");
+    const parameters = { resource, operation };
+
+    for (const param of action.input || []) {
+      parameters[param] = `={{$json.params.${param}}}`;
+    }
+
     const nodeId = `node-action-${idx + 1}`;
     nodes.push({
       id: nodeId,
       name: `Action ${actionName}`,
-      type: "n8n-nodes-base.function",
+      type: nodeType,
       typeVersion: 1,
       position: [900, 200 + idx * 120],
-      parameters: {
-        functionCode: `const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: '${actionName}', input }, error: null, meta: { provider: '${tool.id}', operation: '${actionName}' } } }];`
-      }
+      parameters
     });
     if (!connections["Dispatch Operation"].main[idx]) {
       connections["Dispatch Operation"].main[idx] = [];
