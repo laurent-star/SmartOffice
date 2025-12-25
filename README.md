@@ -115,6 +115,38 @@ et des use cases metier, executes par un executor recursif.
 - Si VS Code continue d'afficher `main`, verifier que vous avez bien ouvert le dossier racine du projet (`/workspace/SmartOffice` ou `smart-office.code-workspace`) : ouvrir uniquement `/workspace` fait apparaitre un depot parent vide qui affiche `main` par defaut.
 - Pensez a recharger la fenetre VS Code apres avoir ajoute le remote ou change de dossier (`Developer: Reload Window`) pour rafraichir la detection Git.
 
+### Publier tous les fichiers modifies dans une PR
+
+Si vous avez modifie plusieurs README, schemas ou workflows et voulez tout pousser en une seule PR :
+
+1. Assurez-vous d'etre sur `work` et a jour :
+
+   ```bash
+   git switch work
+   git pull --rebase
+   ```
+
+2. Creez une branche dediee a la publication :
+
+   ```bash
+   git switch -c feature/push-all-updates
+   ```
+
+3. Ajoutez l'ensemble des fichiers modifies (y compris les nouveaux) :
+
+   ```bash
+   git add -A
+   ```
+
+4. Commitez puis poussez :
+
+   ```bash
+   git commit -m "Publier les fichiers modifies"
+   git push -u origin feature/push-all-updates
+   ```
+
+5. Ouvrez la PR depuis `feature/push-all-updates` vers la branche cible (ex. `work`) et verifiez que tous les fichiers attendus apparaissent dans l'onglet *Files changed*.
+
 ## Validation des schemas
 
 Pour valider les schemas JSON localement, certains outils (ex: ajv-cli)
