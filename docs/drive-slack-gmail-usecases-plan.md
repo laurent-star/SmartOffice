@@ -5,7 +5,7 @@ Il ne contient pas de plan d'execution. Le suivi se fait via le README principal
 
 ## Use cases
 
-- drive_to_slack_notify : partage un document Drive, le resume et notifie sur Slack.
+- drive_to_slack_notify : recupere un document Drive, le resume et notifie sur Slack.
 - slack_drive_to_gmail : repond a une requete Slack avec un document Drive puis envoi Gmail.
 
 ## Capabilities requises

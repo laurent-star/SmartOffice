@@ -4,6 +4,9 @@
   "description": "Convertit un lead entrant en client en classifiant la demande puis en synchronisant le CRM.",
   "inputs": [
     "memory.state.email.body",
+    "context.slack.incident_channel",
+    "context.drive.archive_folder",
+    "context.slack.channel",
     "context.monday.board_id",
     "memory.state.client",
     "memory.state.client.company",
@@ -16,8 +19,8 @@
     "memory.state.notification.text"
   ],
   "steps": [
-    { "type": "capability", "ref": "classify_email" },
-    { "type": "capability", "ref": "sync_crm_client" },
+    { "type": "capability", "ref": "classify_email", "params": {} },
+    { "type": "capability", "ref": "sync_crm_client", "params": {} },
     { "type": "capability", "ref": "notify_user", "params": { "message": "Lead converti et synchronisé" } }
   ]
 }

@@ -19,13 +19,13 @@
       "type": "tool",
       "ref": "monday",
       "params": {
-        "action": "create_item",
-        "board_id": "{{context.monday.board_id}}",
-        "item": "{{memory.state.client}}"
+        "action": "boardItem.create",
+        "boardId": "{{context.monday.board_id}}",
+        "itemName": "{{memory.state.client.contact.name}}"
       },
       "save": {
         "to": {
-          "memory.state.client.monday_item_id": "$.data.item_id"
+          "memory.state.client.monday_item_id": "$.data.itemId"
         }
       }
     },
@@ -34,8 +34,9 @@
       "type": "tool",
       "ref": "axonaut",
       "params": {
-        "action": "update_company",
-        "company": "{{memory.state.client.company}}"
+        "action": "company.update",
+        "company_id": "{{memory.state.client.company.id}}",
+        "fields": "{{memory.state.client.company}}"
       },
       "save": {
         "to": {
@@ -48,7 +49,7 @@
       "type": "tool",
       "ref": "brevo",
       "params": {
-        "action": "send_email",
+        "action": "email.sendEmail",
         "to": "{{memory.state.client.contact.email}}",
         "subject": "Bienvenue {{memory.state.client.contact.name}}",
         "body": "Votre dossier est créé. Référence: {{memory.state.client.monday_item_id}}"

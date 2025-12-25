@@ -6,10 +6,10 @@
     "input.time_window.start",
     "input.time_window.end",
     "input.email_limit",
+    "input.event_limit",
     "input.task_limit",
     "context.gmail.recipient",
     "context.gmail.query",
-    "context.calendar.timezone",
     "context.monday.board_id"
   ],
   "outputs": [
@@ -39,10 +39,10 @@
       "ref": "google-calendar",
       "when": "input.time_window.start != null && input.time_window.end != null",
       "params": {
-        "action": "event.getAll",
+        "action": "event.getMany",
         "timeMin": "{{input.time_window.start}}",
         "timeMax": "{{input.time_window.end}}",
-        "timeZone": "{{context.calendar.timezone}}"
+        "limit": "{{input.event_limit}}"
       },
       "save": {
         "to": {
@@ -71,7 +71,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "summarize",
+        "action": "assistant.summarize",
         "text": "Rédige un briefing quotidien clair et concis pour la période {{input.time_window.start}} -> {{input.time_window.end}}.\n- Emails Gmail (peut être vide): {{memory.state.gmail.messages}}\n- Evénements Calendar (peut être vide): {{memory.state.calendar.events}}\n- Tâches Monday (peut être vide): {{memory.state.monday.items}}\nFormate en markdown avec des puces. Pour chaque source, saute les sections sans données, affiche les intitulés lisibles et propose des liens cliquables quand un champ de lien ou d'identifiant est fourni (ex: htmlLink, webViewLink, permalink, id). Termine par des appels à l'action explicites (répondre à un mail, ouvrir une tâche, rejoindre un événement)."
       },
       "save": {

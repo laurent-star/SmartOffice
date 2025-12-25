@@ -4,18 +4,18 @@
   "description": "Repond a une requete Slack en recuperant un document Drive puis envoi Gmail.",
   "inputs": [
     "memory.state.document.file_id",
-    "context.drive.share_emails",
+    "memory.state.document.content",
     "context.slack.channel",
     "memory.state.email.to",
     "memory.state.email.subject"
   ],
   "outputs": [
-    "memory.state.document.share_status",
+    "memory.state.document.file",
     "memory.state.document.summary",
     "memory.state.email.message_id"
   ],
   "steps": [
-    { "type": "capability", "ref": "serve_document_drive" },
-    { "type": "tool", "ref": "gmail", "params": { "action": "send_email", "to": "{{memory.state.email.to}}", "subject": "{{memory.state.email.subject}}", "body": "{{memory.state.document.summary}}" } }
+    { "type": "capability", "ref": "serve_document_drive", "params": {} },
+    { "type": "tool", "ref": "gmail", "params": { "action": "message.send", "to": "{{memory.state.email.to}}", "subject": "{{memory.state.email.subject}}", "text": "{{memory.state.document.summary}}" } }
   ]
 }

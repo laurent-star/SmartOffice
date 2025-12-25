@@ -4,6 +4,7 @@ Outils internes pour valider et maintenir les contrats, configs et workflows.
 
 ## Scripts
 
+- `fetch_n8n_docs.sh` : telecharge les pages n8n en HTML (`docs/n8n/html`), genere une version lisible (`docs/n8n/human`) et met a jour `docs/n8n/sources.md`. Option `--rebuild-raw` regenere les raw JSON depuis les fragments, `--build` lance la pipeline complete.
 - `validate_n8n_docs.js` : vérifie la présence et la structure minimale des docs n8n locales (`docs/n8n/raw`).
 - `parse_n8n_docs.js` : extrait les opérations officielles depuis les docs locales (JSON embarqué) et prépare un artefact temporaire.
 - `generate_n8n_official_ops_fragments.js` : fusionne la sortie du parseur et les overrides pour alimenter les fragments `registries/n8n-official-ops/*.json`.

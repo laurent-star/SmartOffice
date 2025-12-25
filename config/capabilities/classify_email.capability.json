@@ -19,7 +19,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "classify",
+        "action": "assistant.classify",
         "text": "{{memory.state.email.body}}",
         "labels": ["incident", "demande", "information"]
       },
@@ -35,7 +35,7 @@
       "ref": "slack",
       "when": { "path": "memory.state.email.category", "eq": "incident" },
       "params": {
-        "action": "send_message",
+        "action": "message.send",
         "channel": "{{context.slack.incident_channel}}",
         "text": "Incident détecté pour {{memory.state.email.from}} : {{memory.state.email.subject}}"
       }
@@ -46,9 +46,10 @@
       "ref": "google-drive",
       "when": { "path": "memory.state.email.category", "eq": "information" },
       "params": {
-        "action": "upload_file",
-        "path": "{{memory.state.email.attachment}}",
-        "folder": "{{context.drive.archive_folder}}"
+        "action": "file.upload",
+        "name": "{{memory.state.email.attachment.name}}",
+        "folderId": "{{context.drive.archive_folder}}",
+        "binary": "{{memory.state.email.attachment.binary}}"
       }
     }
   ]

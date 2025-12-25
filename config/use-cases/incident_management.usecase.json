@@ -6,6 +6,7 @@
     "memory.state.email.body",
     "memory.state.email.from",
     "memory.state.email.subject",
+    "context.drive.archive_folder",
     "context.slack.incident_channel",
     "context.slack.summary_channel"
   ],
@@ -15,7 +16,7 @@
     "memory.state.notification.text"
   ],
   "steps": [
-    { "type": "capability", "ref": "classify_email" },
+    { "type": "capability", "ref": "classify_email", "params": {} },
     { "type": "capability", "ref": "summarize_content", "params": { "content": { "raw": "{{memory.state.email.body}}" } } },
     { "type": "capability", "ref": "notify_user", "params": { "message": "Résumé incident prêt" } }
   ]

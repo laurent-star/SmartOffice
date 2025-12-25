@@ -1,12 +1,13 @@
 {
   "id": "onboarding_client",
   "version": "1.0.0",
-  "description": "Déploie le kit d'onboarding client et partage les documents nécessaires.",
+  "description": "Déploie le kit d'onboarding client et prepare les documents nécessaires.",
   "inputs": [
     "input.brief",
     "input.schema",
     "context.docs.template_id",
-    "context.docs.recipients",
+    "context.docs.folder_id",
+    "context.slack.channel",
     "context.monday.board_id",
     "memory.state.client",
     "memory.state.client.company",
@@ -21,7 +22,7 @@
   ],
   "steps": [
     { "type": "capability", "ref": "generate_document", "params": { "document": { "brief": "{{input.brief}}", "schema": "{{input.schema}}" } } },
-    { "type": "capability", "ref": "sync_crm_client" },
-    { "type": "capability", "ref": "notify_user", "params": { "message": "Dossier d'onboarding partagé" } }
+    { "type": "capability", "ref": "sync_crm_client", "params": {} },
+    { "type": "capability", "ref": "notify_user", "params": { "message": "Dossier d'onboarding genere" } }
   ]
 }

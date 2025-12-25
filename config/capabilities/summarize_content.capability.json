@@ -15,7 +15,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "summarize",
+        "action": "assistant.summarize",
         "text": "{{memory.state.content.raw}}"
       },
       "save": {
@@ -30,7 +30,7 @@
       "ref": "slack",
       "when": "context.slack.summary_channel != null",
       "params": {
-        "action": "send_message",
+        "action": "message.send",
         "channel": "{{context.slack.summary_channel}}",
         "text": "Résumé généré : {{memory.state.content.summary}}"
       }

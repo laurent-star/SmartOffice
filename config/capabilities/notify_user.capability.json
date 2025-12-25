@@ -15,7 +15,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "summarize",
+        "action": "assistant.summarize",
         "text": "{{input.message}}"
       },
       "save": {
@@ -29,7 +29,7 @@
       "type": "tool",
       "ref": "slack",
       "params": {
-        "action": "send_message",
+        "action": "message.send",
         "channel": "{{context.slack.channel}}",
         "text": "{{memory.state.notification.text}}"
       }

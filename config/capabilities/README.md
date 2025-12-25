@@ -13,7 +13,7 @@ Contenu
 
 - inputs : champs requis (input/context/memory)
 - outputs : champs produits (memory)
-- steps : liste ordonnee de steps
+- steps : liste ordonnee de steps (avec `params` obligatoire, meme vide)
 
 Ces definitions alimentent :
 - registries/capabilities.json

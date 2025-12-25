@@ -20,10 +20,11 @@ Les registries sont des catalogues compilés à partir des docs locales et des c
 
 ## Pipeline outils
 
-1. Docs locales (`docs/n8n/raw`) -> `validate_n8n_docs.js` puis `parse_n8n_docs.js`.
+1. Docs locales (`docs/n8n/raw`, avec bloc JSON) -> `validate_n8n_docs.js` puis `parse_n8n_docs.js`.
 2. Fragments + overrides -> `generate_n8n_official_ops_fragments.js` -> `build_n8n_official_ops.js`.
 3. Catégories (`generate_tool_categories.js`) puis capacités (`generate_capabilities.js`).
 4. Registry outils (`generate_tools_registry.js`).
 5. Workflows outils (`generate_tool_workflows.js`).
 
 Exécuter `npm run build:tools` pour enchaîner l'ensemble de la pipeline.
+Pour mettre a jour les sources n8n, utiliser `./scripts/fetch_n8n_docs.sh`.

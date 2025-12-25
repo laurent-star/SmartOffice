@@ -6,10 +6,10 @@
     "input.time_window.start",
     "input.time_window.end",
     "input.email_limit",
+    "input.event_limit",
     "input.task_limit",
     "context.gmail.recipient",
     "context.gmail.query",
-    "context.calendar.timezone",
     "context.monday.board_id"
   ],
   "outputs": [
@@ -17,6 +17,6 @@
     "memory.state.briefing.sent_message"
   ],
   "steps": [
-    { "type": "capability", "ref": "daily_briefing" }
+    { "type": "capability", "ref": "daily_briefing", "params": {} }
   ]
 }

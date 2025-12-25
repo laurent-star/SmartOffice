@@ -15,7 +15,7 @@
       "type": "tool",
       "ref": "slack",
       "params": {
-        "action": "send_message",
+        "action": "message.send",
         "channel": "{{context.slack.channel}}",
         "text": "{{input.message}}"
       },

@@ -33,7 +33,8 @@ et des use cases metier, executes par un executor recursif.
 
 ## Types de tools (catalogue fonctionnel)
 
-Chaque tool est classe par type fonctionnel (champ `category` dans config/tools).
+Chaque tool est classe par types fonctionnels (champ `categories` dans `config/tools`).
+Le mapping officiel provider -> categorie pour la generation des registries se trouve dans `config/provider-category.map.json`.
 
 - trigger_message : canaux d'entree/sortie (Slack, Gmail, WhatsApp, Messenger)
 - validation_humaine : boucle humaine (Slack, WhatsApp, Messenger)
@@ -110,6 +111,9 @@ Pour demarrer, un nouveau client ne fait que :
 - docs/codex-plan.md
 - docs/tools-catalog.md
 - docs/n8n-installation.md
+- docs/n8n/README.md
+- docs/n8n/minimal-types.md
+- docs/n8n/sources.md
 - docs/drive-slack-gmail-usecases-plan.md
 - docs/archives/md-audit-2025-12-24.md
 - docs/archives/status-auto.md
