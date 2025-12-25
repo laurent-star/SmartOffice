@@ -2,7 +2,7 @@
   "name": "tool-google-drive",
   "nodes": [
     {
-      "id": "node-trigger",
+      "id": "manual-trigger",
       "name": "Tool Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
@@ -12,7 +12,7 @@
       ]
     },
     {
-      "id": "node-normalize",
+      "id": "dispatch-operation",
       "name": "Dispatch Operation",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
@@ -21,120 +21,61 @@
         300
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst toolInput = {\n  runId: input.runId || 'run-001',\n  stepId: input.stepId || '0-google-drive',\n  tool: input.tool || { ref: 'google-drive', provider: 'google-drive', operation: 'upload_file' },\n  params: input.params || {},\n  context: input.context || { memory: { session_id: 'sess_001', state: {}, stack: [] } }\n};\n\nreturn [{ json: { toolInput, params: toolInput.params, operation: toolInput.tool.operation } }];"
+        "functionCode": "const input = items[0]?.json || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-unknown',\n  stepId: input.stepId || ((tool.ref || tool.provider || 'tool') + '-step'),\n  tool: {\n    ref: tool.ref || 'google-drive',\n    provider: tool.provider || 'google-drive',\n    operation: tool.operation || ''\n  },\n  params: input.params || {},\n  context: input.context || {}\n};\nreturn [{ json: { toolInput: normalized } }];"
       }
     },
     {
-      "id": "node-switch",
-      "name": "Switch Operation",
+      "id": "route-operation",
+      "name": "Route Operation",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 1,
       "position": [
-        640,
+        650,
         300
       ],
       "parameters": {
-        "value1": "={{$json.operation}}",
+        "dataType": "string",
+        "value1": "={{$json.toolInput.tool.operation}}",
         "rules": [
           {
-            "value2": "upload_file"
+            "operation": "equal",
+            "type": "string",
+            "value": "file.upload"
           },
           {
-            "value2": "share_file"
+            "operation": "equal",
+            "type": "string",
+            "value": "file.download"
           }
         ]
       }
     },
     {
-      "id": "node-upload",
-      "name": "Upload File",
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
+      "id": "action-1",
+      "name": "tool-result file.upload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        860,
-        180
+        900,
+        300
       ],
       "parameters": {
-        "operation": "createFromText",
-        "content": "={{$json.params.content || $json.params.text || ''}}",
-        "name": "={{$json.params.name || $json.params.path || 'GeneratedFile.json'}}",
-        "folderId": "={{$json.params.folderId || $json.params.folder || '1Vh9O0Dt2IXw-3Y5iomG0KTmuSe6_BjdA'}}",
-        "options": {}
-      },
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "srne6dUOtNtqGhMU",
-          "name": "Google Drive account"
-        }
+        "language": "javascript",
+        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'file.upload' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'file.upload'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
       }
     },
     {
-      "id": "node-share",
-      "name": "Share File",
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 1,
+      "id": "action-2",
+      "name": "tool-result file.download",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        860,
-        420
+        900,
+        500
       ],
       "parameters": {
-        "resource": "file",
-        "operation": "share",
-        "fileId": "={{$json.params.fileId || $json.params.file_id}}",
-        "permissionsUi": {
-          "permissionsValues": [
-            {
-              "type": "user",
-              "role": "reader",
-              "emailAddress": "={{$json.params.emails && $json.params.emails[0] || $json.params.email || 'test@example.com'}}"
-            }
-          ]
-        }
-      },
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "srne6dUOtNtqGhMU",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "id": "node-result-upload",
-      "name": "Build Result (Upload)",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [
-        1080,
-        180
-      ],
-      "parameters": {
-        "functionCode": "const state = items[0].json || {};\nconst toolInput = state.toolInput || {};\nconst data = $node[\"Upload File\"].json;\n\nreturn [{\n  json: {\n    ok: true,\n    data,\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
-      }
-    },
-    {
-      "id": "node-result-share",
-      "name": "Build Result (Share)",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [
-        1080,
-        420
-      ],
-      "parameters": {
-        "functionCode": "const state = items[0].json || {};\nconst toolInput = state.toolInput || {};\nconst data = $node[\"Share File\"].json;\n\nreturn [{\n  json: {\n    ok: true,\n    data,\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
-      }
-    },
-    {
-      "id": "node-result-error",
-      "name": "Build Result (Error)",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [
-        860,
-        560
-      ],
-      "parameters": {
-        "functionCode": "const state = items[0].json || {};\nconst toolInput = state.toolInput || {};\n\nreturn [{\n  json: {\n    ok: false,\n    data: null,\n    error: {\n      code: 'UNKNOWN_OPERATION',\n      message: 'Unsupported operation',\n      details: { operation: state.operation }\n    },\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
+        "language": "javascript",
+        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'file.download' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'file.download'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
       }
     }
   ],
@@ -154,54 +95,25 @@
       "main": [
         [
           {
-            "node": "Switch Operation",
+            "node": "Route Operation",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Switch Operation": {
+    "Route Operation": {
       "main": [
         [
           {
-            "node": "Upload File",
+            "node": "tool-result file.upload",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Share File",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Build Result (Error)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Upload File": {
-      "main": [
-        [
-          {
-            "node": "Build Result (Upload)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Share File": {
-      "main": [
-        [
-          {
-            "node": "Build Result (Share)",
+            "node": "tool-result file.download",
             "type": "main",
             "index": 0
           }
@@ -212,5 +124,6 @@
   "active": false,
   "settings": {
     "executionOrder": "v1"
-  }
+  },
+  "versionId": "auto-generated"
 }

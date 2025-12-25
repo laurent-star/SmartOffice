@@ -4,14 +4,14 @@
   "description": "Synchronisation des contacts et entreprises dans Axonaut.",
   "actions": [
     {
-      "name": "create_contact",
+      "name": "contact.create",
       "input": [
         "contact"
       ],
       "output": "contact_id"
     },
     {
-      "name": "update_company",
+      "name": "company.update",
       "input": [
         "company"
       ],

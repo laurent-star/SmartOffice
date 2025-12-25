@@ -30,6 +30,9 @@ Regles
 - Un tool est execute par l'executor.
 - Le routage se fait par provider et operation.
 - Le resultat doit suivre le schema tool-result.
+- Un workflow par provider (Switch(operation) complet) genere via scripts/generate_tool_workflows.js
+- Les operations outillees doivent exister dans registries/n8n-official-ops.json
+- Chaque branche renvoie un "tool-result" structure (Code node)
 
 Utilisation des utils
 

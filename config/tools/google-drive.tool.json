@@ -4,7 +4,7 @@
   "description": "Stockage et partage de fichiers via Google Drive.",
   "actions": [
     {
-      "name": "upload_file",
+      "name": "file.upload",
       "input": [
         "path",
         "folder"
@@ -12,12 +12,11 @@
       "output": "file_id"
     },
     {
-      "name": "share_file",
+      "name": "file.download",
       "input": [
-        "file_id",
-        "emails"
+        "file_id"
       ],
-      "output": "sharing_status"
+      "output": "file"
     }
   ],
   "category": "ged"

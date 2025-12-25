@@ -5,7 +5,7 @@
   "category": "calendar",
   "actions": [
     {
-      "name": "create_event",
+      "name": "event.create",
       "input": [
         "title",
         "start",
@@ -14,7 +14,7 @@
       "output": "event_id"
     },
     {
-      "name": "list_events",
+      "name": "event.getMany",
       "input": [
         "time_min",
         "time_max"

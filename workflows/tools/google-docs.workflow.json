@@ -2,28 +2,128 @@
   "name": "tool-google-docs",
   "nodes": [
     {
-      "id": "node-trigger",
+      "id": "manual-trigger",
       "name": "Tool Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [
+        200,
+        300
+      ]
     },
     {
-      "id": "node-dispatch",
+      "id": "dispatch-operation",
       "name": "Dispatch Operation",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [420, 300],
+      "position": [
+        420,
+        300
+      ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst toolInput = {\n  runId: input.runId || 'run-001',\n  stepId: input.stepId || '0-google-docs',\n  tool: input.tool || { ref: 'google-docs', provider: 'google-docs', operation: 'create_document' },\n  params: input.params || {},\n  context: input.context || { memory: { session_id: 'sess_001', state: {}, stack: [] } }\n};\n\nconst allowed = new Set(['create_document', 'fill_template']);\nif (!allowed.has(toolInput.tool.operation)) {\n  return [{\n    json: {\n      ok: false,\n      data: null,\n      error: {\n        code: 'UNKNOWN_OPERATION',\n        message: 'Unsupported operation',\n        details: { operation: toolInput.tool.operation }\n      },\n      meta: { tool: toolInput.tool }\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ok: true,\n    data: { operation: toolInput.tool.operation, params: toolInput.params },\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
+        "functionCode": "const input = items[0]?.json || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-unknown',\n  stepId: input.stepId || ((tool.ref || tool.provider || 'tool') + '-step'),\n  tool: {\n    ref: tool.ref || 'google-docs',\n    provider: tool.provider || 'google-docs',\n    operation: tool.operation || ''\n  },\n  params: input.params || {},\n  context: input.context || {}\n};\nreturn [{ json: { toolInput: normalized } }];"
+      }
+    },
+    {
+      "id": "route-operation",
+      "name": "Route Operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.toolInput.tool.operation}}",
+        "rules": [
+          {
+            "operation": "equal",
+            "type": "string",
+            "value": "document.create"
+          },
+          {
+            "operation": "equal",
+            "type": "string",
+            "value": "document.update"
+          }
+        ]
+      }
+    },
+    {
+      "id": "action-1",
+      "name": "tool-result document.create",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ],
+      "parameters": {
+        "language": "javascript",
+        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'document.create' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'document.create'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
+      }
+    },
+    {
+      "id": "action-2",
+      "name": "tool-result document.update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        900,
+        500
+      ],
+      "parameters": {
+        "language": "javascript",
+        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'document.update' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'document.update'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
       }
     }
   ],
   "connections": {
     "Tool Trigger": {
-      "main": [[{ "node": "Dispatch Operation", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Dispatch Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch Operation": {
+      "main": [
+        [
+          {
+            "node": "Route Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Operation": {
+      "main": [
+        [
+          {
+            "node": "tool-result document.create",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "tool-result document.update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" }
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "auto-generated"
 }

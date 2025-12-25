@@ -1,5 +1,5 @@
 {
-  "name": "tool-monday",
+  "name": "tool-google-calendar",
   "nodes": [
     {
       "id": "manual-trigger",
@@ -21,7 +21,7 @@
         300
       ],
       "parameters": {
-        "functionCode": "const input = items[0]?.json || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-unknown',\n  stepId: input.stepId || ((tool.ref || tool.provider || 'tool') + '-step'),\n  tool: {\n    ref: tool.ref || 'monday',\n    provider: tool.provider || 'monday',\n    operation: tool.operation || ''\n  },\n  params: input.params || {},\n  context: input.context || {}\n};\nreturn [{ json: { toolInput: normalized } }];"
+        "functionCode": "const input = items[0]?.json || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-unknown',\n  stepId: input.stepId || ((tool.ref || tool.provider || 'tool') + '-step'),\n  tool: {\n    ref: tool.ref || 'google-calendar',\n    provider: tool.provider || 'google-calendar',\n    operation: tool.operation || ''\n  },\n  params: input.params || {},\n  context: input.context || {}\n};\nreturn [{ json: { toolInput: normalized } }];"
       }
     },
     {
@@ -40,19 +40,19 @@
           {
             "operation": "equal",
             "type": "string",
-            "value": "boardItem.create"
+            "value": "event.create"
           },
           {
             "operation": "equal",
             "type": "string",
-            "value": "boardItem.updateColumnValues"
+            "value": "event.getMany"
           }
         ]
       }
     },
     {
       "id": "action-1",
-      "name": "tool-result boardItem.create",
+      "name": "tool-result event.create",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
@@ -61,12 +61,12 @@
       ],
       "parameters": {
         "language": "javascript",
-        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'boardItem.create' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'boardItem.create'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
+        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'event.create' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'event.create'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
       }
     },
     {
       "id": "action-2",
-      "name": "tool-result boardItem.updateColumnValues",
+      "name": "tool-result event.getMany",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
@@ -75,7 +75,7 @@
       ],
       "parameters": {
         "language": "javascript",
-        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'boardItem.updateColumnValues' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'boardItem.updateColumnValues'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
+        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'event.getMany' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'event.getMany'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
       }
     }
   ],
@@ -106,14 +106,14 @@
       "main": [
         [
           {
-            "node": "tool-result boardItem.create",
+            "node": "tool-result event.create",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "tool-result boardItem.updateColumnValues",
+            "node": "tool-result event.getMany",
             "type": "main",
             "index": 0
           }

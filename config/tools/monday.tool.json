@@ -4,7 +4,7 @@
   "description": "Gestion des éléments CRM et tickets via Monday.com.",
   "actions": [
     {
-      "name": "create_item",
+      "name": "boardItem.create",
       "input": [
         "board_id",
         "item"
@@ -12,7 +12,7 @@
       "output": "item_id"
     },
     {
-      "name": "update_item",
+      "name": "boardItem.updateColumnValues",
       "input": [
         "item_id",
         "fields"

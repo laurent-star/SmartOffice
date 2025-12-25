@@ -4,7 +4,7 @@
   "description": "Messagerie Gmail pour envoyer ou rechercher des emails.",
   "actions": [
     {
-      "name": "send_email",
+      "name": "message.send",
       "input": [
         "to",
         "subject",
@@ -13,7 +13,7 @@
       "output": "message_id"
     },
     {
-      "name": "search_email",
+      "name": "message.getMany",
       "input": [
         "query"
       ],

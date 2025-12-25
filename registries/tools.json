@@ -7,14 +7,14 @@
     "path": "config/tools/axonaut.tool.json",
     "actions": [
       {
-        "name": "create_contact",
+        "name": "contact.create",
         "input": [
           "contact"
         ],
         "output": "contact_id"
       },
       {
-        "name": "update_company",
+        "name": "company.update",
         "input": [
           "company"
         ],
@@ -30,7 +30,7 @@
     "path": "config/tools/brevo.tool.json",
     "actions": [
       {
-        "name": "send_email",
+        "name": "email.sendEmail",
         "input": [
           "to",
           "subject",
@@ -39,7 +39,7 @@
         "output": "message_id"
       },
       {
-        "name": "create_campaign",
+        "name": "campaign.createCampaign",
         "input": [
           "name",
           "content"
@@ -56,7 +56,7 @@
     "path": "config/tools/gmail.tool.json",
     "actions": [
       {
-        "name": "send_email",
+        "name": "message.send",
         "input": [
           "to",
           "subject",
@@ -65,7 +65,7 @@
         "output": "message_id"
       },
       {
-        "name": "search_email",
+        "name": "message.getMany",
         "input": [
           "query"
         ],
@@ -81,7 +81,7 @@
     "path": "config/tools/google-calendar.tool.json",
     "actions": [
       {
-        "name": "create_event",
+        "name": "event.create",
         "input": [
           "title",
           "start",
@@ -90,7 +90,7 @@
         "output": "event_id"
       },
       {
-        "name": "list_events",
+        "name": "event.getMany",
         "input": [
           "time_min",
           "time_max"
@@ -107,7 +107,7 @@
     "path": "config/tools/google-docs.tool.json",
     "actions": [
       {
-        "name": "create_document",
+        "name": "document.create",
         "input": [
           "title",
           "content"
@@ -115,9 +115,9 @@
         "output": "document_id"
       },
       {
-        "name": "fill_template",
+        "name": "document.update",
         "input": [
-          "template_id",
+          "document_id",
           "data"
         ],
         "output": "document_id"
@@ -132,7 +132,7 @@
     "path": "config/tools/google-drive.tool.json",
     "actions": [
       {
-        "name": "upload_file",
+        "name": "file.upload",
         "input": [
           "path",
           "folder"
@@ -140,12 +140,11 @@
         "output": "file_id"
       },
       {
-        "name": "share_file",
+        "name": "file.download",
         "input": [
-          "file_id",
-          "emails"
+          "file_id"
         ],
-        "output": "sharing_status"
+        "output": "file"
       }
     ]
   },
@@ -157,7 +156,7 @@
     "path": "config/tools/monday.tool.json",
     "actions": [
       {
-        "name": "create_item",
+        "name": "boardItem.create",
         "input": [
           "board_id",
           "item"
@@ -165,7 +164,7 @@
         "output": "item_id"
       },
       {
-        "name": "update_item",
+        "name": "boardItem.updateColumnValues",
         "input": [
           "item_id",
           "fields"
@@ -182,14 +181,14 @@
     "path": "config/tools/openai.tool.json",
     "actions": [
       {
-        "name": "summarize",
+        "name": "assistant.summarize",
         "input": [
           "text"
         ],
         "output": "summary"
       },
       {
-        "name": "classify",
+        "name": "assistant.classify",
         "input": [
           "text",
           "labels"
@@ -197,7 +196,7 @@
         "output": "classification"
       },
       {
-        "name": "extract",
+        "name": "assistant.extract",
         "input": [
           "text",
           "schema"
@@ -214,7 +213,7 @@
     "path": "config/tools/slack.tool.json",
     "actions": [
       {
-        "name": "send_message",
+        "name": "message.send",
         "input": [
           "channel",
           "text"
@@ -222,19 +221,19 @@
         "output": "message_id"
       },
       {
-        "name": "find_channel",
+        "name": "conversation.getMany",
         "input": [
-          "name"
+          "types"
         ],
-        "output": "channel"
+        "output": "conversations"
       },
       {
-        "name": "invite_user",
+        "name": "file.upload",
         "input": [
-          "channel",
-          "user"
+          "channels",
+          "binary"
         ],
-        "output": "status"
+        "output": "file"
       }
     ]
   }

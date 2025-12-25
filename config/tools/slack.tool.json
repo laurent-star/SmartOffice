@@ -4,7 +4,7 @@
   "description": "Notifications et collaboration via Slack.",
   "actions": [
     {
-      "name": "send_message",
+      "name": "message.send",
       "input": [
         "channel",
         "text"
@@ -12,19 +12,19 @@
       "output": "message_id"
     },
     {
-      "name": "find_channel",
+      "name": "conversation.getMany",
       "input": [
-        "name"
+        "types"
       ],
-      "output": "channel"
+      "output": "conversations"
     },
     {
-      "name": "invite_user",
+      "name": "file.upload",
       "input": [
-        "channel",
-        "user"
+        "channels",
+        "binary"
       ],
-      "output": "status"
+      "output": "file"
     }
   ],
   "category": "validation_humaine"
