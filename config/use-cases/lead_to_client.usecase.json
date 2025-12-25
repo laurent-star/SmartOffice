@@ -2,6 +2,19 @@
   "id": "lead_to_client",
   "version": "1.0.0",
   "description": "Convertit un lead entrant en client en classifiant la demande puis en synchronisant le CRM.",
+  "inputs": [
+    "memory.state.email.body",
+    "context.monday.board_id",
+    "memory.state.client",
+    "memory.state.client.company",
+    "memory.state.client.contact.email",
+    "memory.state.client.contact.name"
+  ],
+  "outputs": [
+    "memory.state.client.monday_item_id",
+    "memory.state.client.axonaut_company_id",
+    "memory.state.notification.text"
+  ],
   "steps": [
     { "type": "capability", "ref": "classify_email" },
     { "type": "capability", "ref": "sync_crm_client" },

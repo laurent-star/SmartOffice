@@ -19,6 +19,16 @@
       "type": "string",
       "description": "Description fonctionnelle de la capability."
     },
+    "inputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Liste des champs attendus pour la capability."
+    },
+    "outputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Liste des champs produits par la capability."
+    },
     "steps": {
       "type": "array",
       "minItems": 1,

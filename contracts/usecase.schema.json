@@ -19,6 +19,16 @@
       "type": "string",
       "description": "Description fonctionnelle du usecase."
     },
+    "inputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Liste des champs attendus pour le usecase."
+    },
+    "outputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Liste des champs produits par le usecase."
+    },
     "steps": {
       "type": "array",
       "minItems": 1,

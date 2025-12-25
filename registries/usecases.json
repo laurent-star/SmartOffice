@@ -1,6 +1,78 @@
 [
-  { "id": "generate_convention_formation", "version": "1.0.0", "description": "Génération d'une convention de formation et diffusion.", "path": "config/use-cases/generate_convention_formation.usecase.json" },
-  { "id": "incident_management", "version": "1.0.0", "description": "Classification et notification autour des incidents.", "path": "config/use-cases/incident_management.usecase.json" },
-  { "id": "lead_to_client", "version": "1.0.0", "description": "Conversion d'un lead vers client avec sync CRM.", "path": "config/use-cases/lead_to_client.usecase.json" },
-  { "id": "onboarding_client", "version": "1.0.0", "description": "Onboarding client avec génération documentaire et notifications.", "path": "config/use-cases/onboarding_client.usecase.json" }
+  {
+    "id": "generate_convention_formation",
+    "version": "1.0.0",
+    "description": "Produit et partage la convention de formation à partir des informations du client.",
+    "path": "config/use-cases/generate_convention_formation.usecase.json",
+    "inputs": [
+      "input.convention",
+      "context.docs.convention_schema",
+      "context.docs.template_id",
+      "context.docs.recipients"
+    ],
+    "outputs": [
+      "memory.state.document.id",
+      "memory.state.notification.text"
+    ]
+  },
+  {
+    "id": "incident_management",
+    "version": "1.0.0",
+    "description": "Gère un incident en classifiant le ticket, en produisant un résumé et en notifiant l'équipe.",
+    "path": "config/use-cases/incident_management.usecase.json",
+    "inputs": [
+      "memory.state.email.body",
+      "memory.state.email.from",
+      "memory.state.email.subject",
+      "context.slack.incident_channel",
+      "context.slack.summary_channel"
+    ],
+    "outputs": [
+      "memory.state.email.category",
+      "memory.state.content.summary",
+      "memory.state.notification.text"
+    ]
+  },
+  {
+    "id": "lead_to_client",
+    "version": "1.0.0",
+    "description": "Convertit un lead entrant en client en classifiant la demande puis en synchronisant le CRM.",
+    "path": "config/use-cases/lead_to_client.usecase.json",
+    "inputs": [
+      "memory.state.email.body",
+      "context.monday.board_id",
+      "memory.state.client",
+      "memory.state.client.company",
+      "memory.state.client.contact.email",
+      "memory.state.client.contact.name"
+    ],
+    "outputs": [
+      "memory.state.client.monday_item_id",
+      "memory.state.client.axonaut_company_id",
+      "memory.state.notification.text"
+    ]
+  },
+  {
+    "id": "onboarding_client",
+    "version": "1.0.0",
+    "description": "Déploie le kit d'onboarding client et partage les documents nécessaires.",
+    "path": "config/use-cases/onboarding_client.usecase.json",
+    "inputs": [
+      "input.brief",
+      "input.schema",
+      "context.docs.template_id",
+      "context.docs.recipients",
+      "context.monday.board_id",
+      "memory.state.client",
+      "memory.state.client.company",
+      "memory.state.client.contact.email",
+      "memory.state.client.contact.name"
+    ],
+    "outputs": [
+      "memory.state.document.id",
+      "memory.state.client.monday_item_id",
+      "memory.state.client.axonaut_company_id",
+      "memory.state.notification.text"
+    ]
+  }
 ]

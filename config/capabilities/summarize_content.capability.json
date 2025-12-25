@@ -2,6 +2,13 @@
   "id": "summarize_content",
   "version": "1.0.0",
   "description": "Produit un résumé exploitable d'un contenu textuel et le partage si nécessaire.",
+  "inputs": [
+    "memory.state.content.raw",
+    "context.slack.summary_channel"
+  ],
+  "outputs": [
+    "memory.state.content.summary"
+  ],
   "steps": [
     {
       "id": "summarize",

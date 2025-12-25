@@ -2,6 +2,16 @@
   "id": "generate_convention_formation",
   "version": "1.0.0",
   "description": "Produit et partage la convention de formation à partir des informations du client.",
+  "inputs": [
+    "input.convention",
+    "context.docs.convention_schema",
+    "context.docs.template_id",
+    "context.docs.recipients"
+  ],
+  "outputs": [
+    "memory.state.document.id",
+    "memory.state.notification.text"
+  ],
   "steps": [
     { "type": "capability", "ref": "generate_document", "params": { "document": { "brief": "{{input.convention}}", "schema": "{{context.docs.convention_schema}}" } } },
     { "type": "capability", "ref": "notify_user", "params": { "message": "Convention de formation disponible" } }

@@ -1,7 +1,78 @@
 [
-  { "id": "classify_email", "version": "1.0.0", "description": "Catégorise les emails entrants pour choisir le bon traitement.", "path": "config/capabilities/classify_email.capability.json" },
-  { "id": "generate_document", "version": "1.0.0", "description": "Génère et partage des documents Google à partir d'un brief.", "path": "config/capabilities/generate_document.capability.json" },
-  { "id": "notify_user", "version": "1.0.0", "description": "Envoie une notification Slack formatée.", "path": "config/capabilities/notify_user.capability.json" },
-  { "id": "summarize_content", "version": "1.0.0", "description": "Produit un résumé de contenu et peut le diffuser.", "path": "config/capabilities/summarize_content.capability.json" },
-  { "id": "sync_crm_client", "version": "1.0.0", "description": "Synchronise un client dans le CRM et prévient le contact.", "path": "config/capabilities/sync_crm_client.capability.json" }
+  {
+    "id": "classify_email",
+    "version": "1.0.0",
+    "description": "Analyse un email entrant et catégorise la demande avant routage.",
+    "path": "config/capabilities/classify_email.capability.json",
+    "inputs": [
+      "memory.state.email.body",
+      "memory.state.email.from",
+      "memory.state.email.subject",
+      "memory.state.email.attachment",
+      "context.slack.incident_channel",
+      "context.drive.archive_folder"
+    ],
+    "outputs": [
+      "memory.state.email.category"
+    ]
+  },
+  {
+    "id": "generate_document",
+    "version": "1.0.0",
+    "description": "Génère un document à partir d'un modèle et le partage avec les parties prenantes.",
+    "path": "config/capabilities/generate_document.capability.json",
+    "inputs": [
+      "memory.state.document.brief",
+      "memory.state.document.schema",
+      "context.docs.template_id",
+      "context.docs.recipients"
+    ],
+    "outputs": [
+      "memory.state.document.payload",
+      "memory.state.document.id"
+    ]
+  },
+  {
+    "id": "notify_user",
+    "version": "1.0.0",
+    "description": "Notifie un utilisateur via Slack après une opération automatisée.",
+    "path": "config/capabilities/notify_user.capability.json",
+    "inputs": [
+      "input.message",
+      "context.slack.channel"
+    ],
+    "outputs": [
+      "memory.state.notification.text"
+    ]
+  },
+  {
+    "id": "summarize_content",
+    "version": "1.0.0",
+    "description": "Produit un résumé exploitable d'un contenu textuel et le partage si nécessaire.",
+    "path": "config/capabilities/summarize_content.capability.json",
+    "inputs": [
+      "memory.state.content.raw",
+      "context.slack.summary_channel"
+    ],
+    "outputs": [
+      "memory.state.content.summary"
+    ]
+  },
+  {
+    "id": "sync_crm_client",
+    "version": "1.0.0",
+    "description": "Crée ou met à jour les données clients dans Monday et Axonaut, puis informe par email.",
+    "path": "config/capabilities/sync_crm_client.capability.json",
+    "inputs": [
+      "context.monday.board_id",
+      "memory.state.client",
+      "memory.state.client.company",
+      "memory.state.client.contact.email",
+      "memory.state.client.contact.name"
+    ],
+    "outputs": [
+      "memory.state.client.monday_item_id",
+      "memory.state.client.axonaut_company_id"
+    ]
+  }
 ]

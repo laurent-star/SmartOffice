@@ -2,6 +2,17 @@
   "id": "sync_crm_client",
   "version": "1.0.0",
   "description": "Crée ou met à jour les données clients dans Monday et Axonaut, puis informe par email.",
+  "inputs": [
+    "context.monday.board_id",
+    "memory.state.client",
+    "memory.state.client.company",
+    "memory.state.client.contact.email",
+    "memory.state.client.contact.name"
+  ],
+  "outputs": [
+    "memory.state.client.monday_item_id",
+    "memory.state.client.axonaut_company_id"
+  ],
   "steps": [
     {
       "id": "upsert_deal",

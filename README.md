@@ -63,6 +63,8 @@ Artefacts :
 - docs/executor-runtime.md
 - docs/agent-runtime.md
 - docs/tools-runtime.md
+- docs/capabilities-runtime.md
+- docs/usecases-runtime.md
 - docs/triggers-runtime.md
 - docs/utils-runtime.md
 - docs/golden-workflows.md
@@ -71,6 +73,14 @@ Artefacts :
 ## Readme par repertoire
 
 - contracts/README.md
+- config/README.md
+- config/tools/README.md
+- config/capabilities/README.md
+- config/use-cases/README.md
+- config/agent/README.md
+- registries/README.md
+- formats/README.md
+- scripts/README.md
 - workflows/agent/README.md
 - workflows/executor/README.md
 - workflows/tools/README.md

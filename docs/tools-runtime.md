@@ -27,6 +27,7 @@ Tools do not orchestrate other steps.
 Tools accept a tool input object defined by:
 
 - `contracts/tool-input.schema.json`
+- `contracts/tool-definition.schema.json` (catalog schema)
 
 This payload is produced by the Executor when it resolves a `tool` step.
 

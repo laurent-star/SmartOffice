@@ -11,6 +11,7 @@ du systeme. Ces schemas sont la source de verite pour la validation runtime.
 - result.schema.json
 - step.schema.json
 - tool-call.schema.json
+- tool-definition.schema.json
 - tool-input.schema.json
 - tool-result.schema.json
 - usecase.schema.json

@@ -2,6 +2,13 @@
   "id": "notify_user",
   "version": "1.0.0",
   "description": "Notifie un utilisateur via Slack après une opération automatisée.",
+  "inputs": [
+    "input.message",
+    "context.slack.channel"
+  ],
+  "outputs": [
+    "memory.state.notification.text"
+  ],
   "steps": [
     {
       "id": "format_message",

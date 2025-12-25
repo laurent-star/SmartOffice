@@ -2,6 +2,8 @@
   "id": "uc.training.convention.v1",
   "version": "1.0.0",
   "description": "Génération de convention de formation.",
+  "inputs": ["memory.state.itemId", "memory.state.clientFolderId"],
+  "outputs": ["memory.state.doc.fileId"],
   "steps": [
     {
       "id": "fetch_crm",

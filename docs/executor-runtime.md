@@ -63,6 +63,7 @@ Tool resolution rules:
 - each tool points to `config/tools/*.tool.json`
 - `step.params` is forwarded to the tool as-is
 - the expected params keys come from `actions[].input`
+- if `step.operation` is missing, `step.params.action` is used as fallback
 
 All behaviors are driven **only by JSON configuration**.
 

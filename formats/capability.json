@@ -2,6 +2,8 @@
   "id": "cap.slack.notify.v1",
   "version": "1.0.0",
   "description": "Notify a Slack channel using a tool_call step.",
+  "inputs": ["input.message", "context.slack.channel"],
+  "outputs": ["memory.state.notification.text"],
   "steps": [
     {
       "type": "tool",

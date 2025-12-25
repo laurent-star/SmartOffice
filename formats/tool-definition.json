@@ -1,0 +1,8 @@
+{
+  "id": "slack",
+  "version": "1.0.0",
+  "description": "Notifications et collaboration via Slack.",
+  "actions": [
+    { "name": "send_message", "input": ["channel", "text"], "output": "message_id" }
+  ]
+}

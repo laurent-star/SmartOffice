@@ -2,6 +2,18 @@
   "id": "incident_management",
   "version": "1.0.0",
   "description": "Gère un incident en classifiant le ticket, en produisant un résumé et en notifiant l'équipe.",
+  "inputs": [
+    "memory.state.email.body",
+    "memory.state.email.from",
+    "memory.state.email.subject",
+    "context.slack.incident_channel",
+    "context.slack.summary_channel"
+  ],
+  "outputs": [
+    "memory.state.email.category",
+    "memory.state.content.summary",
+    "memory.state.notification.text"
+  ],
   "steps": [
     { "type": "capability", "ref": "classify_email" },
     { "type": "capability", "ref": "summarize_content", "params": { "content": { "raw": "{{memory.state.email.body}}" } } },

@@ -2,6 +2,17 @@
   "id": "classify_email",
   "version": "1.0.0",
   "description": "Analyse un email entrant et catégorise la demande avant routage.",
+  "inputs": [
+    "memory.state.email.body",
+    "memory.state.email.from",
+    "memory.state.email.subject",
+    "memory.state.email.attachment",
+    "context.slack.incident_channel",
+    "context.drive.archive_folder"
+  ],
+  "outputs": [
+    "memory.state.email.category"
+  ],
   "steps": [
     {
       "id": "classify",
