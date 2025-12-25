@@ -1,0 +1,9 @@
+{
+  "id": "brevo",
+  "version": "1.0.0",
+  "description": "Envoi d'emails transactionnels via Brevo.",
+  "actions": [
+    { "name": "send_email", "input": ["to", "subject", "body"], "output": "message_id" },
+    { "name": "create_campaign", "input": ["name", "content"], "output": "campaign_id" }
+  ]
+}

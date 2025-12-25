@@ -1,0 +1,10 @@
+[
+  { "id": "axonaut", "version": "1.0.0", "path": "config/tools/axonaut.tool.json", "actions": ["create_contact", "update_company"] },
+  { "id": "brevo", "version": "1.0.0", "path": "config/tools/brevo.tool.json", "actions": ["send_email", "create_campaign"] },
+  { "id": "gmail", "version": "1.0.0", "path": "config/tools/gmail.tool.json", "actions": ["send_email", "search_email"] },
+  { "id": "google-docs", "version": "1.0.0", "path": "config/tools/google-docs.tool.json", "actions": ["create_document", "fill_template"] },
+  { "id": "google-drive", "version": "1.0.0", "path": "config/tools/google-drive.tool.json", "actions": ["upload_file", "share_file"] },
+  { "id": "monday", "version": "1.0.0", "path": "config/tools/monday.tool.json", "actions": ["create_item", "update_item"] },
+  { "id": "openai", "version": "1.0.0", "path": "config/tools/openai.tool.json", "actions": ["summarize", "classify", "extract"] },
+  { "id": "slack", "version": "1.0.0", "path": "config/tools/slack.tool.json", "actions": ["send_message", "find_channel", "invite_user"] }
+]

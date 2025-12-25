@@ -1,8 +1,10 @@
 {
-  "tool": "slack",
+  "id": "slack",
+  "version": "1.0.0",
+  "description": "Notifications et collaboration via Slack.",
   "actions": [
-    "send_message",
-    "find_channel",
-    "invite_user"
+    { "name": "send_message", "input": ["channel", "text"], "output": "message_id" },
+    { "name": "find_channel", "input": ["name"], "output": "channel" },
+    { "name": "invite_user", "input": ["channel", "user"], "output": "status" }
   ]
 }

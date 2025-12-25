@@ -1,24 +1,30 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
   "id": "notify_user",
   "version": "1.0.0",
-  "description": "Notifie un utilisateur via Slack après création d'une tâche Jira.",
+  "description": "Notifie un utilisateur via Slack après une opération automatisée.",
   "steps": [
     {
+      "id": "format_message",
       "type": "tool",
       "ref": "openai",
       "params": {
         "action": "summarize",
         "text": "{{input.message}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.notification.text": "$.data.summary"
+        }
       }
     },
     {
+      "id": "send_notification",
       "type": "tool",
       "ref": "slack",
       "params": {
         "action": "send_message",
         "channel": "{{context.slack.channel}}",
-        "text": "{{output.summary}}"
+        "text": "{{memory.state.notification.text}}"
       }
     }
   ]

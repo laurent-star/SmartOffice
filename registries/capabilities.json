@@ -1,0 +1,7 @@
+[
+  { "id": "classify_email", "version": "1.0.0", "description": "Catégorise les emails entrants pour choisir le bon traitement.", "path": "config/capabilities/classify_email.capability.json" },
+  { "id": "generate_document", "version": "1.0.0", "description": "Génère et partage des documents Google à partir d'un brief.", "path": "config/capabilities/generate_document.capability.json" },
+  { "id": "notify_user", "version": "1.0.0", "description": "Envoie une notification Slack formatée.", "path": "config/capabilities/notify_user.capability.json" },
+  { "id": "summarize_content", "version": "1.0.0", "description": "Produit un résumé de contenu et peut le diffuser.", "path": "config/capabilities/summarize_content.capability.json" },
+  { "id": "sync_crm_client", "version": "1.0.0", "description": "Synchronise un client dans le CRM et prévient le contact.", "path": "config/capabilities/sync_crm_client.capability.json" }
+]
