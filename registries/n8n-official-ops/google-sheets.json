@@ -2,6 +2,65 @@
   "provider": "google-sheets",
   "nodeType": "n8n-nodes-base.googleSheets",
   "resources": {
+    "sheet": {
+      "operations": {
+        "append": {
+          "params": {
+            "required": [
+              "range",
+              "spreadsheetId",
+              "values"
+            ],
+            "optional": [
+              "valueInputMode"
+            ]
+          },
+          "returns": {
+            "data": [
+              "updatedRange",
+              "updates"
+            ],
+            "binary": []
+          }
+        },
+        "read": {
+          "params": {
+            "required": [
+              "range",
+              "spreadsheetId"
+            ],
+            "optional": [
+              "returnAll"
+            ]
+          },
+          "returns": {
+            "data": [
+              "values"
+            ],
+            "binary": []
+          }
+        },
+        "update": {
+          "params": {
+            "required": [
+              "range",
+              "spreadsheetId",
+              "values"
+            ],
+            "optional": [
+              "valueInputMode"
+            ]
+          },
+          "returns": {
+            "data": [
+              "updatedRange",
+              "updates"
+            ],
+            "binary": []
+          }
+        }
+      }
+    },
     "spreadsheet": {
       "operations": {
         "create": {
@@ -19,69 +78,14 @@
               "spreadsheetId",
               "spreadsheetUrl",
               "title"
-            ]
-          }
-        }
-      }
-    },
-    "sheet": {
-      "operations": {
-        "append": {
-          "params": {
-            "required": [
-              "spreadsheetId",
-              "range",
-              "values"
             ],
-            "optional": [
-              "valueInputMode"
-            ]
-          },
-          "returns": {
-            "data": [
-              "updatedRange",
-              "updates"
-            ]
-          }
-        },
-        "read": {
-          "params": {
-            "required": [
-              "spreadsheetId",
-              "range"
-            ],
-            "optional": [
-              "returnAll"
-            ]
-          },
-          "returns": {
-            "data": [
-              "values"
-            ]
-          }
-        },
-        "update": {
-          "params": {
-            "required": [
-              "spreadsheetId",
-              "range",
-              "values"
-            ],
-            "optional": [
-              "valueInputMode"
-            ]
-          },
-          "returns": {
-            "data": [
-              "updatedRange",
-              "updates"
-            ]
+            "binary": []
           }
         }
       }
     }
   },
   "sourceDocs": [
-    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/"
+    "docs/n8n/raw/google-sheets.md"
   ]
 }

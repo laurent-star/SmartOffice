@@ -1,0 +1,5 @@
+{
+  "brevo.campaign.createCampaign": "create_campaign",
+  "brevo.email.sendEmail": "send_email",
+  "monday.boardItem.addUpdate": "append_board_item_update"
+}

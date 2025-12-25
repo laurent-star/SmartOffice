@@ -1,0 +1,68 @@
+# google-docs (n8n)
+
+## Operations
+
+```json
+{
+  "provider": "google-docs",
+  "nodeType": "n8n-nodes-base.googleDocs",
+  "resources": {
+    "document": {
+      "operations": {
+        "create": {
+          "params": {
+            "required": [
+              "title"
+            ],
+            "optional": [
+              "folderId"
+            ]
+          },
+          "returns": {
+            "data": [
+              "documentId",
+              "title"
+            ]
+          }
+        },
+        "update": {
+          "params": {
+            "required": [
+              "documentId"
+            ],
+            "optional": [
+              "requests",
+              "text",
+              "html"
+            ]
+          },
+          "returns": {
+            "data": [
+              "documentId"
+            ]
+          }
+        },
+        "get": {
+          "params": {
+            "required": [
+              "documentId"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "documentId",
+              "title",
+              "body"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "sourceDocs": [
+    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledocs/"
+  ]
+}
+
+```

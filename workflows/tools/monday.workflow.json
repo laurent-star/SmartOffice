@@ -1,8 +1,8 @@
 {
-  "name": "tool-monday",
+  "name": "monday tool workflow",
   "nodes": [
     {
-      "id": "node-trigger",
+      "id": "manual",
       "name": "Manual Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
@@ -12,20 +12,38 @@
       ]
     },
     {
-      "id": "node-normalize",
+      "id": "normalize",
       "name": "Normalize Input",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.set",
       "typeVersion": 1,
       "position": [
         420,
         300
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst params = input.params || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-id',\n  stepId: input.stepId || 'step',\n  tool: {\n    ref: tool.ref || 'monday',\n    provider: 'monday',\n    operation: tool.operation || params.operation || ''\n  },\n  params,\n  context: input.context || {}\n};\nreturn [{ json: normalized }];"
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "provider",
+              "value": "monday"
+            },
+            {
+              "name": "operation",
+              "value": "={{$json.operation}}"
+            }
+          ],
+          "json": [
+            {
+              "name": "params",
+              "value": "={{$json.params}}"
+            }
+          ]
+        }
       }
     },
     {
-      "id": "node-switch",
+      "id": "dispatch",
       "name": "Dispatch Operation",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 1,
@@ -34,51 +52,106 @@
         300
       ],
       "parameters": {
-        "propertyName": "={{$json.tool.operation}}",
+        "propertyName": "={{$json.operation}}",
         "dataType": "string",
+        "outputData": "inputData",
         "rules": [
+          {
+            "operation": "equal",
+            "value": "boardItem.addUpdate"
+          },
           {
             "operation": "equal",
             "value": "boardItem.create"
           },
           {
             "operation": "equal",
+            "value": "boardItem.get"
+          },
+          {
+            "operation": "equal",
+            "value": "boardItem.getMany"
+          },
+          {
+            "operation": "equal",
             "value": "boardItem.updateColumnValues"
           }
-        ],
-        "outputData": "inputData"
+        ]
       }
     },
     {
-      "id": "node-action-1",
-      "name": "Action boardItem.create",
+      "id": "boardItem-addUpdate",
+      "name": "boardItem.addUpdate",
       "type": "n8n-nodes-base.mondayCom",
       "typeVersion": 1,
       "position": [
-        900,
-        200
+        920,
+        150
+      ],
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "addUpdate",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "boardItem-create",
+      "name": "boardItem.create",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        920,
+        300
       ],
       "parameters": {
         "resource": "boardItem",
         "operation": "create",
-        "boardId": "={{$json.params.boardId}}",
-        "itemName": "={{$json.params.itemName}}"
+        "additionalFields": {}
       }
     },
     {
-      "id": "node-action-2",
-      "name": "Action boardItem.updateColumnValues",
+      "id": "boardItem-get",
+      "name": "boardItem.get",
       "type": "n8n-nodes-base.mondayCom",
       "typeVersion": 1,
       "position": [
-        900,
-        320
+        920,
+        450
+      ],
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "get",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "boardItem-getMany",
+      "name": "boardItem.getMany",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        920,
+        600
+      ],
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getMany",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "boardItem-updateColumnValues",
+      "name": "boardItem.updateColumnValues",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        920,
+        750
       ],
       "parameters": {
         "resource": "boardItem",
         "operation": "updateColumnValues",
-        "itemId": "={{$json.params.itemId}}",
-        "columnValues": "={{$json.params.columnValues}}"
+        "additionalFields": {}
       }
     }
   ],
@@ -107,25 +180,49 @@
     },
     "Dispatch Operation": {
       "main": [
-        [
-          {
-            "node": "Action boardItem.create",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Action boardItem.updateColumnValues",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        {
+          "node": "boardItem.addUpdate",
+          "type": "main",
+          "index": 0
+        },
+        {
+          "node": "boardItem.create",
+          "type": "main",
+          "index": 0
+        },
+        {
+          "node": "boardItem.get",
+          "type": "main",
+          "index": 0
+        },
+        {
+          "node": "boardItem.getMany",
+          "type": "main",
+          "index": 0
+        },
+        {
+          "node": "boardItem.updateColumnValues",
+          "type": "main",
+          "index": 0
+        }
       ]
+    },
+    "boardItem.addUpdate": {
+      "main": []
+    },
+    "boardItem.create": {
+      "main": []
+    },
+    "boardItem.get": {
+      "main": []
+    },
+    "boardItem.getMany": {
+      "main": []
+    },
+    "boardItem.updateColumnValues": {
+      "main": []
     }
   },
-  "active": false,
-  "settings": {
-    "executionOrder": "v1"
-  }
+  "settings": {},
+  "pinData": {}
 }

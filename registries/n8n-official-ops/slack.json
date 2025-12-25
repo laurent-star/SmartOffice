@@ -2,45 +2,99 @@
   "provider": "slack",
   "nodeType": "n8n-nodes-base.slack",
   "resources": {
-    "message": {
+    "conversation": {
       "operations": {
-        "send": {
+        "getMany": {
           "params": {
-            "required": [
-              "channel",
-              "text"
-            ],
+            "required": [],
             "optional": [
-              "threadTs",
-              "blocks",
-              "attachments"
+              "cursor",
+              "limit",
+              "types"
             ]
           },
           "returns": {
             "data": [
-              "channel",
-              "ts",
-              "message"
-            ]
+              "conversations",
+              "responseMetadata"
+            ],
+            "binary": []
+          }
+        }
+      }
+    },
+    "file": {
+      "operations": {
+        "get": {
+          "params": {
+            "required": [
+              "fileId"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "file"
+            ],
+            "binary": []
           }
         },
-        "search": {
+        "getMany": {
           "params": {
-            "required": [
-              "query"
-            ],
+            "required": [],
             "optional": [
-              "sort",
-              "sortDir",
+              "channel",
               "count",
-              "page"
+              "page",
+              "tsFrom",
+              "tsTo",
+              "user"
             ]
           },
           "returns": {
             "data": [
-              "messages",
+              "files",
               "pagination"
+            ],
+            "binary": []
+          }
+        },
+        "upload": {
+          "params": {
+            "required": [
+              "binary",
+              "channels"
+            ],
+            "optional": [
+              "filename",
+              "initialComment",
+              "title"
             ]
+          },
+          "returns": {
+            "data": [
+              "file"
+            ],
+            "binary": []
+          }
+        }
+      }
+    },
+    "message": {
+      "operations": {
+        "delete": {
+          "params": {
+            "required": [
+              "channel",
+              "messageTs"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "ok"
+            ],
+            "binary": []
           }
         },
         "getPermalink": {
@@ -54,101 +108,55 @@
           "returns": {
             "data": [
               "permalink"
-            ]
+            ],
+            "binary": []
           }
         },
-        "delete": {
+        "search": {
           "params": {
             "required": [
-              "channel",
-              "messageTs"
-            ],
-            "optional": []
-          },
-          "returns": {
-            "data": [
-              "ok"
-            ]
-          }
-        }
-      }
-    },
-    "file": {
-      "operations": {
-        "upload": {
-          "params": {
-            "required": [
-              "channels",
-              "binary"
+              "query"
             ],
             "optional": [
-              "filename",
-              "title",
-              "initialComment"
-            ]
-          },
-          "returns": {
-            "data": [
-              "file"
-            ]
-          }
-        },
-        "get": {
-          "params": {
-            "required": [
-              "fileId"
-            ],
-            "optional": []
-          },
-          "returns": {
-            "data": [
-              "file"
-            ]
-          }
-        },
-        "getMany": {
-          "params": {
-            "required": [],
-            "optional": [
-              "user",
-              "channel",
-              "tsFrom",
-              "tsTo",
               "count",
-              "page"
+              "page",
+              "sort",
+              "sortDir"
             ]
           },
           "returns": {
             "data": [
-              "files",
+              "messages",
               "pagination"
-            ]
+            ],
+            "binary": []
           }
-        }
-      }
-    },
-    "conversation": {
-      "operations": {
-        "getMany": {
+        },
+        "send": {
           "params": {
-            "required": [],
+            "required": [
+              "channel",
+              "text"
+            ],
             "optional": [
-              "types",
-              "limit",
-              "cursor"
+              "attachments",
+              "blocks",
+              "threadTs"
             ]
           },
           "returns": {
             "data": [
-              "conversations",
-              "responseMetadata"
-            ]
+              "channel",
+              "message",
+              "ts"
+            ],
+            "binary": []
           }
         }
       }
     }
   },
   "sourceDocs": [
-    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.slack/"
+    "docs/n8n/raw/slack.md"
   ]
 }

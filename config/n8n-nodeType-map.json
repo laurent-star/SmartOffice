@@ -1,0 +1,12 @@
+{
+  "axonaut": "n8n-nodes-base.axonaut",
+  "brevo": "n8n-nodes-base.brevo",
+  "gmail": "n8n-nodes-base.gmail",
+  "google-calendar": "n8n-nodes-base.googleCalendar",
+  "google-docs": "n8n-nodes-base.googleDocs",
+  "google-drive": "n8n-nodes-base.googleDrive",
+  "google-sheets": "n8n-nodes-base.googleSheets",
+  "monday": "n8n-nodes-base.mondayCom",
+  "openai": "n8n-nodes-base.openAi",
+  "slack": "n8n-nodes-base.slack"
+}

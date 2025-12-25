@@ -1,8 +1,8 @@
 {
-  "name": "tool-axonaut",
+  "name": "axonaut tool workflow",
   "nodes": [
     {
-      "id": "node-trigger",
+      "id": "manual",
       "name": "Manual Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
@@ -12,20 +12,38 @@
       ]
     },
     {
-      "id": "node-normalize",
+      "id": "normalize",
       "name": "Normalize Input",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.set",
       "typeVersion": 1,
       "position": [
         420,
         300
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst params = input.params || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-id',\n  stepId: input.stepId || 'step',\n  tool: {\n    ref: tool.ref || 'axonaut',\n    provider: 'axonaut',\n    operation: tool.operation || params.operation || ''\n  },\n  params,\n  context: input.context || {}\n};\nreturn [{ json: normalized }];"
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "provider",
+              "value": "axonaut"
+            },
+            {
+              "name": "operation",
+              "value": "={{$json.operation}}"
+            }
+          ],
+          "json": [
+            {
+              "name": "params",
+              "value": "={{$json.params}}"
+            }
+          ]
+        }
       }
     },
     {
-      "id": "node-switch",
+      "id": "dispatch",
       "name": "Dispatch Operation",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 1,
@@ -34,8 +52,9 @@
         300
       ],
       "parameters": {
-        "propertyName": "={{$json.tool.operation}}",
+        "propertyName": "={{$json.operation}}",
         "dataType": "string",
+        "outputData": "inputData",
         "rules": [
           {
             "operation": "equal",
@@ -45,39 +64,37 @@
             "operation": "equal",
             "value": "contact.create"
           }
-        ],
-        "outputData": "inputData"
+        ]
       }
     },
     {
-      "id": "node-action-1",
-      "name": "Action company.update",
+      "id": "company-update",
+      "name": "company.update",
       "type": "n8n-nodes-base.axonaut",
       "typeVersion": 1,
       "position": [
-        900,
-        200
+        920,
+        150
       ],
       "parameters": {
         "resource": "company",
         "operation": "update",
-        "company_id": "={{$json.params.company_id}}",
-        "fields": "={{$json.params.fields}}"
+        "additionalFields": {}
       }
     },
     {
-      "id": "node-action-2",
-      "name": "Action contact.create",
+      "id": "contact-create",
+      "name": "contact.create",
       "type": "n8n-nodes-base.axonaut",
       "typeVersion": 1,
       "position": [
-        900,
-        320
+        920,
+        300
       ],
       "parameters": {
         "resource": "contact",
         "operation": "create",
-        "contact": "={{$json.params.contact}}"
+        "additionalFields": {}
       }
     }
   ],
@@ -106,25 +123,25 @@
     },
     "Dispatch Operation": {
       "main": [
-        [
-          {
-            "node": "Action company.update",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Action contact.create",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        {
+          "node": "company.update",
+          "type": "main",
+          "index": 0
+        },
+        {
+          "node": "contact.create",
+          "type": "main",
+          "index": 0
+        }
       ]
+    },
+    "company.update": {
+      "main": []
+    },
+    "contact.create": {
+      "main": []
     }
   },
-  "active": false,
-  "settings": {
-    "executionOrder": "v1"
-  }
+  "settings": {},
+  "pinData": {}
 }

@@ -7,42 +7,44 @@
         "create": {
           "params": {
             "required": [
-              "title",
+              "end",
               "start",
-              "end"
+              "title"
             ],
             "optional": [
-              "description",
-              "attendees"
+              "attendees",
+              "description"
             ]
           },
           "returns": {
             "data": [
               "eventId",
               "htmlLink"
-            ]
+            ],
+            "binary": []
           }
         },
         "getMany": {
           "params": {
             "required": [],
             "optional": [
-              "timeMin",
+              "limit",
               "timeMax",
-              "limit"
+              "timeMin"
             ]
           },
           "returns": {
             "data": [
               "events",
               "nextPageToken"
-            ]
+            ],
+            "binary": []
           }
         }
       }
     }
   },
   "sourceDocs": [
-    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlecalendar/"
+    "docs/n8n/raw/google-calendar.md"
   ]
 }

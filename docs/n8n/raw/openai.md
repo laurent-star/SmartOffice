@@ -1,0 +1,64 @@
+# openai (n8n)
+
+## Operations
+
+```json
+{
+  "provider": "openai",
+  "nodeType": "n8n-nodes-base.openAi",
+  "resources": {
+    "assistant": {
+      "operations": {
+        "summarize": {
+          "params": {
+            "required": [
+              "text"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "summary"
+            ]
+          },
+          "notes": [
+            "Basé sur le node OpenAI (chat/completion) pour générer un résumé"
+          ]
+        },
+        "classify": {
+          "params": {
+            "required": [
+              "text",
+              "labels"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "classification"
+            ]
+          }
+        },
+        "extract": {
+          "params": {
+            "required": [
+              "text",
+              "schema"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "structured_data"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "sourceDocs": [
+    "https://docs.n8n.io/integrations/builtin/nodes/n8n-nodes-base.openai/"
+  ]
+}
+
+```

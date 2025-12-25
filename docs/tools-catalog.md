@@ -1,40 +1,11 @@
-# Catalogue des tools — Actions et params
+# Tools Catalog — Smart Office
 
-Ce document resume les tools, leurs categories et les parametres attendus.
+La génération des outils repose désormais sur la chaîne suivante :
 
-| Tool | Categories | Action | Params attendus | Output |
-|---|---|---|---|---|
-| axonaut | crm, sales, billing | contact.create | contact | contact_id |
-| axonaut | crm, sales, billing | company.update | company_id, fields | company_id |
-| brevo | marketing | transactionalEmail.send | to, subject, html | messageId |
-| brevo | marketing | campaign.create | name, content | campaignId |
-| gmail | trigger_message | message.send | to, subject, text | message |
-| gmail | trigger_message | message.getMany | query, limit | messages |
-| google-calendar | calendar | event.create | summary, start, end | eventId |
-| google-calendar | calendar | event.getAll | timeMin, timeMax | events |
-| google-docs | ged | document.create | title, folderId | documentId |
-| google-docs | ged | document.update | documentId, text | documentId |
-| google-docs | ged | document.get | documentId | document |
-| google-drive | ged | file.upload | name, folderId, binary | file |
-| google-drive | ged | file.get | fileId | file |
-| google-drive | ged | fileFolder.search | query | items |
-| monday | sales, task_manager, crm | boardItem.create | boardId, itemName | itemId |
-| monday | sales, task_manager, crm | boardItem.updateColumnValues | itemId, columnValues | itemId |
-| openai | llm | chat.summarize | text | summary |
-| openai | llm | chat.classify | text, labels | classification |
-| openai | llm | chat.extract | text, schema | structured_data |
-| slack | validation_humaine | message.send | channel, text | message_id |
-| slack | validation_humaine | message.search | query | messages |
-| slack | validation_humaine | conversation.getMany | types, limit | conversations |
+1. Docs locales n8n (`docs/n8n/raw`) validées par `npm run docs:validate:n8n`.
+2. Extraction + fragments officiels -> `npm run ops:parse` puis `npm run ops:fragments`.
+3. Assemblage + validation de la registry officielle -> `npm run ops:build` puis `npm run ops:validate`.
+4. Dérivation des catégories, capacités et tools (`npm run categories:generate`, `npm run capabilities:generate`, `npm run tools:generate`).
+5. Génération des workflows outils (`npm run workflows:tools`).
 
-## Référentiel opérations n8n
-
-Les operations officielles par provider sont definies dans des fragments `registries/n8n-official-ops/<provider>.json` puis assemblees dans `registries/n8n-official-ops.json` via `node scripts/build_n8n_official_ops.js` (docs dedupliquees, controle des doublons/providers et validation AJV).
-
-## Génération & validation
-
-- `node scripts/build_n8n_official_ops.js`
-- `node scripts/validate_n8n_official_ops.js`
-- `node scripts/generate_registries.js`
-- `node scripts/validate_tool_categories.js`
-- `node scripts/generate_tool_workflows.js`
+Le fichier `registries/n8n-official-ops.json` est la source unique des opérations; les fragments et overrides sont les seules entrées éditables.

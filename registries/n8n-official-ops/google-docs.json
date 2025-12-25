@@ -17,24 +17,8 @@
             "data": [
               "documentId",
               "title"
-            ]
-          }
-        },
-        "update": {
-          "params": {
-            "required": [
-              "documentId"
             ],
-            "optional": [
-              "requests",
-              "text",
-              "html"
-            ]
-          },
-          "returns": {
-            "data": [
-              "documentId"
-            ]
+            "binary": []
           }
         },
         "get": {
@@ -46,16 +30,35 @@
           },
           "returns": {
             "data": [
+              "body",
               "documentId",
-              "title",
-              "body"
+              "title"
+            ],
+            "binary": []
+          }
+        },
+        "update": {
+          "params": {
+            "required": [
+              "documentId"
+            ],
+            "optional": [
+              "html",
+              "requests",
+              "text"
             ]
+          },
+          "returns": {
+            "data": [
+              "documentId"
+            ],
+            "binary": []
           }
         }
       }
     }
   },
   "sourceDocs": [
-    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledocs/"
+    "docs/n8n/raw/google-docs.md"
   ]
 }
