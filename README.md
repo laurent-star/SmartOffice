@@ -39,6 +39,25 @@ et des use cases metier, executes par un executor recursif.
 - Toute communication passe par une envelope standard
 - Les schemas sont la source de verite
 
+## Architecture fonctionnelle
+
+Flux principal :
+Trigger ou Agent
+→ Executor
+→ Tools
+
+Principes :
+- L'Agent decide et planifie (liste de steps)
+- L'Executor execute sans intelligence ni logique metier
+- Les Tools realisent des actions atomiques
+- La memoire circule uniquement via l'envelope
+
+Artefacts :
+- Configs (capabilities, tools, use cases) decrivent le comportement
+- Registries materialisent les references utilisables par l'executor
+- Workflows golden servent de reference minimale
+- Workflows reels implementent les actions et integrations
+
 ## Documentation runtime
 
 - docs/executor-runtime.md
@@ -47,6 +66,7 @@ et des use cases metier, executes par un executor recursif.
 - docs/triggers-runtime.md
 - docs/utils-runtime.md
 - docs/golden-workflows.md
+- docs/codex-plan.md
 
 ## Readme par repertoire
 
