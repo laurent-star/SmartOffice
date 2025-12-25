@@ -1,0 +1,84 @@
+{
+  "version": "1.1.0",
+  "categories": {
+    "crm": {
+      "providers": [
+        "axonaut"
+      ],
+      "operations": [
+        "crm.company.update",
+        "crm.contact.create"
+      ]
+    },
+    "marketing": {
+      "providers": [
+        "brevo"
+      ],
+      "operations": [
+        "marketing.campaign.create",
+        "marketing.transactionalEmail.send"
+      ]
+    },
+    "trigger_message": {
+      "providers": [
+        "gmail"
+      ],
+      "operations": [
+        "trigger_message.message.getMany",
+        "trigger_message.message.send"
+      ]
+    },
+    "calendar": {
+      "providers": [
+        "google-calendar"
+      ],
+      "operations": [
+        "calendar.event.create",
+        "calendar.event.getAll"
+      ]
+    },
+    "ged": {
+      "providers": [
+        "google-docs",
+        "google-drive"
+      ],
+      "operations": [
+        "ged.document.create",
+        "ged.document.get",
+        "ged.document.update",
+        "ged.file.get",
+        "ged.file.upload",
+        "ged.fileFolder.search"
+      ]
+    },
+    "sales": {
+      "providers": [
+        "monday"
+      ],
+      "operations": [
+        "sales.boardItem.create",
+        "sales.boardItem.updateColumnValues"
+      ]
+    },
+    "llm": {
+      "providers": [
+        "openai"
+      ],
+      "operations": [
+        "llm.chat.classify",
+        "llm.chat.extract",
+        "llm.chat.summarize"
+      ]
+    },
+    "validation_humaine": {
+      "providers": [
+        "slack"
+      ],
+      "operations": [
+        "validation_humaine.conversation.getMany",
+        "validation_humaine.message.search",
+        "validation_humaine.message.send"
+      ]
+    }
+  }
+}

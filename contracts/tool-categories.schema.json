@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/tool-categories.schema.json",
+  "type": "object",
+  "required": ["version", "categories"],
+  "properties": {
+    "version": { "type": "string" },
+    "categories": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z0-9_-]+$": {
+          "type": "object",
+          "required": ["providers", "operations"],
+          "properties": {
+            "providers": {
+              "type": "array",
+              "items": { "type": "string" },
+              "uniqueItems": true
+            },
+            "operations": {
+              "type": "array",
+              "items": { "type": "string" },
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

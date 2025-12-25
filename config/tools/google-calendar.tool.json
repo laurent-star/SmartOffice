@@ -5,19 +5,19 @@
   "category": "calendar",
   "actions": [
     {
-      "name": "create_event",
+      "name": "event.create",
       "input": [
-        "title",
+        "summary",
         "start",
         "end"
       ],
-      "output": "event_id"
+      "output": "eventId"
     },
     {
-      "name": "list_events",
+      "name": "event.getAll",
       "input": [
-        "time_min",
-        "time_max"
+        "timeMin",
+        "timeMax"
       ],
       "output": "events"
     }

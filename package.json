@@ -1,0 +1,16 @@
+{
+  "name": "smart-office",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "scripts": {
+    "validate:n8n-ops": "node scripts/validate_n8n_official_ops.js",
+    "generate:registries": "node scripts/generate_registries.js",
+    "validate:tool-categories": "node scripts/validate_tool_categories.js",
+    "generate:workflows:tools": "node scripts/generate_tool_workflows.js",
+    "validate": "node scripts/validate_n8n_official_ops.js && node scripts/validate_tool_categories.js && node scripts/validate_config.js && node scripts/validate_workflows.js"
+  }
+}

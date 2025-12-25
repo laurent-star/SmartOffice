@@ -4,20 +4,27 @@
   "description": "Création et mise à jour de documents Google Docs.",
   "actions": [
     {
-      "name": "create_document",
+      "name": "document.create",
       "input": [
         "title",
-        "content"
+        "folderId"
       ],
-      "output": "document_id"
+      "output": "documentId"
     },
     {
-      "name": "fill_template",
+      "name": "document.update",
       "input": [
-        "template_id",
-        "data"
+        "documentId",
+        "text"
       ],
-      "output": "document_id"
+      "output": "documentId"
+    },
+    {
+      "name": "document.get",
+      "input": [
+        "documentId"
+      ],
+      "output": "document"
     }
   ],
   "category": "ged"

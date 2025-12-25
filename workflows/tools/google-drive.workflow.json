@@ -3,7 +3,7 @@
   "nodes": [
     {
       "id": "node-trigger",
-      "name": "Tool Trigger",
+      "name": "Manual Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
@@ -13,7 +13,7 @@
     },
     {
       "id": "node-normalize",
-      "name": "Dispatch Operation",
+      "name": "Normalize Input",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
@@ -21,125 +21,91 @@
         300
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst toolInput = {\n  runId: input.runId || 'run-001',\n  stepId: input.stepId || '0-google-drive',\n  tool: input.tool || { ref: 'google-drive', provider: 'google-drive', operation: 'upload_file' },\n  params: input.params || {},\n  context: input.context || { memory: { session_id: 'sess_001', state: {}, stack: [] } }\n};\n\nreturn [{ json: { toolInput, params: toolInput.params, operation: toolInput.tool.operation } }];"
+        "functionCode": "const input = items[0].json || {};\nconst params = input.params || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-id',\n  stepId: input.stepId || 'step',\n  tool: {\n    ref: tool.ref || 'google-drive',\n    provider: 'google-drive',\n    operation: tool.operation || params.operation || ''\n  },\n  params,\n  context: input.context || {}\n};\nreturn [{ json: normalized }];"
       }
     },
     {
       "id": "node-switch",
-      "name": "Switch Operation",
+      "name": "Dispatch Operation",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 1,
       "position": [
-        640,
+        660,
         300
       ],
       "parameters": {
-        "value1": "={{$json.operation}}",
+        "propertyName": "={{$json.tool.operation}}",
+        "dataType": "string",
         "rules": [
           {
-            "value2": "upload_file"
+            "operation": "equal",
+            "value": "file.get"
           },
           {
-            "value2": "share_file"
+            "operation": "equal",
+            "value": "file.upload"
+          },
+          {
+            "operation": "equal",
+            "value": "fileFolder.search"
           }
-        ]
+        ],
+        "outputData": "inputData"
       }
     },
     {
-      "id": "node-upload",
-      "name": "Upload File",
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        860,
-        180
-      ],
-      "parameters": {
-        "operation": "createFromText",
-        "content": "={{$json.params.content || $json.params.text || ''}}",
-        "name": "={{$json.params.name || $json.params.path || 'GeneratedFile.json'}}",
-        "folderId": "={{$json.params.folderId || $json.params.folder || '1Vh9O0Dt2IXw-3Y5iomG0KTmuSe6_BjdA'}}",
-        "options": {}
-      },
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "srne6dUOtNtqGhMU",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "id": "node-share",
-      "name": "Share File",
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 1,
-      "position": [
-        860,
-        420
-      ],
-      "parameters": {
-        "resource": "file",
-        "operation": "share",
-        "fileId": "={{$json.params.fileId || $json.params.file_id}}",
-        "permissionsUi": {
-          "permissionsValues": [
-            {
-              "type": "user",
-              "role": "reader",
-              "emailAddress": "={{$json.params.emails && $json.params.emails[0] || $json.params.email || 'test@example.com'}}"
-            }
-          ]
-        }
-      },
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "srne6dUOtNtqGhMU",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "id": "node-result-upload",
-      "name": "Build Result (Upload)",
+      "id": "node-action-1",
+      "name": "Action file.get",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        1080,
-        180
+        900,
+        200
       ],
       "parameters": {
-        "functionCode": "const state = items[0].json || {};\nconst toolInput = state.toolInput || {};\nconst data = $node[\"Upload File\"].json;\n\nreturn [{\n  json: {\n    ok: true,\n    data,\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'file.get', input }, error: null, meta: { provider: 'google-drive', operation: 'file.get' } } }];"
       }
     },
     {
-      "id": "node-result-share",
-      "name": "Build Result (Share)",
+      "id": "node-action-2",
+      "name": "Action file.upload",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        1080,
-        420
+        900,
+        320
       ],
       "parameters": {
-        "functionCode": "const state = items[0].json || {};\nconst toolInput = state.toolInput || {};\nconst data = $node[\"Share File\"].json;\n\nreturn [{\n  json: {\n    ok: true,\n    data,\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'file.upload', input }, error: null, meta: { provider: 'google-drive', operation: 'file.upload' } } }];"
       }
     },
     {
-      "id": "node-result-error",
-      "name": "Build Result (Error)",
+      "id": "node-action-3",
+      "name": "Action fileFolder.search",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        860,
-        560
+        900,
+        440
       ],
       "parameters": {
-        "functionCode": "const state = items[0].json || {};\nconst toolInput = state.toolInput || {};\n\nreturn [{\n  json: {\n    ok: false,\n    data: null,\n    error: {\n      code: 'UNKNOWN_OPERATION',\n      message: 'Unsupported operation',\n      details: { operation: state.operation }\n    },\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'fileFolder.search', input }, error: null, meta: { provider: 'google-drive', operation: 'fileFolder.search' } } }];"
       }
     }
   ],
   "connections": {
-    "Tool Trigger": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Input": {
       "main": [
         [
           {
@@ -154,54 +120,21 @@
       "main": [
         [
           {
-            "node": "Switch Operation",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Switch Operation": {
-      "main": [
-        [
-          {
-            "node": "Upload File",
+            "node": "Action file.get",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Share File",
+            "node": "Action file.upload",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Build Result (Error)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Upload File": {
-      "main": [
-        [
-          {
-            "node": "Build Result (Upload)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Share File": {
-      "main": [
-        [
-          {
-            "node": "Build Result (Share)",
+            "node": "Action fileFolder.search",
             "type": "main",
             "index": 0
           }

@@ -3,27 +3,147 @@
   "nodes": [
     {
       "id": "node-trigger",
-      "name": "Tool Trigger",
+      "name": "Manual Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [
+        200,
+        300
+      ]
     },
     {
-      "id": "node-dispatch",
-      "name": "Dispatch Operation",
+      "id": "node-normalize",
+      "name": "Normalize Input",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [420, 300],
+      "position": [
+        420,
+        300
+      ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst toolInput = {\n  runId: input.runId || 'run-001',\n  stepId: input.stepId || '0-google-docs',\n  tool: input.tool || { ref: 'google-docs', provider: 'google-docs', operation: 'create_document' },\n  params: input.params || {},\n  context: input.context || { memory: { session_id: 'sess_001', state: {}, stack: [] } }\n};\n\nconst allowed = new Set(['create_document', 'fill_template']);\nif (!allowed.has(toolInput.tool.operation)) {\n  return [{\n    json: {\n      ok: false,\n      data: null,\n      error: {\n        code: 'UNKNOWN_OPERATION',\n        message: 'Unsupported operation',\n        details: { operation: toolInput.tool.operation }\n      },\n      meta: { tool: toolInput.tool }\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ok: true,\n    data: { operation: toolInput.tool.operation, params: toolInput.params },\n    error: null,\n    meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n  }\n}];"
+        "functionCode": "const input = items[0].json || {};\nconst params = input.params || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-id',\n  stepId: input.stepId || 'step',\n  tool: {\n    ref: tool.ref || 'google-docs',\n    provider: 'google-docs',\n    operation: tool.operation || params.operation || ''\n  },\n  params,\n  context: input.context || {}\n};\nreturn [{ json: normalized }];"
+      }
+    },
+    {
+      "id": "node-switch",
+      "name": "Dispatch Operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "propertyName": "={{$json.tool.operation}}",
+        "dataType": "string",
+        "rules": [
+          {
+            "operation": "equal",
+            "value": "document.create"
+          },
+          {
+            "operation": "equal",
+            "value": "document.get"
+          },
+          {
+            "operation": "equal",
+            "value": "document.update"
+          }
+        ],
+        "outputData": "inputData"
+      }
+    },
+    {
+      "id": "node-action-1",
+      "name": "Action document.create",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        200
+      ],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'document.create', input }, error: null, meta: { provider: 'google-docs', operation: 'document.create' } } }];"
+      }
+    },
+    {
+      "id": "node-action-2",
+      "name": "Action document.get",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        320
+      ],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'document.get', input }, error: null, meta: { provider: 'google-docs', operation: 'document.get' } } }];"
+      }
+    },
+    {
+      "id": "node-action-3",
+      "name": "Action document.update",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        440
+      ],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'document.update', input }, error: null, meta: { provider: 'google-docs', operation: 'document.update' } } }];"
       }
     }
   ],
   "connections": {
-    "Tool Trigger": {
-      "main": [[{ "node": "Dispatch Operation", "type": "main", "index": 0 }]]
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Input": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch Operation": {
+      "main": [
+        [
+          {
+            "node": "Action document.create",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Action document.get",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Action document.update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" }
+  "settings": {
+    "executionOrder": "v1"
+  }
 }

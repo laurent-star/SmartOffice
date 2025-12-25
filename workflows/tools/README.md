@@ -12,24 +12,14 @@ Schemas :
 Catalogue :
 - config/tools/*.tool.json
 - registries/tools.json
+- registries/n8n-official-ops.json
 
 Workflows
 
-- axonaut.workflow.json
-- brevo.workflow.json
-- gmail.workflow.json
-- google-docs.workflow.json
-- google-drive.workflow.json
-- monday.workflow.json
-- openai.workflow.json
-- slack.workflow.json
-
-Regles
-
-- Un tool ne planifie pas et n'orchestre pas.
-- Un tool est execute par l'executor.
-- Le routage se fait par provider et operation.
-- Le resultat doit suivre le schema tool-result.
+- 1 workflow par provider (workflows/tools/<provider>.workflow.json)
+- Routage par Switch(operation) couvrant toutes les actions declarees
+- Chaque branche renvoie un "tool-result" minimal
+- Les operations doivent exister dans n8n-official-ops
 
 Utilisation des utils
 

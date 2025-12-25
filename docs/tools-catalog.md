@@ -4,23 +4,36 @@ Ce document resume les tools, leur categorie et les parametres attendus.
 
 | Tool | Category | Action | Params attendus | Output |
 |---|---|---|---|---|
-| axonaut | crm | create_contact | contact | contact_id |
-| axonaut | crm | update_company | company | company_id |
-| brevo | marketing | send_email | to, subject, body | message_id |
-| brevo | marketing | create_campaign | name, content | campaign_id |
-| gmail | trigger_message | send_email | to, subject, body | message_id |
-| gmail | trigger_message | search_email | query | messages |
-| google-calendar | calendar | create_event | title, start, end | event_id |
-| google-calendar | calendar | list_events | time_min, time_max | events |
-| google-docs | ged | create_document | title, content | document_id |
-| google-docs | ged | fill_template | template_id, data | document_id |
-| google-drive | ged | upload_file | path, folder | file_id |
-| google-drive | ged | share_file | file_id, emails | sharing_status |
-| monday | sales | create_item | board_id, item | item_id |
-| monday | sales | update_item | item_id, fields | item_id |
-| openai | llm | summarize | text | summary |
-| openai | llm | classify | text, labels | classification |
-| openai | llm | extract | text, schema | structured_data |
-| slack | validation_humaine | send_message | channel, text | message_id |
-| slack | validation_humaine | find_channel | name | channel |
-| slack | validation_humaine | invite_user | channel, user | status |
+| axonaut | crm | contact.create | contact | contact_id |
+| axonaut | crm | company.update | company_id, fields | company_id |
+| brevo | marketing | transactionalEmail.send | to, subject, html | messageId |
+| brevo | marketing | campaign.create | name, content | campaignId |
+| gmail | trigger_message | message.send | to, subject, text | message |
+| gmail | trigger_message | message.getMany | query, limit | messages |
+| google-calendar | calendar | event.create | summary, start, end | eventId |
+| google-calendar | calendar | event.getAll | timeMin, timeMax | events |
+| google-docs | ged | document.create | title, folderId | documentId |
+| google-docs | ged | document.update | documentId, text | documentId |
+| google-docs | ged | document.get | documentId | document |
+| google-drive | ged | file.upload | name, folderId, binary | file |
+| google-drive | ged | file.get | fileId | file |
+| google-drive | ged | fileFolder.search | query | items |
+| monday | sales | boardItem.create | boardId, itemName | itemId |
+| monday | sales | boardItem.updateColumnValues | itemId, columnValues | itemId |
+| openai | llm | chat.summarize | text | summary |
+| openai | llm | chat.classify | text, labels | classification |
+| openai | llm | chat.extract | text, schema | structured_data |
+| slack | validation_humaine | message.send | channel, text | message_id |
+| slack | validation_humaine | message.search | query | messages |
+| slack | validation_humaine | conversation.getMany | types, limit | conversations |
+
+## Référentiel opérations n8n
+
+Les operations officielles par provider sont definies dans `registries/n8n-official-ops.json` et servent de source unique pour les actions autorisees.
+
+## Génération & validation
+
+- `node scripts/validate_n8n_official_ops.js`
+- `node scripts/generate_registries.js`
+- `node scripts/validate_tool_categories.js`
+- `node scripts/generate_tool_workflows.js`
