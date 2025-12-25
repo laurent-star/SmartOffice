@@ -51,31 +51,89 @@
       }
     },
     {
-      "id": "action-1",
-      "name": "tool-result file.upload",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "id": "action-upload",
+      "name": "Upload File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
       "position": [
         900,
-        300
+        240
       ],
       "parameters": {
-        "language": "javascript",
-        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'file.upload' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'file.upload'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
+        "operation": "createFromText",
+        "content": "={{$json.toolInput.params.content || $json.toolInput.params.text || ''}}",
+        "name": "={{$json.toolInput.params.path || $json.toolInput.params.name || 'GeneratedFile.txt'}}",
+        "folderId": "={{$json.toolInput.params.folder || $json.toolInput.params.folderId || ''}}",
+        "options": {}
+      },
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "srne6dUOtNtqGhMU",
+          "name": "Google Drive account"
+        }
       }
     },
     {
-      "id": "action-2",
-      "name": "tool-result file.download",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "id": "result-upload",
+      "name": "Build Result (Upload)",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
       "position": [
-        900,
-        500
+        1130,
+        240
       ],
       "parameters": {
-        "language": "javascript",
-        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'file.download' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'file.download'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
+        "functionCode": "const toolInput = items[0].json.toolInput || {};\nconst data = $node[\"Upload File\"].json;\n\nreturn [{ json: { ok: true, data, error: null, meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId } } }];"
+      }
+    },
+    {
+      "id": "action-download",
+      "name": "Download File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        900,
+        480
+      ],
+      "parameters": {
+        "resource": "file",
+        "operation": "download",
+        "fileId": "={{$json.toolInput.params.file_id || $json.toolInput.params.fileId}}",
+        "options": {
+          "download": true
+        }
+      },
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "srne6dUOtNtqGhMU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "id": "result-download",
+      "name": "Build Result (Download)",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1130,
+        480
+      ],
+      "parameters": {
+        "functionCode": "const toolInput = items[0].json.toolInput || {};\nconst data = $node[\"Download File\"].json || {};\nreturn [{ json: { ok: true, data, error: null, meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId } } }];"
+      }
+    },
+    {
+      "id": "result-error",
+      "name": "Build Result (Error)",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        640
+      ],
+      "parameters": {
+        "functionCode": "const toolInput = items[0].json.toolInput || {};\nreturn [{ json: { ok: false, data: null, error: { code: 'UNKNOWN_OPERATION', message: 'Unsupported operation', details: { operation: toolInput.tool?.operation } }, meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId } } }];"
       }
     }
   ],
@@ -106,14 +164,43 @@
       "main": [
         [
           {
-            "node": "tool-result file.upload",
+            "node": "Upload File",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "tool-result file.download",
+            "node": "Download File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Result (Error)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File": {
+      "main": [
+        [
+          {
+            "node": "Build Result (Upload)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download File": {
+      "main": [
+        [
+          {
+            "node": "Build Result (Download)",
             "type": "main",
             "index": 0
           }
