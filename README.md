@@ -111,8 +111,8 @@ Pour demarrer, un nouveau client ne fait que :
 - docs/tools-catalog.md
 - docs/n8n-installation.md
 - docs/drive-slack-gmail-usecases-plan.md
-- docs/md-audit-2025-12-24.md
-- docs/status-auto.md
+- docs/archives/md-audit-2025-12-24.md
+- docs/archives/status-auto.md
 
 ## Readme par repertoire
 

@@ -78,7 +78,7 @@ Cette note dresse l'inventaire des artefacts déjà présents dans le dépôt (s
 - golden-workflows.md (règles et périmètre des goldens)
 - n8n-installation.md (guide d’installation)
 - codex-plan.md (plan d’exécution)
-- md-audit-2025-12-24.md
+- docs/archives/md-audit-2025-12-24.md
 
 ## Informations manquantes pour finaliser
 - État de validation des goldens : quels workflows ont déjà été importés/testés dans n8n et avec quels résultats ?
