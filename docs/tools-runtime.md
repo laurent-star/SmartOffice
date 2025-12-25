@@ -32,6 +32,23 @@ This payload is produced by the Executor when it resolves a `tool` step.
 
 ---
 
+## Official tool catalog
+
+Tool definitions live in:
+
+- `config/tools/*.tool.json`
+- `registries/tools.json` (compiled list used by the Executor)
+
+Each tool definition lists:
+
+- `actions[].name` (operation)
+- `actions[].input` (expected params keys)
+- `actions[].output` (expected output key)
+
+`params` provided in tool steps must match the `actions[].input` list.
+
+---
+
 ## Tool result contract
 
 Tools return a result object defined by:

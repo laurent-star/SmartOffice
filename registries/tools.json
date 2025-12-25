@@ -1,10 +1,199 @@
 [
-  { "id": "axonaut", "version": "1.0.0", "path": "config/tools/axonaut.tool.json", "actions": ["create_contact", "update_company"] },
-  { "id": "brevo", "version": "1.0.0", "path": "config/tools/brevo.tool.json", "actions": ["send_email", "create_campaign"] },
-  { "id": "gmail", "version": "1.0.0", "path": "config/tools/gmail.tool.json", "actions": ["send_email", "search_email"] },
-  { "id": "google-docs", "version": "1.0.0", "path": "config/tools/google-docs.tool.json", "actions": ["create_document", "fill_template"] },
-  { "id": "google-drive", "version": "1.0.0", "path": "config/tools/google-drive.tool.json", "actions": ["upload_file", "share_file"] },
-  { "id": "monday", "version": "1.0.0", "path": "config/tools/monday.tool.json", "actions": ["create_item", "update_item"] },
-  { "id": "openai", "version": "1.0.0", "path": "config/tools/openai.tool.json", "actions": ["summarize", "classify", "extract"] },
-  { "id": "slack", "version": "1.0.0", "path": "config/tools/slack.tool.json", "actions": ["send_message", "find_channel", "invite_user"] }
+  {
+    "id": "axonaut",
+    "version": "1.0.0",
+    "path": "config/tools/axonaut.tool.json",
+    "actions": [
+      {
+        "name": "create_contact",
+        "input": [
+          "contact"
+        ],
+        "output": "contact_id"
+      },
+      {
+        "name": "update_company",
+        "input": [
+          "company"
+        ],
+        "output": "company_id"
+      }
+    ]
+  },
+  {
+    "id": "brevo",
+    "version": "1.0.0",
+    "path": "config/tools/brevo.tool.json",
+    "actions": [
+      {
+        "name": "send_email",
+        "input": [
+          "to",
+          "subject",
+          "body"
+        ],
+        "output": "message_id"
+      },
+      {
+        "name": "create_campaign",
+        "input": [
+          "name",
+          "content"
+        ],
+        "output": "campaign_id"
+      }
+    ]
+  },
+  {
+    "id": "gmail",
+    "version": "1.0.0",
+    "path": "config/tools/gmail.tool.json",
+    "actions": [
+      {
+        "name": "send_email",
+        "input": [
+          "to",
+          "subject",
+          "body"
+        ],
+        "output": "message_id"
+      },
+      {
+        "name": "search_email",
+        "input": [
+          "query"
+        ],
+        "output": "messages"
+      }
+    ]
+  },
+  {
+    "id": "google-docs",
+    "version": "1.0.0",
+    "path": "config/tools/google-docs.tool.json",
+    "actions": [
+      {
+        "name": "create_document",
+        "input": [
+          "title",
+          "content"
+        ],
+        "output": "document_id"
+      },
+      {
+        "name": "fill_template",
+        "input": [
+          "template_id",
+          "data"
+        ],
+        "output": "document_id"
+      }
+    ]
+  },
+  {
+    "id": "google-drive",
+    "version": "1.0.0",
+    "path": "config/tools/google-drive.tool.json",
+    "actions": [
+      {
+        "name": "upload_file",
+        "input": [
+          "path",
+          "folder"
+        ],
+        "output": "file_id"
+      },
+      {
+        "name": "share_file",
+        "input": [
+          "file_id",
+          "emails"
+        ],
+        "output": "sharing_status"
+      }
+    ]
+  },
+  {
+    "id": "monday",
+    "version": "1.0.0",
+    "path": "config/tools/monday.tool.json",
+    "actions": [
+      {
+        "name": "create_item",
+        "input": [
+          "board_id",
+          "item"
+        ],
+        "output": "item_id"
+      },
+      {
+        "name": "update_item",
+        "input": [
+          "item_id",
+          "fields"
+        ],
+        "output": "item_id"
+      }
+    ]
+  },
+  {
+    "id": "openai",
+    "version": "1.0.0",
+    "path": "config/tools/openai.tool.json",
+    "actions": [
+      {
+        "name": "summarize",
+        "input": [
+          "text"
+        ],
+        "output": "summary"
+      },
+      {
+        "name": "classify",
+        "input": [
+          "text",
+          "labels"
+        ],
+        "output": "classification"
+      },
+      {
+        "name": "extract",
+        "input": [
+          "text",
+          "schema"
+        ],
+        "output": "structured_data"
+      }
+    ]
+  },
+  {
+    "id": "slack",
+    "version": "1.0.0",
+    "path": "config/tools/slack.tool.json",
+    "actions": [
+      {
+        "name": "send_message",
+        "input": [
+          "channel",
+          "text"
+        ],
+        "output": "message_id"
+      },
+      {
+        "name": "find_channel",
+        "input": [
+          "name"
+        ],
+        "output": "channel"
+      },
+      {
+        "name": "invite_user",
+        "input": [
+          "channel",
+          "user"
+        ],
+        "output": "status"
+      }
+    ]
+  }
 ]

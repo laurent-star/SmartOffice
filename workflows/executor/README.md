@@ -96,6 +96,7 @@ Notes d'implementation (n8n)
 - Implementé en un workflow n8n unique
 - Orchestration via nodes de type Code / Function
 - Appel des tools via Execute Workflow
+- Catalogue tools : registries/tools.json (actions et params attendus)
 
 Utilisation des utils
 

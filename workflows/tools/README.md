@@ -9,6 +9,9 @@ Spec de reference : docs/tools-runtime.md
 Schemas :
 - contracts/tool-input.schema.json
 - contracts/tool-result.schema.json
+Catalogue :
+- config/tools/*.tool.json
+- registries/tools.json
 
 Workflows
 

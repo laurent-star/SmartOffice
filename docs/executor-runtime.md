@@ -57,6 +57,13 @@ The Executor:
 - applies `when`, `save`, and `on_error` policies
 - produces a final `Result`
 
+Tool resolution rules:
+
+- tool definitions are loaded from `registries/tools.json`
+- each tool points to `config/tools/*.tool.json`
+- `step.params` is forwarded to the tool as-is
+- the expected params keys come from `actions[].input`
+
 All behaviors are driven **only by JSON configuration**.
 
 ---
