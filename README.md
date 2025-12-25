@@ -86,6 +86,7 @@ Artefacts :
 
 Seuls les workflows suivants sont utilises :
 - agent
+- triggers
 - executor
 - tools
 - utils (si reutilises par plusieurs workflows)
