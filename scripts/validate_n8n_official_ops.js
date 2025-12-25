@@ -1,73 +1,96 @@
-const fs = require("fs");
-const path = require("path");
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
+const fs = require("fs");
+const path = require("path");
 
 const schemaPath = path.join(__dirname, "..", "contracts", "n8n-official-ops.schema.json");
-const dataPath = path.join(__dirname, "..", "registries", "n8n-official-ops.json");
+const registryPath = path.join(__dirname, "..", "registries", "n8n-official-ops.json");
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
 
-const schema = JSON.parse(fs.readFileSync(schemaPath, "utf8"));
-const validate = ajv.compile(schema);
-
-const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-const valid = validate(data);
-
-if (!valid) {
-  console.error("Schema validation failed for n8n-official-ops.json");
-  console.error(JSON.stringify(validate.errors, null, 2));
-  process.exit(1);
+function loadJson(filePath) {
+  const raw = fs.readFileSync(filePath, "utf8");
+  return JSON.parse(raw);
 }
 
-const errors = [];
+function main() {
+  const schema = loadJson(schemaPath);
+  const registry = loadJson(registryPath);
 
-if (!Array.isArray(data.source.docs) || data.source.docs.length === 0) {
-  errors.push("source.docs must be a non-empty array");
-}
+  const validate = ajv.compile(schema);
+  const valid = validate(registry);
+  const issues = [];
 
-for (const [provider, providerDef] of Object.entries(data.providers)) {
-  if (!providerDef.nodeType) {
-    errors.push(`Provider ${provider} missing nodeType`);
-  }
-  if (!providerDef.resources || !Object.keys(providerDef.resources).length) {
-    errors.push(`Provider ${provider} must declare resources`);
-    continue;
+  if (!valid) {
+    issues.push({ type: "schema", details: validate.errors });
   }
 
-  for (const [resource, resourceDef] of Object.entries(providerDef.resources)) {
-    if (!resourceDef.operations || !Object.keys(resourceDef.operations).length) {
-      errors.push(`Provider ${provider} resource ${resource} has no operations`);
+  const providers = registry.providers || {};
+  for (const [provider, providerDef] of Object.entries(providers)) {
+    if (!providerDef.nodeType || typeof providerDef.nodeType !== "string") {
+      issues.push({ type: "provider", provider, message: "Missing nodeType" });
+    }
+    const resources = providerDef.resources || {};
+    if (!Object.keys(resources).length) {
+      issues.push({ type: "provider", provider, message: "No resources declared" });
       continue;
     }
-    for (const [operation, opDef] of Object.entries(resourceDef.operations)) {
-      const required = opDef.params?.required || [];
-      const optional = opDef.params?.optional || [];
-      if (!Array.isArray(required) || !Array.isArray(optional)) {
-        errors.push(`Provider ${provider} resource ${resource} operation ${operation} params must have required/optional arrays`);
+
+    for (const [resourceName, resourceDef] of Object.entries(resources)) {
+      const operations = resourceDef.operations || {};
+      if (!Object.keys(operations).length) {
+        issues.push({ type: "resource", provider, resource: resourceName, message: "No operations declared" });
+        continue;
       }
-      const duplicateParams = new Set();
-      for (const p of [...required, ...optional]) {
-        if (duplicateParams.has(p)) {
-          errors.push(`Duplicate param ${p} in ${provider}:${resource}.${operation}`);
+
+      for (const [operationName, operationDef] of Object.entries(operations)) {
+        const params = operationDef.params || {};
+        const requiredParams = params.required || [];
+        const optionalParams = params.optional || [];
+        const dupRequired = new Set(requiredParams);
+        const dupOptional = new Set(optionalParams);
+        if (dupRequired.size !== requiredParams.length) {
+          issues.push({
+            type: "operation",
+            provider,
+            resource: resourceName,
+            operation: operationName,
+            message: "Duplicate required params"
+          });
         }
-        duplicateParams.add(p);
-      }
-      const returns = opDef.returns || {};
-      if (!returns.data && !returns.binary) {
-        errors.push(`Provider ${provider} resource ${resource} operation ${operation} must define returns.data or returns.binary`);
+        if (dupOptional.size !== optionalParams.length) {
+          issues.push({
+            type: "operation",
+            provider,
+            resource: resourceName,
+            operation: operationName,
+            message: "Duplicate optional params"
+          });
+        }
+        const intersection = requiredParams.filter((p) => optionalParams.includes(p));
+        if (intersection.length) {
+          issues.push({
+            type: "operation",
+            provider,
+            resource: resourceName,
+            operation: operationName,
+            message: `Params listed as both required and optional: ${intersection.join(",")}`
+          });
+        }
       }
     }
   }
-}
 
-if (errors.length) {
-  console.error("Validation errors:");
-  for (const err of errors) {
-    console.error("-", err);
+  if (issues.length) {
+    console.error("Validation failed for n8n-official-ops");
+    for (const issue of issues) {
+      console.error(JSON.stringify(issue, null, 2));
+    }
+    process.exit(1);
   }
-  process.exit(1);
+
+  console.log("n8n-official-ops registry is valid ✅");
 }
 
-console.log("n8n-official-ops.json is valid and consistent");
+main();

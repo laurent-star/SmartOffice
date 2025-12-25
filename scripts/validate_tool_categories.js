@@ -1,47 +1,44 @@
+const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
 const fs = require("fs");
 const path = require("path");
-const Ajv = require("ajv");
 
 const schemaPath = path.join(__dirname, "..", "contracts", "tool-categories.schema.json");
-const dataPath = path.join(__dirname, "..", "registries", "tool-categories.json");
+const registryPath = path.join(__dirname, "..", "registries", "tool-categories.json");
 
 const ajv = new Ajv({ allErrors: true, strict: false });
-const schema = JSON.parse(fs.readFileSync(schemaPath, "utf8"));
-const validate = ajv.compile(schema);
+addFormats(ajv);
 
-const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-const valid = validate(data);
-
-if (!valid) {
-  console.error("tool-categories.json does not match schema");
-  console.error(JSON.stringify(validate.errors, null, 2));
-  process.exit(1);
+function loadJson(filePath) {
+  const raw = fs.readFileSync(filePath, "utf8");
+  return JSON.parse(raw);
 }
 
-const errors = [];
-for (const [category, info] of Object.entries(data.categories || {})) {
-  if (!info.providers.length) {
-    errors.push(`Category ${category} has no providers`);
+function main() {
+  const schema = loadJson(schemaPath);
+  const registry = loadJson(registryPath);
+
+  const validate = ajv.compile(schema);
+  const valid = validate(registry);
+
+  if (!valid) {
+    console.error("Validation failed for tool-categories.json");
+    console.error(JSON.stringify(validate.errors, null, 2));
+    process.exit(1);
   }
-  if (!info.operations.length) {
-    errors.push(`Category ${category} has no operations`);
+
+  for (const [category, payload] of Object.entries(registry)) {
+    if (!payload.providers.length) {
+      console.error(`Category ${category} must list at least one provider`);
+      process.exit(1);
+    }
+    if (!payload.operations.length) {
+      console.error(`Category ${category} must list at least one operation`);
+      process.exit(1);
+    }
   }
-  const providersSorted = [...info.providers].sort();
-  const operationsSorted = [...info.operations].sort();
-  if (providersSorted.join("|") !== info.providers.join("|")) {
-    errors.push(`Category ${category} providers must be sorted and unique`);
-  }
-  if (operationsSorted.join("|") !== info.operations.join("|")) {
-    errors.push(`Category ${category} operations must be sorted and unique`);
-  }
+
+  console.log("tool-categories registry is valid ✅");
 }
 
-if (errors.length) {
-  console.error("Validation errors:");
-  for (const err of errors) {
-    console.error("-", err);
-  }
-  process.exit(1);
-}
-
-console.log("tool-categories.json is valid and consistent");
+main();

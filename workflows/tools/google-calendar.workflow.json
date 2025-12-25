@@ -2,8 +2,8 @@
   "name": "tool-google-calendar",
   "nodes": [
     {
-      "id": "node-trigger",
-      "name": "Manual Trigger",
+      "id": "manual-trigger",
+      "name": "Tool Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
@@ -12,8 +12,8 @@
       ]
     },
     {
-      "id": "node-normalize",
-      "name": "Normalize Input",
+      "id": "dispatch-operation",
+      "name": "Dispatch Operation",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
@@ -21,74 +21,66 @@
         300
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst params = input.params || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-id',\n  stepId: input.stepId || 'step',\n  tool: {\n    ref: tool.ref || 'google-calendar',\n    provider: 'google-calendar',\n    operation: tool.operation || params.operation || ''\n  },\n  params,\n  context: input.context || {}\n};\nreturn [{ json: normalized }];"
+        "functionCode": "const input = items[0]?.json || {};\nconst tool = input.tool || {};\nconst normalized = {\n  runId: input.runId || 'run-unknown',\n  stepId: input.stepId || ((tool.ref || tool.provider || 'tool') + '-step'),\n  tool: {\n    ref: tool.ref || 'google-calendar',\n    provider: tool.provider || 'google-calendar',\n    operation: tool.operation || ''\n  },\n  params: input.params || {},\n  context: input.context || {}\n};\nreturn [{ json: { toolInput: normalized } }];"
       }
     },
     {
-      "id": "node-switch",
-      "name": "Dispatch Operation",
+      "id": "route-operation",
+      "name": "Route Operation",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 1,
       "position": [
-        660,
+        650,
         300
       ],
       "parameters": {
-        "propertyName": "={{$json.tool.operation}}",
         "dataType": "string",
+        "value1": "={{$json.toolInput.tool.operation}}",
         "rules": [
           {
             "operation": "equal",
+            "type": "string",
             "value": "event.create"
           },
           {
             "operation": "equal",
-            "value": "event.getAll"
+            "type": "string",
+            "value": "event.getMany"
           }
-        ],
-        "outputData": "inputData"
+        ]
       }
     },
     {
-      "id": "node-action-1",
-      "name": "Action event.create",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
+      "id": "action-1",
+      "name": "tool-result event.create",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         900,
-        200
+        300
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'event.create', input }, error: null, meta: { provider: 'google-calendar', operation: 'event.create' } } }];"
+        "language": "javascript",
+        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'event.create' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'event.create'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
       }
     },
     {
-      "id": "node-action-2",
-      "name": "Action event.getAll",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
+      "id": "action-2",
+      "name": "tool-result event.getMany",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         900,
-        320
+        500
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'event.getAll', input }, error: null, meta: { provider: 'google-calendar', operation: 'event.getAll' } } }];"
+        "language": "javascript",
+        "code": "const toolInput = items[0].json.toolInput;\nreturn [{\n  json: {\n    ok: true,\n    data: {\n      operation: toolInput.tool.operation || 'event.getMany' ,\n      params: toolInput.params\n    },\n    error: null,\n    meta: {\n      tool: {\n        ref: toolInput.tool.ref,\n        provider: toolInput.tool.provider,\n        operation: toolInput.tool.operation || 'event.getMany'\n      },\n      runId: toolInput.runId,\n      stepId: toolInput.stepId\n    }\n  }\n}];"
       }
     }
   ],
   "connections": {
-    "Manual Trigger": {
-      "main": [
-        [
-          {
-            "node": "Normalize Input",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Normalize Input": {
+    "Tool Trigger": {
       "main": [
         [
           {
@@ -103,14 +95,25 @@
       "main": [
         [
           {
-            "node": "Action event.create",
+            "node": "Route Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Operation": {
+      "main": [
+        [
+          {
+            "node": "tool-result event.create",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Action event.getAll",
+            "node": "tool-result event.getMany",
             "type": "main",
             "index": 0
           }
@@ -121,5 +124,6 @@
   "active": false,
   "settings": {
     "executionOrder": "v1"
-  }
+  },
+  "versionId": "auto-generated"
 }
