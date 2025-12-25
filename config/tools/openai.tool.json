@@ -1,8 +1,10 @@
 {
-  "tool": "openai",
+  "id": "openai",
+  "version": "1.0.0",
+  "description": "LLM pour résumer, classifier ou extraire des informations textuelles.",
   "actions": [
-    "summarize",
-    "classify",
-    "extract"
+    { "name": "summarize", "input": ["text"], "output": "summary" },
+    { "name": "classify", "input": ["text", "labels"], "output": "classification" },
+    { "name": "extract", "input": ["text", "schema"], "output": "structured_data" }
   ]
 }

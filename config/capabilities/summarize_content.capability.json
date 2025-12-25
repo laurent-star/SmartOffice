@@ -1,0 +1,32 @@
+{
+  "id": "summarize_content",
+  "version": "1.0.0",
+  "description": "Produit un résumé exploitable d'un contenu textuel et le partage si nécessaire.",
+  "steps": [
+    {
+      "id": "summarize",
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "summarize",
+        "text": "{{memory.state.content.raw}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.content.summary": "$.data.summary"
+        }
+      }
+    },
+    {
+      "id": "share_summary",
+      "type": "tool",
+      "ref": "slack",
+      "when": "context.slack.summary_channel != null",
+      "params": {
+        "action": "send_message",
+        "channel": "{{context.slack.summary_channel}}",
+        "text": "Résumé généré : {{memory.state.content.summary}}"
+      }
+    }
+  ]
+}
