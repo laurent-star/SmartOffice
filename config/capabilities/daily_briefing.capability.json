@@ -1,7 +1,7 @@
 {
   "id": "daily_briefing",
   "version": "1.0.0",
-  "description": "Assemble un briefing quotidien multi-sources (emails Gmail, événements Google Calendar, tâches Monday) et le formate avec des liens d'actions.",
+  "description": "Assemble un briefing quotidien multi-sources (emails Gmail, événements Google Calendar, tâches Monday) et le formate avec des liens d'actions tout en gérant les cas où certaines données manquent.",
   "inputs": [
     "input.time_window.start",
     "input.time_window.end",
@@ -21,6 +21,7 @@
       "id": "fetch_emails",
       "type": "tool",
       "ref": "gmail",
+      "when": "input.time_window.start != null && input.time_window.end != null",
       "params": {
         "action": "message.getMany",
         "query": "{{context.gmail.query}} after:{{input.time_window.start}} before:{{input.time_window.end}}",
@@ -36,10 +37,12 @@
       "id": "fetch_events",
       "type": "tool",
       "ref": "google-calendar",
+      "when": "input.time_window.start != null && input.time_window.end != null",
       "params": {
         "action": "event.getAll",
         "timeMin": "{{input.time_window.start}}",
-        "timeMax": "{{input.time_window.end}}"
+        "timeMax": "{{input.time_window.end}}",
+        "timeZone": "{{context.calendar.timezone}}"
       },
       "save": {
         "to": {
@@ -69,7 +72,7 @@
       "ref": "openai",
       "params": {
         "action": "summarize",
-        "text": "Rédige un briefing quotidien clair et concis pour la période {{input.time_window.start}} -> {{input.time_window.end}}.\n- Emails Gmail: {{memory.state.gmail.messages}}\n- Evénements Calendar: {{memory.state.calendar.events}}\n- Tâches Monday: {{memory.state.monday.items}}\nFormate en markdown avec des puces, regroupe par source et ajoute des liens cliquables fournis dans les données (id, htmlLink, permalink). Termine par des appels à l'action explicites (répondre à un mail, ouvrir une tâche, rejoindre un événement)."
+        "text": "Rédige un briefing quotidien clair et concis pour la période {{input.time_window.start}} -> {{input.time_window.end}}.\n- Emails Gmail (peut être vide): {{memory.state.gmail.messages}}\n- Evénements Calendar (peut être vide): {{memory.state.calendar.events}}\n- Tâches Monday (peut être vide): {{memory.state.monday.items}}\nFormate en markdown avec des puces. Pour chaque source, saute les sections sans données, affiche les intitulés lisibles et propose des liens cliquables quand un champ de lien ou d'identifiant est fourni (ex: htmlLink, webViewLink, permalink, id). Termine par des appels à l'action explicites (répondre à un mail, ouvrir une tâche, rejoindre un événement)."
       },
       "save": {
         "to": {
@@ -81,7 +84,7 @@
       "id": "send_briefing",
       "type": "tool",
       "ref": "gmail",
-      "when": "context.gmail.recipient != null",
+      "when": "context.gmail.recipient != null && memory.state.briefing.summary != null",
       "params": {
         "action": "message.send",
         "to": "{{context.gmail.recipient}}",
