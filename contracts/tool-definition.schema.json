@@ -19,9 +19,11 @@
       "type": "string",
       "description": "Description fonctionnelle du tool."
     },
-    "category": {
-      "type": "string",
-      "description": "Type fonctionnel du tool (ex: trigger_message, crm, ged, marketing, sales, task_manager, calendar, llm)."
+    "categories": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Types fonctionnels du tool (ex: trigger_message, crm, ged, marketing, sales, task_manager, calendar, llm)."
     },
     "actions": {
       "type": "array",
@@ -50,5 +52,5 @@
       }
     }
   },
-  "required": ["id", "version", "actions"]
+  "required": ["id", "version", "actions", "categories"]
 }

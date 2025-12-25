@@ -21,5 +21,7 @@
       "output": "campaignId"
     }
   ],
-  "category": "marketing"
+  "categories": [
+    "marketing"
+  ]
 }

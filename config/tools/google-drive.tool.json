@@ -27,5 +27,7 @@
       "output": "items"
     }
   ],
-  "category": "ged"
+  "categories": [
+    "ged"
+  ]
 }

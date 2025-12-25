@@ -41,8 +41,8 @@ function generate() {
     const fullPath = path.join(toolsDir, file);
     const tool = loadJson(fullPath);
 
-    if (!tool.category || typeof tool.category !== "string") {
-      errors.push({ file, message: "Missing category" });
+    if (!Array.isArray(tool.categories) || !tool.categories.length) {
+      errors.push({ file, message: "Missing categories" });
     }
 
     if (!Array.isArray(tool.actions) || !tool.actions.length) {
@@ -67,12 +67,15 @@ function generate() {
           message: `Action ${action.name} non referencee pour ${provider}`
         });
       }
-      if (tool.category) {
-        if (!categories[tool.category]) {
-          categories[tool.category] = { providers: new Set(), operations: new Set() };
+      if (Array.isArray(tool.categories)) {
+        for (const category of tool.categories) {
+          if (!category) continue;
+          if (!categories[category]) {
+            categories[category] = { providers: new Set(), operations: new Set() };
+          }
+          categories[category].providers.add(provider);
+          categories[category].operations.add(`${category}.${action.name}`);
         }
-        categories[tool.category].providers.add(provider);
-        categories[tool.category].operations.add(`${tool.category}.${action.name}`);
       }
     }
 
@@ -80,7 +83,7 @@ function generate() {
       id: tool.id,
       version: tool.version,
       description: tool.description,
-      category: tool.category,
+      categories: tool.categories,
       path: `config/tools/${file}`,
       actions: tool.actions.map((a) => ({ name: a.name, input: a.input, output: a.output }))
     });

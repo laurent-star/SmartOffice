@@ -20,5 +20,9 @@
       "output": "itemId"
     }
   ],
-  "category": "sales"
+  "categories": [
+    "sales",
+    "task_manager",
+    "crm"
+  ]
 }

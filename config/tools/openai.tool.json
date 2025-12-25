@@ -27,5 +27,7 @@
       "output": "structured_data"
     }
   ],
-  "category": "llm"
+  "categories": [
+    "llm"
+  ]
 }

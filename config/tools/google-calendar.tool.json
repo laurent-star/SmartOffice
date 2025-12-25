@@ -2,7 +2,6 @@
   "id": "google-calendar",
   "version": "1.0.0",
   "description": "Gestion des evenements calendrier via Google Calendar.",
-  "category": "calendar",
   "actions": [
     {
       "name": "event.create",
@@ -21,5 +20,8 @@
       ],
       "output": "events"
     }
+  ],
+  "categories": [
+    "calendar"
   ]
 }

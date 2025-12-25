@@ -27,5 +27,7 @@
       "output": "document"
     }
   ],
-  "category": "ged"
+  "categories": [
+    "ged"
+  ]
 }
