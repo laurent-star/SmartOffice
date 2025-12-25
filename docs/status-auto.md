@@ -10,10 +10,16 @@ Cette note dresse l'inventaire des artefacts déjà présents dans le dépôt (s
 - 30_executor.json
 - 40_triggers.json
 - 50_utils.json
+- drive_to_slack_notify.json
+- slack_request_drive_to_gmail.json
 
 ### Agent (`workflows/agent/`)
 - planner.workflow.json
 - supervisor.workflow.json
+
+### Use cases Drive/Slack/Gmail (`workflows/`)
+- drive_to_slack_notify.json
+- slack_drive_to_gmail.json
 
 ### Executor (`workflows/executor/`)
 - executor.json (workdir racine)
@@ -67,11 +73,13 @@ Cette note dresse l'inventaire des artefacts déjà présents dans le dépôt (s
 - incident_management.usecase.json
 - lead_to_client.usecase.json
 - onboarding_client.usecase.json
+- drive_to_slack_notify.usecase.json
+- slack_drive_to_gmail.usecase.json
 
 ## Registries (`registries/`)
 - tools.json (8 entrées référencées)
 - capabilities.json (5 entrées)
-- usecases.json (4 entrées)
+- usecases.json (6 entrées)
 
 ## Documentation disponible (`docs/`)
 - agent-runtime.md, executor-runtime.md, tools-runtime.md, triggers-runtime.md, utils-runtime.md

@@ -1,0 +1,156 @@
+{
+  "name": "drive_to_slack_notify",
+  "nodes": [
+    { "id": "node-trigger-manual", "name": "Manual Trigger", "type": "n8n-nodes-base.manualTrigger", "typeVersion": 1, "position": [120, 420] },
+    {
+      "id": "node-trigger-drive",
+      "name": "Drive Trigger",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [120, 180],
+      "parameters": {
+        "operation": "watch",
+        "resource": "file",
+        "folder": "={{$env.DRIVE_FOLDER_ID || 'FOLDER_ID'}}"
+      }
+    },
+    {
+      "id": "node-init",
+      "name": "Initialize Context",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [360, 300],
+      "parameters": {
+        "functionCode": "const base = items[0].json || {};\nreturn [{ json: {\n  ...base,\n  use_mock: base.use_mock ?? false,\n  folder_id: base.folder_id || $env.DRIVE_FOLDER_ID || 'FOLDER_ID',\n  channel_id: base.channel_id || $env.SLACK_CHANNEL_ID || '#general',\n  emails_fallback: base.emails_fallback || ($env.FALLBACK_EMAILS ? $env.FALLBACK_EMAILS.split(',') : ['ops@example.com']),\n  file_id: base.file_id || base.fileId || '',\n  file_name: base.file_name || base.name || '',\n  file_url: base.file_url || base.webViewLink || ''\n}}];"
+      }
+    },
+    {
+      "id": "node-use-mock?",
+      "name": "Use mock?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [560, 300],
+      "parameters": { "conditions": { "boolean": [{ "value1": "={{$json.use_mock === true}}", "operation": "isTrue" }] } }
+    },
+    {
+      "id": "node-mock-data",
+      "name": "Mock Drive Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [760, 140],
+      "parameters": {
+        "keepOnlySet": false,
+        "values": {
+          "string": [
+            { "name": "file_id", "value": "drv_ready_file_001" },
+            { "name": "file_name", "value": "Note produit v1" },
+            { "name": "file_url", "value": "https://drive.mock/files/drv_ready_file_001" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-map-drive",
+      "name": "Map Drive Payload",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [760, 460],
+      "parameters": {
+        "functionCode": "const input = items[0].json;\nconst derivedName = input.file_name || input.name || 'document';\nconst derivedUrl = input.file_url || input.webViewLink || '';\nreturn [{ json: { ...input, file_name: derivedName, file_url: derivedUrl } }];"
+      }
+    },
+    {
+      "id": "node-summary",
+      "name": "Summarize Content",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [980, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json;\nconst summary = input.summary || `Résumé automatique pour ${input.file_name}`;\nreturn [{ json: { ...input, summary } }];"
+      }
+    },
+    {
+      "id": "node-slack",
+      "name": "Post to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [1200, 300],
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "channel": "={{$json.channel_id}}",
+        "text": "Nouveau fichier : {{$json.file_name}} {{ $json.file_url }}\n{{$json.summary}}"
+      },
+      "continueOnFail": true
+    },
+    {
+      "id": "node-if-slack",
+      "name": "Slack error?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1420, 300],
+      "parameters": { "conditions": { "boolean": [{ "value1": "={{$json.error !== undefined}}", "operation": "isTrue" }] } }
+    },
+    {
+      "id": "node-gmail",
+      "name": "Gmail fallback",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [1640, 140],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "to": "={{$json.emails_fallback}}",
+        "subject": "Slack indisponible : {{$json.file_name}}",
+        "message": "{{$json.file_url}}\n{{$json.summary}}"
+      }
+    },
+    {
+      "id": "node-result",
+      "name": "Format Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [1640, 460],
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            { "name": "file_id", "value": "={{$json.file_id}}" },
+            { "name": "file_name", "value": "={{$json.file_name}}" },
+            { "name": "file_url", "value": "={{$json.file_url}}" },
+            { "name": "slack_message_ts", "value": "={{$json.ts || ''}}" },
+            { "name": "gmail_message_id", "value": "={{$json.id || ''}}" },
+            { "name": "summary", "value": "={{$json.summary}}" }
+          ],
+          "boolean": [
+            { "name": "slack_failed", "value": "={{$json.error !== undefined}}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Drive Trigger": { "main": [[{ "node": "Initialize Context", "type": "main", "index": 0 }]] },
+    "Manual Trigger": { "main": [[{ "node": "Initialize Context", "type": "main", "index": 0 }]] },
+    "Initialize Context": { "main": [[{ "node": "Use mock?", "type": "main", "index": 0 }]] },
+    "Use mock?": {
+      "main": [
+        [{ "node": "Mock Drive Event", "type": "main", "index": 0 }],
+        [{ "node": "Map Drive Payload", "type": "main", "index": 0 }]
+      ]
+    },
+    "Mock Drive Event": { "main": [[{ "node": "Summarize Content", "type": "main", "index": 0 }]] },
+    "Map Drive Payload": { "main": [[{ "node": "Summarize Content", "type": "main", "index": 0 }]] },
+    "Summarize Content": { "main": [[{ "node": "Post to Slack", "type": "main", "index": 0 }]] },
+    "Post to Slack": { "main": [[{ "node": "Slack error?", "type": "main", "index": 0 }]] },
+    "Slack error?": {
+      "main": [
+        [{ "node": "Gmail fallback", "type": "main", "index": 0 }],
+        [{ "node": "Format Result", "type": "main", "index": 0 }]
+      ]
+    },
+    "Gmail fallback": { "main": [[{ "node": "Format Result", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

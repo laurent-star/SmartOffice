@@ -1,0 +1,79 @@
+{
+  "id": "slack_drive_to_gmail",
+  "version": "1.0.0",
+  "description": "Répond à une commande Slack en envoyant un document Drive par e-mail aux destinataires.",
+  "steps": [
+    {
+      "id": "receive_request",
+      "type": "tool",
+      "ref": "slack",
+      "params": {
+        "operation": "receive_request",
+        "command": "{{input.command}}",
+        "payload": "{{input.payload}}"
+      },
+      "save": {
+        "to": {
+          "requested_id": "$.data.doc_id",
+          "requestor": "$.data.user",
+          "destinations": "{{input.destinataires}}"
+        }
+      }
+    },
+    {
+      "id": "fetch_drive_document",
+      "type": "tool",
+      "ref": "google-drive",
+      "params": {
+        "operation": "serve_document",
+        "doc_id": "{{memory.state.requested_id}}",
+        "allowed_folder": "{{input.folder_id}}",
+        "format": "link"
+      },
+      "save": {
+        "to": {
+          "file_url": "$.data.url",
+          "file_name": "$.data.name"
+        }
+      }
+    },
+    {
+      "id": "send_gmail",
+      "type": "tool",
+      "ref": "gmail",
+      "params": {
+        "operation": "send_message",
+        "to": "{{memory.state.destinations}}",
+        "subject": "Document demandé : {{memory.state.file_name}}",
+        "body": "{{memory.state.file_url}}",
+        "metadata": { "requested_by": "{{memory.state.requestor}}" }
+      },
+      "save": { "to": { "gmail_message_id": "$.data.id" } },
+      "on_error": {
+        "mode": "fallback",
+        "fallback": {
+          "type": "capability",
+          "ref": "notify_user",
+          "params": {
+            "channel": "slack",
+            "to": "{{memory.state.requestor}}",
+            "message": "L'envoi Gmail a échoué pour {{memory.state.file_name}}",
+            "metadata": { "doc_id": "{{memory.state.requested_id}}" }
+          }
+        }
+      }
+    },
+    {
+      "id": "ack_in_slack",
+      "type": "capability",
+      "ref": "notify_user",
+      "params": {
+        "channel": "slack",
+        "to": "{{memory.state.requestor}}",
+        "message": "Document {{memory.state.file_name}} envoyé par e-mail.",
+        "metadata": { "gmail_id": "{{memory.state.gmail_message_id}}" }
+      },
+      "save": { "to": { "slack_ack_ts": "$.data.ts" } }
+    }
+  ]
+}

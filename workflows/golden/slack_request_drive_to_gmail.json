@@ -1,0 +1,83 @@
+{
+  "name": "golden-slack_request_drive_to_gmail",
+  "nodes": [
+    { "id": "node-trigger", "name": "Manual Trigger", "type": "n8n-nodes-base.manualTrigger", "typeVersion": 1, "position": [200, 300] },
+    {
+      "id": "node-slack-request",
+      "name": "Set Mock Slack Request",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [420, 300],
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            { "name": "requested_id", "value": "drv_mock_doc_999" },
+            { "name": "requestor", "value": "@alice" },
+            { "name": "command", "value": "/drive-send" }
+          ],
+          "json": [
+            { "name": "destinations", "value": ["team@example.com"] }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-drive-mock",
+      "name": "Mock Drive Lookup",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [660, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json;\nconst doc = {\n  url: `https://drive.mock/files/${input.requested_id}` ,\n  name: 'Note de cadrage.pdf'\n};\nreturn [{ json: { ...input, ...doc } }];"
+      }
+    },
+    {
+      "id": "node-gmail-mock",
+      "name": "Mock Gmail Send",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [900, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json;\nreturn [{ json: { ...input, gmail_message_id: 'gmail_mock_777', gmail_status: 'sent' } }];"
+      }
+    },
+    {
+      "id": "node-slack-ack",
+      "name": "Mock Slack Ack",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1140, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json;\nreturn [{ json: { ...input, slack_ts: 'ts_mock_ack', slack_channel: '#ops' } }];"
+      }
+    },
+    {
+      "id": "node-result",
+      "name": "Set Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [1380, 300],
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            { "name": "file_url", "value": "={{$json.url}}" },
+            { "name": "file_name", "value": "={{$json.name}}" },
+            { "name": "gmail_message_id", "value": "={{$json.gmail_message_id}}" },
+            { "name": "slack_ts", "value": "={{$json.slack_ts}}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": { "main": [[{ "node": "Set Mock Slack Request", "type": "main", "index": 0 }]] },
+    "Set Mock Slack Request": { "main": [[{ "node": "Mock Drive Lookup", "type": "main", "index": 0 }]] },
+    "Mock Drive Lookup": { "main": [[{ "node": "Mock Gmail Send", "type": "main", "index": 0 }]] },
+    "Mock Gmail Send": { "main": [[{ "node": "Mock Slack Ack", "type": "main", "index": 0 }]] },
+    "Mock Slack Ack": { "main": [[{ "node": "Set Result", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

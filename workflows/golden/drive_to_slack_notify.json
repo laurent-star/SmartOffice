@@ -1,0 +1,120 @@
+{
+  "name": "golden-drive_to_slack_notify",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "node-scenario",
+      "name": "Set Mock Drive Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [420, 300],
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            { "name": "file_id", "value": "drv_mock_file_123" },
+            { "name": "file_name", "value": "Compte-rendu sprint.pdf" },
+            { "name": "file_url", "value": "https://drive.mock/files/drv_mock_file_123" },
+            { "name": "content", "value": "Résumé du sprint, points clés et plan d'action." },
+            { "name": "channel_id", "value": "C123MOCK" }
+          ],
+          "boolean": [
+            { "name": "simulate_slack_failure", "value": false }
+          ],
+          "json": [
+            { "name": "emails_fallback", "value": ["ops@example.com", "cto@example.com"] }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-summarize",
+      "name": "Summarize Document",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [660, 300],
+      "parameters": {
+        "functionCode": "const content = items[0].json.content || '';\nconst summary = content\n  ? `Résumé: ${content.slice(0, 80)}`\n  : 'Résumé indisponible';\nreturn [{ json: { ...items[0].json, summary } }];"
+      }
+    },
+    {
+      "id": "node-slack-mock",
+      "name": "Mock Slack Post",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [900, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json;\nconst failed = input.simulate_slack_failure;\nif (failed) {\n  return [{ json: { ...input, success: false, error: { code: 'SLACK_UNAVAILABLE' } } }];\n}\nreturn [{ json: { ...input, success: true, slack_ts: 'ts_mock_12345' } }];"
+      }
+    },
+    {
+      "id": "node-if-failure",
+      "name": "Slack Failure?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1140, 300],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json.success === false}}",
+              "operation": "isTrue"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-gmail-mock",
+      "name": "Mock Gmail Fallback",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1380, 160],
+      "parameters": {
+        "functionCode": "const input = items[0].json;\nreturn [{ json: { ...input, gmail_status: 'sent', gmail_message_id: 'gmail_mock_001' } }];"
+      }
+    },
+    {
+      "id": "node-result",
+      "name": "Set Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [1380, 440],
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            { "name": "file_id", "value": "={{$json.file_id}}" },
+            { "name": "slack_message_ts", "value": "={{$json.slack_ts || ''}}" },
+            { "name": "gmail_message_id", "value": "={{$json.gmail_message_id || ''}}" },
+            { "name": "summary", "value": "={{$json.summary}}" }
+          ],
+          "boolean": [
+            { "name": "slack_success", "value": "={{$json.success === true}}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": { "main": [[{ "node": "Set Mock Drive Event", "type": "main", "index": 0 }]] },
+    "Set Mock Drive Event": { "main": [[{ "node": "Summarize Document", "type": "main", "index": 0 }]] },
+    "Summarize Document": { "main": [[{ "node": "Mock Slack Post", "type": "main", "index": 0 }]] },
+    "Mock Slack Post": { "main": [[{ "node": "Slack Failure?", "type": "main", "index": 0 }]] },
+    "Slack Failure?": {
+      "main": [
+        [{ "node": "Mock Gmail Fallback", "type": "main", "index": 0 }],
+        [{ "node": "Set Result", "type": "main", "index": 0 }]
+      ]
+    },
+    "Mock Gmail Fallback": { "main": [[{ "node": "Set Result", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

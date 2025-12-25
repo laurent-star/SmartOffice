@@ -1,0 +1,141 @@
+{
+  "name": "slack_drive_to_gmail",
+  "nodes": [
+    { "id": "node-trigger-slack", "name": "Slack Trigger", "type": "n8n-nodes-base.slackTrigger", "typeVersion": 1, "position": [120, 160], "parameters": { "event": "message.channels" } },
+    { "id": "node-trigger-manual", "name": "Manual Trigger", "type": "n8n-nodes-base.manualTrigger", "typeVersion": 1, "position": [120, 440] },
+    {
+      "id": "node-init",
+      "name": "Initialize Request",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [360, 300],
+      "parameters": {
+        "functionCode": "const payload = items[0].json || {};\nreturn [{ json: {\n  ...payload,\n  use_mock: payload.use_mock ?? false,\n  folder_id: payload.folder_id || $env.DRIVE_FOLDER_ID || 'FOLDER_ID',\n  destinations: payload.destinations || ($env.GMAIL_RECIPIENTS ? $env.GMAIL_RECIPIENTS.split(',') : ['ops@example.com']),\n  requestor: payload.user || payload.requestor || '@unknown',\n  requested_id: payload.doc_id || payload.requested_id || '',\n  command: payload.command || '/drive-send'\n}}];"
+      }
+    },
+    {
+      "id": "node-use-mock?",
+      "name": "Use mock?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [560, 300],
+      "parameters": { "conditions": { "boolean": [{ "value1": "={{$json.use_mock === true}}", "operation": "isTrue" }] } }
+    },
+    {
+      "id": "node-mock-request",
+      "name": "Mock Slack Request",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [760, 140],
+      "parameters": {
+        "keepOnlySet": false,
+        "values": {
+          "string": [
+            { "name": "requested_id", "value": "drv_live_doc_555" },
+            { "name": "requestor", "value": "@bob" },
+            { "name": "command", "value": "/drive-send" }
+          ],
+          "json": [ { "name": "destinations", "value": ["team@example.com"] } ]
+        }
+      }
+    },
+    {
+      "id": "node-map-request",
+      "name": "Map Slack Payload",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [760, 460],
+      "parameters": {
+        "functionCode": "const input = items[0].json;\nconst requested = input.requested_id || input.text || '';\nreturn [{ json: { ...input, requested_id: requested, destinations: input.destinations || [] } }];"
+      }
+    },
+    {
+      "id": "node-drive",
+      "name": "Fetch Drive Link",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 1,
+      "position": [980, 300],
+      "parameters": {
+        "operation": "get",
+        "fileId": "={{$json.requested_id}}",
+        "options": { "download": false }
+      }
+    },
+    {
+      "id": "node-normalize-drive",
+      "name": "Normalize Drive Output",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1200, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json;\nconst url = input.webViewLink || input.file_url || '';\nconst name = input.name || input.file_name || 'document';\nreturn [{ json: { ...input, file_url: url, file_name: name } }];"
+      }
+    },
+    {
+      "id": "node-gmail",
+      "name": "Send Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [1420, 300],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "to": "={{$json.destinations}}",
+        "subject": "Document demandé : {{$json.file_name}}",
+        "message": "{{$json.file_url}}",
+        "additionalFields": { "cc": "{{$json.requestor}}" }
+      }
+    },
+    {
+      "id": "node-slack-ack",
+      "name": "Slack Ack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [1640, 300],
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "channel": "={{$env.SLACK_CHANNEL_ID || '#general'}}",
+        "text": "Envoi Gmail pour {{$json.file_name}} : {{$json.id || 'pending'}}"
+      },
+      "continueOnFail": true
+    },
+    {
+      "id": "node-result",
+      "name": "Format Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [1860, 300],
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            { "name": "file_url", "value": "={{$json.file_url}}" },
+            { "name": "file_name", "value": "={{$json.file_name}}" },
+            { "name": "gmail_message_id", "value": "={{$json.id || ''}}" },
+            { "name": "slack_ts", "value": "={{$json.ts || ''}}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Slack Trigger": { "main": [[{ "node": "Initialize Request", "type": "main", "index": 0 }]] },
+    "Manual Trigger": { "main": [[{ "node": "Initialize Request", "type": "main", "index": 0 }]] },
+    "Initialize Request": { "main": [[{ "node": "Use mock?", "type": "main", "index": 0 }]] },
+    "Use mock?": {
+      "main": [
+        [{ "node": "Mock Slack Request", "type": "main", "index": 0 }],
+        [{ "node": "Map Slack Payload", "type": "main", "index": 0 }]
+      ]
+    },
+    "Mock Slack Request": { "main": [[{ "node": "Fetch Drive Link", "type": "main", "index": 0 }]] },
+    "Map Slack Payload": { "main": [[{ "node": "Fetch Drive Link", "type": "main", "index": 0 }]] },
+    "Fetch Drive Link": { "main": [[{ "node": "Normalize Drive Output", "type": "main", "index": 0 }]] },
+    "Normalize Drive Output": { "main": [[{ "node": "Send Gmail", "type": "main", "index": 0 }]] },
+    "Send Gmail": { "main": [[{ "node": "Slack Ack", "type": "main", "index": 0 }]] },
+    "Slack Ack": { "main": [[{ "node": "Format Result", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

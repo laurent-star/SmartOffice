@@ -1,0 +1,72 @@
+{
+  "id": "drive_to_slack_notify",
+  "version": "1.0.0",
+  "description": "Publie un fichier Drive dans Slack avec résumé et fallback Gmail.",
+  "steps": [
+    {
+      "id": "watch_drive",
+      "type": "tool",
+      "ref": "google-drive",
+      "params": { "operation": "watch_folder", "folder_id": "{{input.folder_id}}", "event": "file_added" },
+      "save": {
+        "to": {
+          "file_id": "$.data.file_id",
+          "file_name": "$.data.name",
+          "file_url": "$.data.url",
+          "folder_id": "{{input.folder_id}}"
+        }
+      }
+    },
+    {
+      "id": "summarize_document",
+      "type": "capability",
+      "ref": "summarize_content",
+      "params": {
+        "file_id": "{{memory.state.file_id}}",
+        "source": "google-drive",
+        "max_words": 120,
+        "context": { "folder": "{{memory.state.folder_id}}" }
+      },
+      "save": { "to": { "summary": "$.data.summary" } }
+    },
+    {
+      "id": "post_to_slack",
+      "type": "tool",
+      "ref": "slack",
+      "params": {
+        "operation": "post_message",
+        "channel_id": "{{input.channel_id}}",
+        "text": "Nouveau fichier partagé : {{memory.state.file_name}}",
+        "metadata": { "file_url": "{{memory.state.file_url}}", "summary": "{{memory.state.summary}}" }
+      },
+      "save": { "to": { "slack_message_ts": "$.data.ts" } },
+      "on_error": {
+        "mode": "fallback",
+        "fallback": {
+          "type": "capability",
+          "ref": "notify_user",
+          "params": {
+            "channel": "email",
+            "to": "{{input.emails_fallback}}",
+            "subject": "Slack indisponible — fichier {{memory.state.file_name}}",
+            "message": "La publication Slack a échoué ; envoi via Gmail de secours.",
+            "metadata": { "file_url": "{{memory.state.file_url}}", "summary": "{{memory.state.summary}}" }
+          }
+        }
+      }
+    },
+    {
+      "id": "gmail_confirmation",
+      "type": "capability",
+      "ref": "notify_user",
+      "when": { "path": "memory.state.slack_message_ts", "eq": "" },
+      "params": {
+        "channel": "email",
+        "to": "{{input.emails_fallback}}",
+        "subject": "Partage Drive notifié",
+        "message": "Slack ok : {{memory.state.file_name}} — résumé envoyé à Slack."
+      },
+      "save": { "to": { "gmail_status": "lit:sent_on_success" } }
+    }
+  ]
+}

@@ -65,3 +65,9 @@ Golden workflows must not:
 Existing non-golden workflows (for example in `workflows/tools/`)
 may still contain credentials or placeholders. Golden workflows
 must not copy those values.
+
+## Nouveaux goldens Drive/Slack/Gmail
+
+- `workflows/golden/drive_to_slack_notify.json` : enchaîne un mock Drive, un résumé statique puis un post Slack avec branche de repli Gmail.
+- `workflows/golden/slack_request_drive_to_gmail.json` : simule une requête Slack vers Drive et Gmail avec accusé de réception mock.
+- Les deux exports n'embarquent aucun credential et utilisent des valeurs déterministes pour les IDs (fichiers, messages) afin de faciliter les imports et smoke tests n8n.
