@@ -1,1 +1,10 @@
-{"priority":["openai","google-drive","slack","monday"]}
+{
+  "priority": [
+    "openai",
+    "google-drive",
+    "slack",
+    "monday"
+  ],
+  "preferred_tools": [],
+  "blocked_tools": []
+}

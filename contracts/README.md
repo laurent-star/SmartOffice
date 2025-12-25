@@ -10,6 +10,8 @@ du systeme. Ces schemas sont la source de verite pour la validation runtime.
 - memory.schema.json
 - result.schema.json
 - step.schema.json
+- agent-planning.schema.json
+- agent-tool-selection.schema.json
 - tool-call.schema.json
 - tool-definition.schema.json
 - tool-input.schema.json

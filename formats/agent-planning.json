@@ -1,0 +1,6 @@
+{
+  "max_steps": 30,
+  "max_depth": 5,
+  "allowed_types": ["tool", "capability", "usecase"],
+  "retry_on_failure": false
+}

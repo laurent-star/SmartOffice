@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/agent-tool-selection.schema.json",
+  "title": "AgentToolSelection",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "preferred_tools": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "blocked_tools": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "priority": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

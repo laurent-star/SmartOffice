@@ -1,0 +1,5 @@
+{
+  "priority": ["openai", "google-drive", "slack"],
+  "preferred_tools": [],
+  "blocked_tools": []
+}

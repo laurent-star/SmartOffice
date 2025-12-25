@@ -17,3 +17,5 @@ Fichiers
 - tool-result.json
 - tool-definition.json
 - usecase.json
+- agent-planning.json
+- agent-tool-selection.json

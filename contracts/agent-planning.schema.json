@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/agent-planning.schema.json",
+  "title": "AgentPlanningRules",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "max_steps": { "type": "integer", "minimum": 1 },
+    "max_depth": { "type": "integer", "minimum": 1 },
+    "allowed_types": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "retry_on_failure": { "type": "boolean" }
+  },
+  "required": ["max_steps", "max_depth"]
+}
