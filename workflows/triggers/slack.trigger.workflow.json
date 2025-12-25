@@ -3,10 +3,13 @@
   "nodes": [
     {
       "id": "node-trigger",
-      "name": "Slack Trigger (placeholder)",
-      "type": "n8n-nodes-base.manualTrigger",
+      "name": "Slack Trigger",
+      "type": "n8n-nodes-base.slackTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [200, 300],
+      "parameters": {
+        "event": "message.channels"
+      }
     },
     {
       "id": "node-build-envelope",
@@ -20,7 +23,7 @@
     }
   ],
   "connections": {
-    "Slack Trigger (placeholder)": {
+    "Slack Trigger": {
       "main": [[{ "node": "Build Legacy Envelope", "type": "main", "index": 0 }]]
     }
   },

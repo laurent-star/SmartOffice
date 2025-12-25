@@ -3,10 +3,15 @@
   "nodes": [
     {
       "id": "node-trigger",
-      "name": "Gmail Trigger (placeholder)",
-      "type": "n8n-nodes-base.manualTrigger",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [200, 300],
+      "parameters": {
+        "resource": "message",
+        "operation": "watch",
+        "labelIds": ["INBOX"]
+      }
     },
     {
       "id": "node-build-envelope",
@@ -20,7 +25,7 @@
     }
   ],
   "connections": {
-    "Gmail Trigger (placeholder)": {
+    "Gmail Trigger": {
       "main": [[{ "node": "Build Legacy Envelope", "type": "main", "index": 0 }]]
     }
   },

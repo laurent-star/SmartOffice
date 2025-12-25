@@ -3,10 +3,20 @@
   "nodes": [
     {
       "id": "node-trigger",
-      "name": "Schedule Trigger (placeholder)",
-      "type": "n8n-nodes-base.manualTrigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [200, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "value": 1
+            }
+          ]
+        }
+      }
     },
     {
       "id": "node-build-envelope",
@@ -20,7 +30,7 @@
     }
   ],
   "connections": {
-    "Schedule Trigger (placeholder)": {
+    "Schedule Trigger": {
       "main": [[{ "node": "Build Legacy Envelope", "type": "main", "index": 0 }]]
     }
   },
