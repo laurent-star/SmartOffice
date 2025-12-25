@@ -1,0 +1,215 @@
+{
+  "version": "1.0.0",
+  "source": {
+    "vendor": "n8n",
+    "docs": [
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.slack/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.gmail/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.mondaycom/"
+    ]
+  },
+  "providers": {
+    "slack": {
+      "nodeType": "n8n-nodes-base.slack",
+      "resources": {
+        "message": {
+          "operations": {
+            "send": {
+              "params": {
+                "required": ["channel", "text"],
+                "optional": ["threadTs", "blocks", "attachments"]
+              },
+              "returns": {
+                "data": ["channel", "ts", "message"],
+                "notes": ["Use blocks only if supported; otherwise fallback to HTTP Request."]
+              }
+            },
+            "search": {
+              "params": { "required": ["query"], "optional": ["sort", "sortDir", "count", "page"] },
+              "returns": { "data": ["messages", "pagination"] }
+            },
+            "getPermalink": {
+              "params": { "required": ["channel", "messageTs"], "optional": [] },
+              "returns": { "data": ["permalink"] }
+            },
+            "delete": {
+              "params": { "required": ["channel", "messageTs"], "optional": [] },
+              "returns": { "data": ["ok"] }
+            }
+          }
+        },
+        "file": {
+          "operations": {
+            "upload": {
+              "params": { "required": ["channels", "binary"], "optional": ["filename", "title", "initialComment"] },
+              "returns": { "data": ["file"] }
+            },
+            "get": {
+              "params": { "required": ["fileId"], "optional": [] },
+              "returns": { "data": ["file"] }
+            },
+            "getMany": {
+              "params": { "required": [], "optional": ["user", "channel", "tsFrom", "tsTo", "count", "page"] },
+              "returns": { "data": ["files", "pagination"] }
+            }
+          }
+        },
+        "conversation": {
+          "operations": {
+            "getMany": {
+              "params": { "required": [], "optional": ["types", "limit", "cursor"] },
+              "returns": { "data": ["conversations", "responseMetadata"] }
+            }
+          }
+        }
+      }
+    },
+
+    "google-drive": {
+      "nodeType": "n8n-nodes-base.googleDrive",
+      "resources": {
+        "fileFolder": {
+          "operations": {
+            "search": {
+              "params": { "required": ["query"], "optional": ["limit", "returnAll"] },
+              "returns": { "data": ["items", "nextPageToken"] },
+              "notes": ["Search files/folders via query (Drive search)."]
+            }
+          }
+        },
+        "file": {
+          "operations": {
+            "download": {
+              "params": { "required": ["fileId"], "optional": ["binaryPropertyName"] },
+              "returns": { "data": ["fileId"], "binary": ["binaryPropertyName"] }
+            },
+            "upload": {
+              "params": { "required": ["name", "folderId", "binary"], "optional": ["mimeType"] },
+              "returns": { "data": ["id", "name", "mimeType", "webViewLink"] }
+            },
+            "get": {
+              "params": { "required": ["fileId"], "optional": ["simplifyOutput"] },
+              "returns": { "data": ["id", "name", "mimeType", "parents", "webViewLink"] }
+            }
+          }
+        },
+        "folder": {
+          "operations": {
+            "create": {
+              "params": { "required": ["name"], "optional": ["parentFolderId"] },
+              "returns": { "data": ["id", "name"] }
+            }
+          }
+        }
+      }
+    },
+
+    "google-docs": {
+      "nodeType": "n8n-nodes-base.googleDocs",
+      "resources": {
+        "document": {
+          "operations": {
+            "create": {
+              "params": { "required": ["title"], "optional": ["folderId"] },
+              "returns": { "data": ["documentId", "title"] },
+              "notes": ["Body/content is typically handled with update/append operations after create."]
+            },
+            "update": {
+              "params": { "required": ["documentId"], "optional": ["requests", "text", "html"] },
+              "returns": { "data": ["documentId"] }
+            },
+            "get": {
+              "params": { "required": ["documentId"], "optional": [] },
+              "returns": { "data": ["documentId", "title", "body"] }
+            }
+          }
+        }
+      }
+    },
+
+    "google-sheets": {
+      "nodeType": "n8n-nodes-base.googleSheets",
+      "resources": {
+        "spreadsheet": {
+          "operations": {
+            "create": {
+              "params": { "required": ["title"], "optional": ["folderId", "templateId"] },
+              "returns": { "data": ["spreadsheetId", "spreadsheetUrl", "title"] }
+            }
+          }
+        },
+        "sheet": {
+          "operations": {
+            "append": {
+              "params": { "required": ["spreadsheetId", "range", "values"], "optional": ["valueInputMode"] },
+              "returns": { "data": ["updatedRange", "updates"] },
+              "notes": ["Append behavior depends on sheet gaps; see n8n notes."]
+            },
+            "read": {
+              "params": { "required": ["spreadsheetId", "range"], "optional": ["returnAll"] },
+              "returns": { "data": ["values"] }
+            },
+            "update": {
+              "params": { "required": ["spreadsheetId", "range", "values"], "optional": ["valueInputMode"] },
+              "returns": { "data": ["updatedRange", "updates"] }
+            }
+          }
+        }
+      }
+    },
+
+    "gmail": {
+      "nodeType": "n8n-nodes-base.gmail",
+      "resources": {
+        "message": {
+          "operations": {
+            "getMany": {
+              "params": { "required": [], "optional": ["query", "limit", "includeSpamTrash"] },
+              "returns": { "data": ["messages", "nextPageToken"] }
+            },
+            "get": {
+              "params": { "required": ["messageId"], "optional": ["format"] },
+              "returns": { "data": ["id", "threadId", "snippet", "payload", "internalDate"] }
+            },
+            "send": {
+              "params": { "required": ["to", "subject"], "optional": ["text", "html", "attachments", "threadId"] },
+              "returns": { "data": ["id", "threadId", "labelIds"] }
+            }
+          }
+        }
+      }
+    },
+
+    "monday": {
+      "nodeType": "n8n-nodes-base.mondayCom",
+      "resources": {
+        "boardItem": {
+          "operations": {
+            "create": {
+              "params": { "required": ["boardId", "itemName"], "optional": ["groupId", "columnValues"] },
+              "returns": { "data": ["id", "boardId"] }
+            },
+            "updateColumnValues": {
+              "params": { "required": ["itemId", "columnValues"], "optional": [] },
+              "returns": { "data": ["id"] }
+            },
+            "get": {
+              "params": { "required": ["itemId"], "optional": [] },
+              "returns": { "data": ["id", "name", "columnValues"] }
+            },
+            "getMany": {
+              "params": { "required": ["boardId"], "optional": ["limit", "page"] },
+              "returns": { "data": ["items", "pagination"] }
+            },
+            "addUpdate": {
+              "params": { "required": ["itemId", "text"], "optional": [] },
+              "returns": { "data": ["id"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}
