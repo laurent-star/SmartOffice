@@ -29,10 +29,11 @@ Ce document resume les tools, leur categorie et les parametres attendus.
 
 ## Référentiel opérations n8n
 
-Les operations officielles par provider sont definies dans `registries/n8n-official-ops.json` et servent de source unique pour les actions autorisees.
+Les operations officielles par provider sont definies dans des fragments `registries/n8n-official-ops/<provider>.json` puis assemblees dans `registries/n8n-official-ops.json` via `node scripts/build_n8n_official_ops.js` (docs dedupliquees, controle des doublons/providers et validation AJV).
 
 ## Génération & validation
 
+- `node scripts/build_n8n_official_ops.js`
 - `node scripts/validate_n8n_official_ops.js`
 - `node scripts/generate_registries.js`
 - `node scripts/validate_tool_categories.js`

@@ -3,16 +3,16 @@
   "source": {
     "vendor": "n8n",
     "docs": [
-      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.slack/",
-      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/",
-      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledocs/",
-      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/",
       "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.gmail/",
-      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.mondaycom/",
       "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlecalendar/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledocs/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.mondaycom/",
+      "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.slack/",
+      "https://docs.n8n.io/integrations/builtin/nodes/n8n-nodes-base.openai/",
       "https://docs.n8n.io/integrations/third-party/axonaut/",
-      "https://docs.n8n.io/integrations/third-party/brevo/",
-      "https://docs.n8n.io/integrations/builtin/nodes/n8n-nodes-base.openai/"
+      "https://docs.n8n.io/integrations/third-party/brevo/"
     ]
   },
   "providers": {
@@ -22,8 +22,17 @@
         "contact": {
           "operations": {
             "create": {
-              "params": { "required": ["contact"], "optional": [] },
-              "returns": { "data": ["contact_id"] },
+              "params": {
+                "required": [
+                  "contact"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "contact_id"
+                ]
+              },
               "description": "Cree un contact dans Axonaut"
             }
           }
@@ -31,8 +40,17 @@
         "company": {
           "operations": {
             "update": {
-              "params": { "required": ["company"], "optional": [] },
-              "returns": { "data": ["company_id"] }
+              "params": {
+                "required": [
+                  "company"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "company_id"
+                ]
+              }
             }
           }
         }
@@ -44,16 +62,39 @@
         "email": {
           "operations": {
             "sendEmail": {
-              "params": { "required": ["to", "subject", "body"], "optional": ["attachments"] },
-              "returns": { "data": ["message_id"] }
+              "params": {
+                "required": [
+                  "to",
+                  "subject",
+                  "body"
+                ],
+                "optional": [
+                  "attachments"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "message_id"
+                ]
+              }
             }
           }
         },
         "campaign": {
           "operations": {
             "createCampaign": {
-              "params": { "required": ["name", "content"], "optional": [] },
-              "returns": { "data": ["campaign_id"] }
+              "params": {
+                "required": [
+                  "name",
+                  "content"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "campaign_id"
+                ]
+              }
             }
           }
         }
@@ -65,16 +106,60 @@
         "message": {
           "operations": {
             "getMany": {
-              "params": { "required": [], "optional": ["query", "limit", "includeSpamTrash"] },
-              "returns": { "data": ["messages", "nextPageToken"] }
+              "params": {
+                "required": [],
+                "optional": [
+                  "query",
+                  "limit",
+                  "includeSpamTrash"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "messages",
+                  "nextPageToken"
+                ]
+              }
             },
             "get": {
-              "params": { "required": ["messageId"], "optional": ["format"] },
-              "returns": { "data": ["id", "threadId", "snippet", "payload", "internalDate"] }
+              "params": {
+                "required": [
+                  "messageId"
+                ],
+                "optional": [
+                  "format"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "id",
+                  "threadId",
+                  "snippet",
+                  "payload",
+                  "internalDate"
+                ]
+              }
             },
             "send": {
-              "params": { "required": ["to", "subject"], "optional": ["text", "html", "attachments", "threadId"] },
-              "returns": { "data": ["id", "threadId", "labelIds"] }
+              "params": {
+                "required": [
+                  "to",
+                  "subject"
+                ],
+                "optional": [
+                  "text",
+                  "html",
+                  "attachments",
+                  "threadId"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "id",
+                  "threadId",
+                  "labelIds"
+                ]
+              }
             }
           }
         }
@@ -86,12 +171,39 @@
         "event": {
           "operations": {
             "create": {
-              "params": { "required": ["title", "start", "end"], "optional": ["description", "attendees"] },
-              "returns": { "data": ["eventId", "htmlLink"] }
+              "params": {
+                "required": [
+                  "title",
+                  "start",
+                  "end"
+                ],
+                "optional": [
+                  "description",
+                  "attendees"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "eventId",
+                  "htmlLink"
+                ]
+              }
             },
             "getMany": {
-              "params": { "required": [], "optional": ["timeMin", "timeMax", "limit"] },
-              "returns": { "data": ["events", "nextPageToken"] }
+              "params": {
+                "required": [],
+                "optional": [
+                  "timeMin",
+                  "timeMax",
+                  "limit"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "events",
+                  "nextPageToken"
+                ]
+              }
             }
           }
         }
@@ -103,16 +215,52 @@
         "document": {
           "operations": {
             "create": {
-              "params": { "required": ["title"], "optional": ["folderId"] },
-              "returns": { "data": ["documentId", "title"] }
+              "params": {
+                "required": [
+                  "title"
+                ],
+                "optional": [
+                  "folderId"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "documentId",
+                  "title"
+                ]
+              }
             },
             "update": {
-              "params": { "required": ["documentId"], "optional": ["requests", "text", "html"] },
-              "returns": { "data": ["documentId"] }
+              "params": {
+                "required": [
+                  "documentId"
+                ],
+                "optional": [
+                  "requests",
+                  "text",
+                  "html"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "documentId"
+                ]
+              }
             },
             "get": {
-              "params": { "required": ["documentId"], "optional": [] },
-              "returns": { "data": ["documentId", "title", "body"] }
+              "params": {
+                "required": [
+                  "documentId"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "documentId",
+                  "title",
+                  "body"
+                ]
+              }
             }
           }
         }
@@ -124,32 +272,102 @@
         "fileFolder": {
           "operations": {
             "search": {
-              "params": { "required": ["query"], "optional": ["limit", "returnAll"] },
-              "returns": { "data": ["items", "nextPageToken"] }
+              "params": {
+                "required": [
+                  "query"
+                ],
+                "optional": [
+                  "limit",
+                  "returnAll"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "items",
+                  "nextPageToken"
+                ]
+              }
             }
           }
         },
         "file": {
           "operations": {
             "download": {
-              "params": { "required": ["fileId"], "optional": ["binaryPropertyName"] },
-              "returns": { "data": ["fileId"], "binary": ["binaryPropertyName"] }
+              "params": {
+                "required": [
+                  "fileId"
+                ],
+                "optional": [
+                  "binaryPropertyName"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "fileId"
+                ],
+                "binary": [
+                  "binaryPropertyName"
+                ]
+              }
             },
             "upload": {
-              "params": { "required": ["name", "folderId", "binary"], "optional": ["mimeType"] },
-              "returns": { "data": ["id", "name", "mimeType", "webViewLink"] }
+              "params": {
+                "required": [
+                  "name",
+                  "folderId",
+                  "binary"
+                ],
+                "optional": [
+                  "mimeType"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "id",
+                  "name",
+                  "mimeType",
+                  "webViewLink"
+                ]
+              }
             },
             "get": {
-              "params": { "required": ["fileId"], "optional": ["simplifyOutput"] },
-              "returns": { "data": ["id", "name", "mimeType", "parents", "webViewLink"] }
+              "params": {
+                "required": [
+                  "fileId"
+                ],
+                "optional": [
+                  "simplifyOutput"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "id",
+                  "name",
+                  "mimeType",
+                  "parents",
+                  "webViewLink"
+                ]
+              }
             }
           }
         },
         "folder": {
           "operations": {
             "create": {
-              "params": { "required": ["name"], "optional": ["parentFolderId"] },
-              "returns": { "data": ["id", "name"] }
+              "params": {
+                "required": [
+                  "name"
+                ],
+                "optional": [
+                  "parentFolderId"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "id",
+                  "name"
+                ]
+              }
             }
           }
         }
@@ -161,24 +379,78 @@
         "spreadsheet": {
           "operations": {
             "create": {
-              "params": { "required": ["title"], "optional": ["folderId", "templateId"] },
-              "returns": { "data": ["spreadsheetId", "spreadsheetUrl", "title"] }
+              "params": {
+                "required": [
+                  "title"
+                ],
+                "optional": [
+                  "folderId",
+                  "templateId"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "spreadsheetId",
+                  "spreadsheetUrl",
+                  "title"
+                ]
+              }
             }
           }
         },
         "sheet": {
           "operations": {
             "append": {
-              "params": { "required": ["spreadsheetId", "range", "values"], "optional": ["valueInputMode"] },
-              "returns": { "data": ["updatedRange", "updates"] }
+              "params": {
+                "required": [
+                  "spreadsheetId",
+                  "range",
+                  "values"
+                ],
+                "optional": [
+                  "valueInputMode"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "updatedRange",
+                  "updates"
+                ]
+              }
             },
             "read": {
-              "params": { "required": ["spreadsheetId", "range"], "optional": ["returnAll"] },
-              "returns": { "data": ["values"] }
+              "params": {
+                "required": [
+                  "spreadsheetId",
+                  "range"
+                ],
+                "optional": [
+                  "returnAll"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "values"
+                ]
+              }
             },
             "update": {
-              "params": { "required": ["spreadsheetId", "range", "values"], "optional": ["valueInputMode"] },
-              "returns": { "data": ["updatedRange", "updates"] }
+              "params": {
+                "required": [
+                  "spreadsheetId",
+                  "range",
+                  "values"
+                ],
+                "optional": [
+                  "valueInputMode"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "updatedRange",
+                  "updates"
+                ]
+              }
             }
           }
         }
@@ -190,24 +462,82 @@
         "boardItem": {
           "operations": {
             "create": {
-              "params": { "required": ["boardId", "itemName"], "optional": ["groupId", "columnValues"] },
-              "returns": { "data": ["id", "boardId"] }
+              "params": {
+                "required": [
+                  "boardId",
+                  "itemName"
+                ],
+                "optional": [
+                  "groupId",
+                  "columnValues"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "id",
+                  "boardId"
+                ]
+              }
             },
             "updateColumnValues": {
-              "params": { "required": ["itemId", "columnValues"], "optional": [] },
-              "returns": { "data": ["id"] }
+              "params": {
+                "required": [
+                  "itemId",
+                  "columnValues"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "id"
+                ]
+              }
             },
             "get": {
-              "params": { "required": ["itemId"], "optional": [] },
-              "returns": { "data": ["id", "name", "columnValues"] }
+              "params": {
+                "required": [
+                  "itemId"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "id",
+                  "name",
+                  "columnValues"
+                ]
+              }
             },
             "getMany": {
-              "params": { "required": ["boardId"], "optional": ["limit", "page"] },
-              "returns": { "data": ["items", "pagination"] }
+              "params": {
+                "required": [
+                  "boardId"
+                ],
+                "optional": [
+                  "limit",
+                  "page"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "items",
+                  "pagination"
+                ]
+              }
             },
             "addUpdate": {
-              "params": { "required": ["itemId", "text"], "optional": [] },
-              "returns": { "data": ["id"] }
+              "params": {
+                "required": [
+                  "itemId",
+                  "text"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "id"
+                ]
+              }
             }
           }
         }
@@ -219,17 +549,48 @@
         "assistant": {
           "operations": {
             "summarize": {
-              "params": { "required": ["text"], "optional": [] },
-              "returns": { "data": ["summary"] },
-              "notes": ["Basé sur le node OpenAI (chat/completion) pour générer un résumé"]
+              "params": {
+                "required": [
+                  "text"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "summary"
+                ]
+              },
+              "notes": [
+                "Basé sur le node OpenAI (chat/completion) pour générer un résumé"
+              ]
             },
             "classify": {
-              "params": { "required": ["text", "labels"], "optional": [] },
-              "returns": { "data": ["classification"] }
+              "params": {
+                "required": [
+                  "text",
+                  "labels"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "classification"
+                ]
+              }
             },
             "extract": {
-              "params": { "required": ["text", "schema"], "optional": [] },
-              "returns": { "data": ["structured_data"] }
+              "params": {
+                "required": [
+                  "text",
+                  "schema"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "structured_data"
+                ]
+              }
             }
           }
         }
@@ -241,44 +602,145 @@
         "message": {
           "operations": {
             "send": {
-              "params": { "required": ["channel", "text"], "optional": ["threadTs", "blocks", "attachments"] },
-              "returns": { "data": ["channel", "ts", "message"] }
+              "params": {
+                "required": [
+                  "channel",
+                  "text"
+                ],
+                "optional": [
+                  "threadTs",
+                  "blocks",
+                  "attachments"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "channel",
+                  "ts",
+                  "message"
+                ]
+              }
             },
             "search": {
-              "params": { "required": ["query"], "optional": ["sort", "sortDir", "count", "page"] },
-              "returns": { "data": ["messages", "pagination"] }
+              "params": {
+                "required": [
+                  "query"
+                ],
+                "optional": [
+                  "sort",
+                  "sortDir",
+                  "count",
+                  "page"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "messages",
+                  "pagination"
+                ]
+              }
             },
             "getPermalink": {
-              "params": { "required": ["channel", "messageTs"], "optional": [] },
-              "returns": { "data": ["permalink"] }
+              "params": {
+                "required": [
+                  "channel",
+                  "messageTs"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "permalink"
+                ]
+              }
             },
             "delete": {
-              "params": { "required": ["channel", "messageTs"], "optional": [] },
-              "returns": { "data": ["ok"] }
+              "params": {
+                "required": [
+                  "channel",
+                  "messageTs"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "ok"
+                ]
+              }
             }
           }
         },
         "file": {
           "operations": {
             "upload": {
-              "params": { "required": ["channels", "binary"], "optional": ["filename", "title", "initialComment"] },
-              "returns": { "data": ["file"] }
+              "params": {
+                "required": [
+                  "channels",
+                  "binary"
+                ],
+                "optional": [
+                  "filename",
+                  "title",
+                  "initialComment"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "file"
+                ]
+              }
             },
             "get": {
-              "params": { "required": ["fileId"], "optional": [] },
-              "returns": { "data": ["file"] }
+              "params": {
+                "required": [
+                  "fileId"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "file"
+                ]
+              }
             },
             "getMany": {
-              "params": { "required": [], "optional": ["user", "channel", "tsFrom", "tsTo", "count", "page"] },
-              "returns": { "data": ["files", "pagination"] }
+              "params": {
+                "required": [],
+                "optional": [
+                  "user",
+                  "channel",
+                  "tsFrom",
+                  "tsTo",
+                  "count",
+                  "page"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "files",
+                  "pagination"
+                ]
+              }
             }
           }
         },
         "conversation": {
           "operations": {
             "getMany": {
-              "params": { "required": [], "optional": ["types", "limit", "cursor"] },
-              "returns": { "data": ["conversations", "responseMetadata"] }
+              "params": {
+                "required": [],
+                "optional": [
+                  "types",
+                  "limit",
+                  "cursor"
+                ]
+              },
+              "returns": {
+                "data": [
+                  "conversations",
+                  "responseMetadata"
+                ]
+              }
             }
           }
         }

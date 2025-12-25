@@ -1,33 +1,23 @@
-const Ajv = require("ajv");
-const addFormats = require("ajv-formats");
 const fs = require("fs");
 const path = require("path");
+const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
+const { buildN8nOfficialOps } = require("./build_n8n_official_ops");
 
-const schemaPath = path.join(__dirname, "..", "contracts", "n8n-official-ops.schema.json");
 const registryPath = path.join(__dirname, "..", "registries", "n8n-official-ops.json");
+const registrySchemaPath = path.join(__dirname, "..", "contracts", "n8n-official-ops.schema.json");
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
 
 function loadJson(filePath) {
-  const raw = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(raw);
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
-function main() {
-  const schema = loadJson(schemaPath);
-  const registry = loadJson(registryPath);
-
-  const validate = ajv.compile(schema);
-  const valid = validate(registry);
+function validateOperationsConsistency(registry) {
   const issues = [];
 
-  if (!valid) {
-    issues.push({ type: "schema", details: validate.errors });
-  }
-
-  const providers = registry.providers || {};
-  for (const [provider, providerDef] of Object.entries(providers)) {
+  for (const [provider, providerDef] of Object.entries(registry.providers || {})) {
     if (!providerDef.nodeType || typeof providerDef.nodeType !== "string") {
       issues.push({ type: "provider", provider, message: "Missing nodeType" });
     }
@@ -81,6 +71,31 @@ function main() {
       }
     }
   }
+
+  return issues;
+}
+
+function main() {
+  try {
+    buildN8nOfficialOps({ quiet: true });
+  } catch (err) {
+    console.error("Failed to build n8n-official-ops registry from fragments:");
+    console.error(err.message);
+    process.exit(1);
+  }
+
+  const schema = loadJson(registrySchemaPath);
+  const registry = loadJson(registryPath);
+
+  const validate = ajv.compile(schema);
+  const valid = validate(registry);
+  const issues = [];
+
+  if (!valid) {
+    issues.push({ type: "schema", details: validate.errors });
+  }
+
+  issues.push(...validateOperationsConsistency(registry));
 
   if (issues.length) {
     console.error("Validation failed for n8n-official-ops");
