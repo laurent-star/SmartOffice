@@ -5,7 +5,7 @@
     ],
     "operations": [
       "calendar.event.create",
-      "calendar.event.getMany"
+      "calendar.event.getAll"
     ]
   },
   "crm": {
@@ -24,9 +24,11 @@
     ],
     "operations": [
       "ged.document.create",
+      "ged.document.get",
       "ged.document.update",
-      "ged.file.download",
-      "ged.file.upload"
+      "ged.file.get",
+      "ged.file.upload",
+      "ged.fileFolder.search"
     ]
   },
   "llm": {
@@ -34,9 +36,9 @@
       "openai"
     ],
     "operations": [
-      "llm.assistant.classify",
-      "llm.assistant.extract",
-      "llm.assistant.summarize"
+      "llm.chat.classify",
+      "llm.chat.extract",
+      "llm.chat.summarize"
     ]
   },
   "marketing": {
@@ -44,8 +46,8 @@
       "brevo"
     ],
     "operations": [
-      "marketing.campaign.createCampaign",
-      "marketing.email.sendEmail"
+      "marketing.campaign.create",
+      "marketing.transactionalEmail.send"
     ]
   },
   "sales": {
@@ -72,7 +74,7 @@
     ],
     "operations": [
       "validation_humaine.conversation.getMany",
-      "validation_humaine.file.upload",
+      "validation_humaine.message.search",
       "validation_humaine.message.send"
     ]
   }
