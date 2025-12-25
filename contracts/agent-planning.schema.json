@@ -11,7 +11,23 @@
       "type": "array",
       "items": { "type": "string" }
     },
-    "retry_on_failure": { "type": "boolean" }
+    "retry_on_failure": { "type": "boolean" },
+    "clarification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "capability_ref": { "type": "string", "minLength": 1 },
+        "destinations": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "max_attempts": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["enabled"],
+      "description": "Politique de boucle de clarification/human validation."
+    }
   },
   "required": ["max_steps", "max_depth"]
 }

@@ -65,8 +65,9 @@ Minimum output requirements:
 
 - Steps must be ordered and executable sequentially.
 - Step types are limited to: `tool`, `capability`, `usecase`.
-- Each step must include a non-empty `ref` and an object `params`.
+- Each step must include a non-empty `ref` and an object `params` (even when empty).
 - The Agent may include `save` or `on_error` policies in steps, but must not invent tool behavior.
+- If required inputs are missing, the Agent must add a clarification step (capability) instead of guessing tool inputs.
 
 ---
 
@@ -84,6 +85,14 @@ If planning fails, the Agent must return a structured error:
 
 - either a legacy envelope with `error`
 - or an execution envelope with `payload.result.success = false`
+
+## Clarification and human validation loop
+
+- After the initial intent analysis, the planner must verify context completeness (memory + trigger payload).
+- When the context is insufficient, the planner emits a first step targeting a clarification capability (ex: `human_validation`).
+- The supervisor may inject the same clarification step if a received plan is incomplete or unordered.
+- The clarification step must explicitly loop back to the Agent (`header.destination = "agent"` or via tool routing) so the new context can be replanned.
+- The Agent marks readiness in memory (ex: `memory.state.context_complete = true`) once all mandatory inputs are gathered.
 
 ---
 
