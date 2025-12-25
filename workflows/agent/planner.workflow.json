@@ -1,0 +1,29 @@
+{
+  "name": "agent-planner",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Planner Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "node-build-plan",
+      "name": "Build Execution Plan",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "functionCode": "const now = new Date().toISOString();\nconst steps = [\n  {\n    type: 'tool',\n    ref: 'slack',\n    params: {\n      channel: '#ops',\n      text: 'Hello from planner'\n    }\n  }\n];\n\nconst envelope = {\n  header: {\n    id: `env-${Date.now()}`,\n    version: '1.0',\n    timestamp: now,\n    source: 'agent.planner',\n    destination: 'executor',\n    type: 'execution'\n  },\n  payload: {\n    steps,\n    memory: {\n      session_id: 'sess_001',\n      state: {},\n      stack: []\n    }\n  }\n};\n\nreturn [{ json: envelope }];"
+      }
+    }
+  ],
+  "connections": {
+    "Planner Trigger": {
+      "main": [[{ "node": "Build Execution Plan", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

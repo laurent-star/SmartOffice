@@ -1,0 +1,29 @@
+{
+  "name": "util-envelope-validate",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Validate Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "node-validate",
+      "name": "Validate Envelope",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "functionCode": "const envelope = items[0].json || {};\nconst validation = { ok: true, errors: [] };\n\nif (!envelope.header && !envelope.context) {\n  validation.ok = false;\n  validation.errors.push('missing header or context');\n}\n\nreturn [{ json: { envelope, validation } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Validate Trigger": {
+      "main": [[{ "node": "Validate Envelope", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

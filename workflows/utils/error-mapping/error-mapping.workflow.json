@@ -1,0 +1,29 @@
+{
+  "name": "util-error-mapping",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "node-map",
+      "name": "Map Error",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nconst error = input.error || input || {};\n\nconst mapped = {\n  code: error.code || 'UNKNOWN_ERROR',\n  message: error.message || 'Unknown error',\n  details: error.details || {}\n};\n\nreturn [{ json: mapped }];"
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [[{ "node": "Map Error", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "trigger-webhook",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [200, 300],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "smart-office",
+        "responseMode": "lastNode"
+      }
+    },
+    {
+      "id": "node-build-envelope",
+      "name": "Build Legacy Envelope",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "functionCode": "const payload = items[0].json || {};\nconst envelope = {\n  context: {\n    memory: {\n      session_id: payload.session_id || 'sess_001',\n      state: payload.state || {},\n      stack: payload.stack || []\n    }\n  },\n  input: {\n    steps: payload.steps || []\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [[{ "node": "Build Legacy Envelope", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

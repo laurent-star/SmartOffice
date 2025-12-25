@@ -1,0 +1,29 @@
+{
+  "name": "util-envelope-normalize",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Normalize Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "node-normalize",
+      "name": "Normalize Envelope",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "functionCode": "const input = items[0].json || {};\nconst now = new Date().toISOString();\nconst isExecution = Boolean(input.payload);\n\nlet header = input.header || {};\nlet payload = input.payload || {};\n\nif (!isExecution) {\n  payload = {\n    steps: input.input?.steps || [],\n    memory: input.context?.memory || { session_id: 'sess_001', state: {}, stack: [] }\n  };\n}\n\nheader.id = header.id || `env-${Date.now()}`;\nheader.version = header.version || '1.0';\nheader.timestamp = header.timestamp || now;\nheader.source = header.source || input.context?.source || 'normalize';\nheader.destination = header.destination || 'executor';\nheader.type = header.type || 'execution';\n\nreturn [{ json: { header, payload } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Normalize Trigger": {
+      "main": [[{ "node": "Normalize Envelope", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}
