@@ -16,4 +16,5 @@ Outils internes pour valider et maintenir les contrats, configs et workflows.
 - `generate_tools_registry.js` : aligne la registry des outils (nodeType, catégorie, actions, capacités) sur les opérations officielles.
 - `generate_tool_workflows.js` : génère un workflow par provider en couvrant toutes les actions déclarées.
 - `validate_cross_refs.js` : contrôle les références entre configs, registries et n8n-official-ops.
+- `validate_workflow_nodes.js` : vérifie que les nodes des workflows tools pointent vers des operations n8n officielles.
 - `smoke_build_tools.js` : lance la pipeline `build:tools` et vérifie la présence des artefacts clés.

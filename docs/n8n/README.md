@@ -9,6 +9,7 @@ Ce dossier centralise les sources n8n utilisees pour generer les registries et l
 - `docs/n8n/html/` : snapshot HTML des pages n8n (trace brute).
 - `docs/n8n/sources.md` : liste des URLs et date de mise a jour.
 - `docs/n8n/minimal-types.md` : synthese des types de workflows retenus.
+- `docs/n8n/core-nodes.json` : liste des nodes autorises hors tools (utilisee par `validate_workflow_nodes.js`).
 
 ## Regles d'edition
 

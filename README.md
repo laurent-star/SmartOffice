@@ -113,6 +113,7 @@ Pour demarrer, un nouveau client ne fait que :
 - docs/n8n-installation.md
 - docs/n8n/README.md
 - docs/n8n/minimal-types.md
+- docs/n8n/core-nodes.json
 - docs/n8n/sources.md
 - docs/drive-slack-gmail-usecases-plan.md
 - docs/archives/md-audit-2025-12-24.md
