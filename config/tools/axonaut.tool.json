@@ -19,5 +19,9 @@
       "output": "company_id"
     }
   ],
-  "category": "crm"
+  "categories": [
+    "crm",
+    "sales",
+    "billing"
+  ]
 }

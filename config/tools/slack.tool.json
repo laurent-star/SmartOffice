@@ -27,5 +27,7 @@
       "output": "conversations"
     }
   ],
-  "category": "validation_humaine"
+  "categories": [
+    "validation_humaine"
+  ]
 }

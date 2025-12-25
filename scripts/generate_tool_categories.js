@@ -17,16 +17,19 @@ const categories = {};
 
 for (const file of toolFiles) {
   const tool = loadJson(path.join(toolsDir, file));
-  if (!tool.category) continue;
-  if (!categories[tool.category]) {
-    categories[tool.category] = { providers: new Set(), operations: new Set() };
-  }
-  categories[tool.category].providers.add(tool.id);
-  (tool.actions || []).forEach((action) => {
-    if (action && action.name) {
-      categories[tool.category].operations.add(`${tool.category}.${action.name}`);
+  if (!Array.isArray(tool.categories)) continue;
+  for (const category of tool.categories) {
+    if (!category) continue;
+    if (!categories[category]) {
+      categories[category] = { providers: new Set(), operations: new Set() };
     }
-  });
+    categories[category].providers.add(tool.id);
+    (tool.actions || []).forEach((action) => {
+      if (action && action.name) {
+        categories[category].operations.add(`${category}.${action.name}`);
+      }
+    });
+  }
 }
 
 const payload = Object.keys(categories)
