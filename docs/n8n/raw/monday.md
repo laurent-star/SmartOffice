@@ -1,6 +1,4 @@
-# monday (n8n)
-
-## Operations
+# n8n monday (structured)
 
 ```json
 {
@@ -9,6 +7,21 @@
   "resources": {
     "boardItem": {
       "operations": {
+        "addUpdate": {
+          "params": {
+            "required": [
+              "itemId",
+              "text"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "id"
+            ],
+            "binary": []
+          }
+        },
         "create": {
           "params": {
             "required": [
@@ -16,29 +29,16 @@
               "itemName"
             ],
             "optional": [
-              "groupId",
-              "columnValues"
+              "columnValues",
+              "groupId"
             ]
           },
           "returns": {
             "data": [
-              "id",
-              "boardId"
-            ]
-          }
-        },
-        "updateColumnValues": {
-          "params": {
-            "required": [
-              "itemId",
-              "columnValues"
-            ],
-            "optional": []
-          },
-          "returns": {
-            "data": [
+              "boardId",
               "id"
-            ]
+            ],
+            "binary": []
           }
         },
         "get": {
@@ -50,10 +50,11 @@
           },
           "returns": {
             "data": [
+              "columnValues",
               "id",
-              "name",
-              "columnValues"
-            ]
+              "name"
+            ],
+            "binary": []
           }
         },
         "getMany": {
@@ -70,29 +71,29 @@
             "data": [
               "items",
               "pagination"
-            ]
+            ],
+            "binary": []
           }
         },
-        "addUpdate": {
+        "updateColumnValues": {
           "params": {
             "required": [
-              "itemId",
-              "text"
+              "columnValues",
+              "itemId"
             ],
             "optional": []
           },
           "returns": {
             "data": [
               "id"
-            ]
+            ],
+            "binary": []
           }
         }
       }
     }
-  },
-  "sourceDocs": [
-    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.mondaycom/"
-  ]
+  }
 }
-
 ```
+
+Source: https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.mondaycom/

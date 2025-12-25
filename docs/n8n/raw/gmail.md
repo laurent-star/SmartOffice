@@ -1,6 +1,4 @@
-# gmail (n8n)
-
-## Operations
+# n8n gmail (structured)
 
 ```json
 {
@@ -9,22 +7,6 @@
   "resources": {
     "message": {
       "operations": {
-        "getMany": {
-          "params": {
-            "required": [],
-            "optional": [
-              "query",
-              "limit",
-              "includeSpamTrash"
-            ]
-          },
-          "returns": {
-            "data": [
-              "messages",
-              "nextPageToken"
-            ]
-          }
-        },
         "get": {
           "params": {
             "required": [
@@ -37,40 +19,57 @@
           "returns": {
             "data": [
               "id",
-              "threadId",
-              "snippet",
+              "internalDate",
               "payload",
-              "internalDate"
+              "snippet",
+              "threadId"
+            ],
+            "binary": []
+          }
+        },
+        "getMany": {
+          "params": {
+            "required": [],
+            "optional": [
+              "includeSpamTrash",
+              "limit",
+              "query"
             ]
+          },
+          "returns": {
+            "data": [
+              "messages",
+              "nextPageToken"
+            ],
+            "binary": []
           }
         },
         "send": {
           "params": {
             "required": [
-              "to",
-              "subject"
+              "subject",
+              "to"
             ],
             "optional": [
-              "text",
-              "html",
               "attachments",
+              "html",
+              "text",
               "threadId"
             ]
           },
           "returns": {
             "data": [
               "id",
-              "threadId",
-              "labelIds"
-            ]
+              "labelIds",
+              "threadId"
+            ],
+            "binary": []
           }
         }
       }
     }
-  },
-  "sourceDocs": [
-    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.gmail/"
-  ]
+  }
 }
-
 ```
+
+Source: https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.gmail/

@@ -1,20 +1,37 @@
-# brevo (n8n)
-
-## Operations
+# n8n brevo (structured)
 
 ```json
 {
   "provider": "brevo",
   "nodeType": "n8n-nodes-base.brevo",
   "resources": {
+    "campaign": {
+      "operations": {
+        "createCampaign": {
+          "params": {
+            "required": [
+              "content",
+              "name"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "campaign_id"
+            ],
+            "binary": []
+          }
+        }
+      }
+    },
     "email": {
       "operations": {
         "sendEmail": {
           "params": {
             "required": [
-              "to",
+              "body",
               "subject",
-              "body"
+              "to"
             ],
             "optional": [
               "attachments"
@@ -23,33 +40,14 @@
           "returns": {
             "data": [
               "message_id"
-            ]
-          }
-        }
-      }
-    },
-    "campaign": {
-      "operations": {
-        "createCampaign": {
-          "params": {
-            "required": [
-              "name",
-              "content"
             ],
-            "optional": []
-          },
-          "returns": {
-            "data": [
-              "campaign_id"
-            ]
+            "binary": []
           }
         }
       }
     }
-  },
-  "sourceDocs": [
-    "https://docs.n8n.io/integrations/third-party/brevo/"
-  ]
+  }
 }
-
 ```
+
+Source: https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.brevo/

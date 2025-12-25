@@ -1,30 +1,10 @@
-# axonaut (n8n)
-
-## Operations
+# n8n axonaut (structured)
 
 ```json
 {
   "provider": "axonaut",
   "nodeType": "n8n-nodes-base.axonaut",
   "resources": {
-    "contact": {
-      "operations": {
-        "create": {
-          "params": {
-            "required": [
-              "contact"
-            ],
-            "optional": []
-          },
-          "returns": {
-            "data": [
-              "contact_id"
-            ]
-          },
-          "description": "Cree un contact dans Axonaut"
-        }
-      }
-    },
     "company": {
       "operations": {
         "update": {
@@ -37,15 +17,33 @@
           "returns": {
             "data": [
               "company_id"
-            ]
+            ],
+            "binary": []
           }
         }
       }
+    },
+    "contact": {
+      "operations": {
+        "create": {
+          "params": {
+            "required": [
+              "contact"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "contact_id"
+            ],
+            "binary": []
+          },
+          "description": "Cree un contact dans Axonaut"
+        }
+      }
     }
-  },
-  "sourceDocs": [
-    "https://docs.n8n.io/integrations/third-party/axonaut/"
-  ]
+  }
 }
-
 ```
+
+Source: https://docs.n8n.io/integrations/third-party/axonaut/

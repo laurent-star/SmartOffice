@@ -23,8 +23,9 @@ function formatAjvErrors(errors) {
 }
 
 function checkOperation(provider, resource, operation, opDef) {
-  const required = opDef.params?.required || [];
-  const optional = opDef.params?.optional || [];
+  const params = (opDef && opDef.params) || {};
+  const required = params.required || [];
+  const optional = params.optional || [];
   const intersection = required.filter((p) => optional.includes(p));
   if (intersection.length) {
     throw new Error(`Params overlap for ${provider}/${resource}/${operation}: ${intersection.join(',')}`);

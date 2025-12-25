@@ -1,6 +1,4 @@
-# openai (n8n)
-
-## Operations
+# n8n openai (structured)
 
 ```json
 {
@@ -9,6 +7,36 @@
   "resources": {
     "assistant": {
       "operations": {
+        "classify": {
+          "params": {
+            "required": [
+              "labels",
+              "text"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "classification"
+            ],
+            "binary": []
+          }
+        },
+        "extract": {
+          "params": {
+            "required": [
+              "schema",
+              "text"
+            ],
+            "optional": []
+          },
+          "returns": {
+            "data": [
+              "structured_data"
+            ],
+            "binary": []
+          }
+        },
         "summarize": {
           "params": {
             "required": [
@@ -19,46 +47,17 @@
           "returns": {
             "data": [
               "summary"
-            ]
+            ],
+            "binary": []
           },
           "notes": [
             "Basé sur le node OpenAI (chat/completion) pour générer un résumé"
           ]
-        },
-        "classify": {
-          "params": {
-            "required": [
-              "text",
-              "labels"
-            ],
-            "optional": []
-          },
-          "returns": {
-            "data": [
-              "classification"
-            ]
-          }
-        },
-        "extract": {
-          "params": {
-            "required": [
-              "text",
-              "schema"
-            ],
-            "optional": []
-          },
-          "returns": {
-            "data": [
-              "structured_data"
-            ]
-          }
         }
       }
     }
-  },
-  "sourceDocs": [
-    "https://docs.n8n.io/integrations/builtin/nodes/n8n-nodes-base.openai/"
-  ]
+  }
 }
-
 ```
+
+Source: https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-langchain.openai/

@@ -24,8 +24,9 @@ function validateOperationsConsistency(registry) {
     }
     for (const [resource, resourceDef] of Object.entries(providerDef.resources || {})) {
       for (const [operation, opDef] of Object.entries(resourceDef.operations || {})) {
-        const required = opDef.params?.required || [];
-        const optional = opDef.params?.optional || [];
+        const params = (opDef && opDef.params) || {};
+        const required = params.required || [];
+        const optional = params.optional || [];
         const intersection = required.filter((p) => optional.includes(p));
         if (intersection.length) {
           issues.push({ type: 'operation', provider, resource, operation, message: `Params overlap: ${intersection.join(',')}` });

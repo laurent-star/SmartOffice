@@ -1,6 +1,4 @@
-# google-docs (n8n)
-
-## Operations
+# n8n google-docs (structured)
 
 ```json
 {
@@ -22,24 +20,8 @@
             "data": [
               "documentId",
               "title"
-            ]
-          }
-        },
-        "update": {
-          "params": {
-            "required": [
-              "documentId"
             ],
-            "optional": [
-              "requests",
-              "text",
-              "html"
-            ]
-          },
-          "returns": {
-            "data": [
-              "documentId"
-            ]
+            "binary": []
           }
         },
         "get": {
@@ -51,18 +33,35 @@
           },
           "returns": {
             "data": [
+              "body",
               "documentId",
-              "title",
-              "body"
+              "title"
+            ],
+            "binary": []
+          }
+        },
+        "update": {
+          "params": {
+            "required": [
+              "documentId"
+            ],
+            "optional": [
+              "html",
+              "requests",
+              "text"
             ]
+          },
+          "returns": {
+            "data": [
+              "documentId"
+            ],
+            "binary": []
           }
         }
       }
     }
-  },
-  "sourceDocs": [
-    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledocs/"
-  ]
+  }
 }
-
 ```
+
+Source: https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledocs/

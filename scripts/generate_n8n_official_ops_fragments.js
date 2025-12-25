@@ -60,16 +60,18 @@ function sortFragment(fragment) {
     sorted.resources[res] = { operations: {} };
     operations.forEach((op) => {
       const opDef = resDef.operations[op];
+      const params = (opDef && opDef.params) || {};
+      const returns = (opDef && opDef.returns) || {};
       sorted.resources[res].operations[op] = {
         ...opDef,
         params: {
-          required: (opDef.params?.required || []).slice().sort(),
-          optional: (opDef.params?.optional || []).slice().sort()
+          required: (params.required || []).slice().sort(),
+          optional: (params.optional || []).slice().sort()
         },
         returns: {
-          ...opDef.returns,
-          data: (opDef.returns?.data || []).slice().sort(),
-          binary: (opDef.returns?.binary || []).slice().sort()
+          ...returns,
+          data: (returns.data || []).slice().sort(),
+          binary: (returns.binary || []).slice().sort()
         }
       };
     });

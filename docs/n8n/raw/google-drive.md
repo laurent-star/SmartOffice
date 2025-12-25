@@ -1,33 +1,10 @@
-# google-drive (n8n)
-
-## Operations
+# n8n google-drive (structured)
 
 ```json
 {
   "provider": "google-drive",
   "nodeType": "n8n-nodes-base.googleDrive",
   "resources": {
-    "fileFolder": {
-      "operations": {
-        "search": {
-          "params": {
-            "required": [
-              "query"
-            ],
-            "optional": [
-              "limit",
-              "returnAll"
-            ]
-          },
-          "returns": {
-            "data": [
-              "items",
-              "nextPageToken"
-            ]
-          }
-        }
-      }
-    },
     "file": {
       "operations": {
         "download": {
@@ -48,26 +25,6 @@
             ]
           }
         },
-        "upload": {
-          "params": {
-            "required": [
-              "name",
-              "folderId",
-              "binary"
-            ],
-            "optional": [
-              "mimeType"
-            ]
-          },
-          "returns": {
-            "data": [
-              "id",
-              "name",
-              "mimeType",
-              "webViewLink"
-            ]
-          }
-        },
         "get": {
           "params": {
             "required": [
@@ -80,11 +37,55 @@
           "returns": {
             "data": [
               "id",
-              "name",
               "mimeType",
+              "name",
               "parents",
               "webViewLink"
+            ],
+            "binary": []
+          }
+        },
+        "upload": {
+          "params": {
+            "required": [
+              "binary",
+              "folderId",
+              "name"
+            ],
+            "optional": [
+              "mimeType"
             ]
+          },
+          "returns": {
+            "data": [
+              "id",
+              "mimeType",
+              "name",
+              "webViewLink"
+            ],
+            "binary": []
+          }
+        }
+      }
+    },
+    "fileFolder": {
+      "operations": {
+        "search": {
+          "params": {
+            "required": [
+              "query"
+            ],
+            "optional": [
+              "limit",
+              "returnAll"
+            ]
+          },
+          "returns": {
+            "data": [
+              "items",
+              "nextPageToken"
+            ],
+            "binary": []
           }
         }
       }
@@ -104,15 +105,14 @@
             "data": [
               "id",
               "name"
-            ]
+            ],
+            "binary": []
           }
         }
       }
     }
-  },
-  "sourceDocs": [
-    "https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/"
-  ]
+  }
 }
-
 ```
+
+Source: https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/
