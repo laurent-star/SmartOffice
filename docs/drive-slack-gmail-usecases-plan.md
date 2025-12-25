@@ -8,23 +8,23 @@ Objectif : préparer des workflows prêts à importer, avec mocks pour toutes le
    - Sortie : checklist des fichiers manquants + mapping des credentials à connecter demain (Slack, Gmail uniquement).
    - Vérification : aucun diff inattendu sur `node_modules` (reset si besoin), conformité des schémas `formats/*.json` (ajv --validate).
 
-2) **Goldens prêts à importer (1 h)** — **but : zéro dépendance aux credentials**
-   - Produire/compléter les 2 workflows golden avec mocks :
+2) **Contrats + schémas prêts (45 min)** — **ordre inverse : contrats → schémas → goldens**
+   - **Contrats (d'abord)** :
+     - Créer/mettre à jour `config/use-cases/drive_to_slack_notify.usecase.json` (entrées : folder_id, channel_id, emails_fallback; sorties : slack_message_ts, gmail_status).
+     - Créer/mettre à jour `config/use-cases/slack_drive_to_gmail.usecase.json` (entrées : commande, doc_id/requête, destinataires; sorties : slack_ack_ts, gmail_message_id).
+     - Régénérer `registries/usecases.json` (et `registries/capabilities.json` seulement si nouvelle capacité ajoutée).
+     - Vérifications : AJV sur `formats/usecase.json`, contrôle manuel du champ `depends_on` (tools/capabilities) pour garantir qu'aucun credential implicite n'est oublié.
+   - **Schémas (ensuite)** : relire `formats/envelope.json`, `step.json`, `tool-input/result.json` et s'assurer qu'ils couvrent les besoins des deux use cases sans ajouter de logique procédurale.
+
+3) **Goldens prêts à importer (1 h)** — **but : zéro dépendance aux credentials**
+   - Produire/compléter les 2 workflows golden avec mocks (déclaratif uniquement, compatible workflow executor) :
      - `workflows/golden/drive_to_slack_notify.json` (succès + branche fallback Gmail simulée).
      - `workflows/golden/slack_request_drive_to_gmail.json` (requête Slack simulée → Drive mock → Gmail mock).
    - Injections de données statiques (IDs Drive factices, message Slack simulé, statut Gmail simulé) pour rendre les I/O déterministes; aucune référence credential.
    - Vérifications :
      - Validation `formats/envelope.json` + `step.json` + `tool-input/result.json` via AJV.
-     - Import n8n en local avec sandbox/mocks pour s'assurer qu'aucun credential n'est requis.
+     - Import n8n en local avec sandbox/mocks pour s'assurer qu'aucun credential n'est requis et que tous les tools sont fonctionnels hors credentials.
    - Sorties : fichiers golden + note rapide dans `docs/status-auto.md` si inventaire change.
-
-3) **Configs & use cases (45 min)** — **but : limiter les touches demain**
-   - Créer/mettre à jour :
-     - `config/use-cases/drive_to_slack_notify.usecase.json` (entrées : folder_id, channel_id, emails_fallback; sorties : slack_message_ts, gmail_status).
-     - `config/use-cases/slack_drive_to_gmail.usecase.json` (entrées : commande, doc_id/requête, destinataires; sorties : slack_ack_ts, gmail_message_id).
-   - Vérifier que les tools référencés (Drive, Slack, Gmail, OpenAI/Docs) existent; ajouter la capacité dédiée si besoin (`servir_document_drive`), sinon réutiliser `notify_user`/`summarize_content`.
-   - Régénérer `registries/usecases.json` (et `registries/capabilities.json` seulement si nouvelle capacité ajoutée).
-   - Vérifications : AJV sur `formats/usecase.json`, contrôle manuel du champ `depends_on` (tools/capabilities) pour éviter les oublis de credentials.
 
 4) **Workflows réels prêts-prod (1 h 30)** — **but : un seul geste credential demain**
    - Dupliquer les goldens vers versions réelles en switchant les nodes mocks par les vrais nodes Drive/Slack/Gmail (Drive déjà crédentielé) ; maintenir un flag `use_mock=false` pour désactiver/activer facilement.
@@ -50,6 +50,7 @@ Objectif : préparer des workflows prêts à importer, avec mocks pour toutes le
 - Utiliser les outils existants (`config/tools/gmail.tool.json`, `google-drive.tool.json`, `slack.tool.json`, `google-docs.tool.json`, `openai.tool.json`) et les capacités déjà définies (`config/capabilities/summarize_content.capability.json`, `notify_user.capability.json`) comme briques principales.
 - Produire des workflows **golden** (référence sans credentials, I/O déterministes) puis les workflows réels prêts à l’import n8n.
 - Générer pour chaque use case son fichier `config/use-cases/*.usecase.json`, puis mettre à jour `registries/usecases.json` et, si de nouveaux outils/capacités sont nécessaires, régénérer les registries associées.
+- Aucun workflow « use case » procédural : uniquement des descriptions déclaratives compatibles avec le workflow executor ; les tools doivent être utilisables immédiatement hors credentials.
 - Valider systématiquement via les schémas `formats/` (AJV) et une smoke test n8n (import + exécution sur sandbox).
 
 ## Use case 1 : Publication de document Drive vers Slack avec résumé et notification Gmail de secours
