@@ -6,17 +6,18 @@
     {
       "name": "event.create",
       "input": [
-        "summary",
+        "title",
         "start",
         "end"
       ],
       "output": "eventId"
     },
     {
-      "name": "event.getAll",
+      "name": "event.getMany",
       "input": [
         "timeMin",
-        "timeMax"
+        "timeMax",
+        "limit"
       ],
       "output": "events"
     }

@@ -15,6 +15,7 @@
     "capabilities:validate": "node scripts/validate_capabilities.js",
     "tools:generate": "node scripts/generate_tools_registry.js",
     "workflows:tools": "node scripts/generate_tool_workflows.js",
+    "validate:cross-refs": "node scripts/validate_cross_refs.js",
     "build:tools": "npm run docs:validate:n8n && npm run ops:parse && npm run ops:fragments && npm run ops:build && npm run ops:validate && npm run categories:generate && npm run categories:validate && npm run capabilities:generate && npm run capabilities:validate && npm run tools:generate && npm run workflows:tools",
     "smoke:tools": "node scripts/smoke_build_tools.js"
   },

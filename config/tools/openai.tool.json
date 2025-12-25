@@ -4,25 +4,25 @@
   "description": "LLM pour résumer, classifier ou extraire des informations textuelles.",
   "actions": [
     {
-      "name": "chat.summarize",
+      "name": "assistant.summarize",
       "input": [
         "text"
       ],
       "output": "summary"
     },
     {
-      "name": "chat.classify",
+      "name": "assistant.classify",
       "input": [
-        "text",
-        "labels"
+        "labels",
+        "text"
       ],
       "output": "classification"
     },
     {
-      "name": "chat.extract",
+      "name": "assistant.extract",
       "input": [
-        "text",
-        "schema"
+        "schema",
+        "text"
       ],
       "output": "structured_data"
     }

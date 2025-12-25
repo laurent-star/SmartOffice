@@ -4,21 +4,22 @@
   "description": "Envoi d'emails transactionnels via Brevo.",
   "actions": [
     {
-      "name": "transactionalEmail.send",
+      "name": "email.sendEmail",
       "input": [
         "to",
         "subject",
-        "html"
+        "body",
+        "attachments"
       ],
-      "output": "messageId"
+      "output": "message_id"
     },
     {
-      "name": "campaign.create",
+      "name": "campaign.createCampaign",
       "input": [
         "name",
         "content"
       ],
-      "output": "campaignId"
+      "output": "campaign_id"
     }
   ],
   "categories": [
