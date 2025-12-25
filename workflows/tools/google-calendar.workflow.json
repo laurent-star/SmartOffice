@@ -52,27 +52,34 @@
     {
       "id": "node-action-1",
       "name": "Action event.create",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1,
       "position": [
         900,
         200
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'event.create', input }, error: null, meta: { provider: 'google-calendar', operation: 'event.create' } } }];"
+        "resource": "event",
+        "operation": "create",
+        "summary": "={{$json.params.summary}}",
+        "start": "={{$json.params.start}}",
+        "end": "={{$json.params.end}}"
       }
     },
     {
       "id": "node-action-2",
       "name": "Action event.getAll",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1,
       "position": [
         900,
         320
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'event.getAll', input }, error: null, meta: { provider: 'google-calendar', operation: 'event.getAll' } } }];"
+        "resource": "event",
+        "operation": "getAll",
+        "timeMin": "={{$json.params.timeMin}}",
+        "timeMax": "={{$json.params.timeMax}}"
       }
     }
   ],

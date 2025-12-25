@@ -56,40 +56,48 @@
     {
       "id": "node-action-1",
       "name": "Action document.create",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.googleDocs",
       "typeVersion": 1,
       "position": [
         900,
         200
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'document.create', input }, error: null, meta: { provider: 'google-docs', operation: 'document.create' } } }];"
+        "resource": "document",
+        "operation": "create",
+        "title": "={{$json.params.title}}",
+        "folderId": "={{$json.params.folderId}}"
       }
     },
     {
       "id": "node-action-2",
       "name": "Action document.get",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.googleDocs",
       "typeVersion": 1,
       "position": [
         900,
         320
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'document.get', input }, error: null, meta: { provider: 'google-docs', operation: 'document.get' } } }];"
+        "resource": "document",
+        "operation": "get",
+        "documentId": "={{$json.params.documentId}}"
       }
     },
     {
       "id": "node-action-3",
       "name": "Action document.update",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.googleDocs",
       "typeVersion": 1,
       "position": [
         900,
         440
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nreturn [{ json: { ok: true, data: { operation: 'document.update', input }, error: null, meta: { provider: 'google-docs', operation: 'document.update' } } }];"
+        "resource": "document",
+        "operation": "update",
+        "documentId": "={{$json.params.documentId}}",
+        "text": "={{$json.params.text}}"
       }
     }
   ],
