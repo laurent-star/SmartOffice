@@ -72,6 +72,16 @@ Artefacts :
 - Workflows golden servent de reference minimale
 - Workflows reels implementent les actions et integrations
 
+## Couches du systeme
+
+- Triggers : points d'entree (webhook, schedule, inbox, chat)
+- Agent : planification et selection des steps
+- Executor : moteur deterministe d'execution
+- Tools : actions atomiques connectees aux APIs
+- Utils : helpers partages (normalisation, validation, guards)
+- Configs : definitions declaratives (tools, capabilities, use cases)
+- Registries : catalogues compiles pour l'execution
+
 ## Workflows et configuration
 
 Seuls les workflows suivants sont utilises :
@@ -98,6 +108,10 @@ Pour demarrer, un nouveau client ne fait que :
 - docs/golden-workflows.md
 - docs/codex-plan.md
 - docs/tools-catalog.md
+- docs/n8n-installation.md
+- docs/drive-slack-gmail-usecases-plan.md
+- docs/md-audit-2025-12-24.md
+- docs/status-auto.md
 
 ## Readme par repertoire
 
