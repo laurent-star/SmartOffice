@@ -31,6 +31,20 @@ et des use cases metier, executes par un executor recursif.
   - capability
   - use case
 
+## Types de tools (catalogue fonctionnel)
+
+Chaque tool est classe par type fonctionnel (champ `category` dans config/tools).
+
+- trigger_message : canaux d'entree/sortie (Slack, Gmail, WhatsApp, Messenger)
+- validation_humaine : boucle humaine (Slack, WhatsApp, Messenger)
+- crm : gestion clients (Axonaut, CRM interne)
+- sales : gestion prospects (CRM ou outil commercial)
+- ged : gestion documentaire (Drive, Docs, GED interne)
+- marketing : campagnes et emails marketing (Brevo)
+- task_manager : gestion de taches (Monday, Asana)
+- calendar : calendriers (Google Calendar, Outlook)
+- llm : modeles de langage (OpenAI, Claude)
+
 ## Regles d'architecture
 
 - Les tools ne contiennent aucune logique metier
@@ -57,6 +71,20 @@ Artefacts :
 - Registries materialisent les references utilisables par l'executor
 - Workflows golden servent de reference minimale
 - Workflows reels implementent les actions et integrations
+
+## Workflows et configuration
+
+Seuls les workflows suivants sont utilises :
+- agent
+- executor
+- tools
+- utils (si reutilises par plusieurs workflows)
+
+Tout le reste est du JSON declaratif simple qui respecte les contrats.
+
+Pour demarrer, un nouveau client ne fait que :
+- importer les workflows dans n8n
+- connecter les credentials pour chaque tool
 
 ## Documentation runtime
 
@@ -109,73 +137,6 @@ Artefacts :
   - golden/ : implementations de reference
 - registries/ : definitions de tools, capabilities, use cases
 - scripts/ : utilitaires d'automatisation (validation, etc.)
-
-## Flux Git recommande (VS Code ou CLI)
-
-1. **Recuperer les derniers commits** : `git fetch --all` puis verifier la branche courante avec `git status -sb` (la branche active actuelle est `work`).
-2. **Conserver vos modifications locales** : si vous avez edite des fichiers (ex. README) sans commit, utilisez `git stash push -m "save local README"` avant de changer de branche ou de rebase, puis `git stash pop` apres mise a jour.
-3. **Mettre a jour depuis la branche distante** : `git pull --rebase origin <branche>` pour re-appliquer vos changements au-dessus des derniers commits et limiter les merges inutiles.
-4. **Commiter et pousser** : une fois vos modifications valides, `git commit -am "message"` puis `git push origin <branche>`.
-5. **Coordination** : si un collaborateur pousse sur une autre branche, preferez ouvrir une nouvelle branche derivee de `work` pour vos travaux, puis creez une PR pour fusionner.
-6. **Publier des README en cours** : si vous avez des README locaux non commits (ex. saisie via VS Code), creez une branche dediee avant de pousser pour isoler vos changements :
-
-   ```bash
-   git switch work
-   git pull --rebase
-   git switch -c feature/push-readme-updates
-   git add README.md docs/**/*.md workflows/**/README.md
-   git commit -m "Publier les README en attente"
-   git push origin feature/push-readme-updates
-   ```
-
-### Depannage : branche `work` absente dans VS Code
-
-- Par defaut, ce depot ne declare **aucun remote** et ne contient qu'une branche locale `work`.
-- Si VS Code affiche `main` en haut a gauche, c'est simplement l'intitule par defaut propose lorsqu'aucune branche n'est selectionnee ou lorsqu'un remote n'est pas configure.
-- Pour recuperer/afficher la branche `work` dans VS Code :
-
-  ```bash
-  git remote add origin <url-de-votre-depot>
-  git fetch origin
-  git switch work
-  git push --set-upstream origin work   # optionnel : definir l'upstream si vous souhaitez la publier
-  ```
-
-- Une fois la branche `work` checkout, VS Code la listera dans la palette Git et dans le bandeau inferieur.
-- Si VS Code continue d'afficher `main`, verifier que vous avez bien ouvert le dossier racine du projet (`/workspace/SmartOffice` ou `smart-office.code-workspace`) : ouvrir uniquement `/workspace` fait apparaitre un depot parent vide qui affiche `main` par defaut.
-- Pensez a recharger la fenetre VS Code apres avoir ajoute le remote ou change de dossier (`Developer: Reload Window`) pour rafraichir la detection Git.
-
-### Publier tous les fichiers modifies dans une PR
-
-Si vous avez modifie plusieurs README, schemas ou workflows et voulez tout pousser en une seule PR :
-
-1. Assurez-vous d'etre sur `work` et a jour :
-
-   ```bash
-   git switch work
-   git pull --rebase
-   ```
-
-2. Creez une branche dediee a la publication :
-
-   ```bash
-   git switch -c feature/push-all-updates
-   ```
-
-3. Ajoutez l'ensemble des fichiers modifies (y compris les nouveaux) :
-
-   ```bash
-   git add -A
-   ```
-
-4. Commitez puis poussez :
-
-   ```bash
-   git commit -m "Publier les fichiers modifies"
-   git push -u origin feature/push-all-updates
-   ```
-
-5. Ouvrez la PR depuis `feature/push-all-updates` vers la branche cible (ex. `work`) et verifiez que tous les fichiers attendus apparaissent dans l'onglet *Files changed*.
 
 ## Validation des schemas
 

@@ -14,6 +14,7 @@ Contenu
 
 Chaque tool definit :
 - id, version, description
+- category (type fonctionnel)
 - actions[].name (operation)
 - actions[].input (cles attendues dans params)
 - actions[].output (cle principale retournee)

@@ -3,7 +3,20 @@
   "version": "1.0.0",
   "description": "Synchronisation des contacts et entreprises dans Axonaut.",
   "actions": [
-    { "name": "create_contact", "input": ["contact"], "output": "contact_id" },
-    { "name": "update_company", "input": ["company"], "output": "company_id" }
-  ]
+    {
+      "name": "create_contact",
+      "input": [
+        "contact"
+      ],
+      "output": "contact_id"
+    },
+    {
+      "name": "update_company",
+      "input": [
+        "company"
+      ],
+      "output": "company_id"
+    }
+  ],
+  "category": "crm"
 }

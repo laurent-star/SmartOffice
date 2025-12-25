@@ -3,7 +3,22 @@
   "version": "1.0.0",
   "description": "Création et mise à jour de documents Google Docs.",
   "actions": [
-    { "name": "create_document", "input": ["title", "content"], "output": "document_id" },
-    { "name": "fill_template", "input": ["template_id", "data"], "output": "document_id" }
-  ]
+    {
+      "name": "create_document",
+      "input": [
+        "title",
+        "content"
+      ],
+      "output": "document_id"
+    },
+    {
+      "name": "fill_template",
+      "input": [
+        "template_id",
+        "data"
+      ],
+      "output": "document_id"
+    }
+  ],
+  "category": "ged"
 }

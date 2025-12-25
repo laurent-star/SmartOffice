@@ -3,8 +3,29 @@
   "version": "1.0.0",
   "description": "LLM pour résumer, classifier ou extraire des informations textuelles.",
   "actions": [
-    { "name": "summarize", "input": ["text"], "output": "summary" },
-    { "name": "classify", "input": ["text", "labels"], "output": "classification" },
-    { "name": "extract", "input": ["text", "schema"], "output": "structured_data" }
-  ]
+    {
+      "name": "summarize",
+      "input": [
+        "text"
+      ],
+      "output": "summary"
+    },
+    {
+      "name": "classify",
+      "input": [
+        "text",
+        "labels"
+      ],
+      "output": "classification"
+    },
+    {
+      "name": "extract",
+      "input": [
+        "text",
+        "schema"
+      ],
+      "output": "structured_data"
+    }
+  ],
+  "category": "llm"
 }

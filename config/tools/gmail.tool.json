@@ -3,7 +3,22 @@
   "version": "1.0.0",
   "description": "Messagerie Gmail pour envoyer ou rechercher des emails.",
   "actions": [
-    { "name": "send_email", "input": ["to", "subject", "body"], "output": "message_id" },
-    { "name": "search_email", "input": ["query"], "output": "messages" }
-  ]
+    {
+      "name": "send_email",
+      "input": [
+        "to",
+        "subject",
+        "body"
+      ],
+      "output": "message_id"
+    },
+    {
+      "name": "search_email",
+      "input": [
+        "query"
+      ],
+      "output": "messages"
+    }
+  ],
+  "category": "trigger_message"
 }

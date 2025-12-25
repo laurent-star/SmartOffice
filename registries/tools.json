@@ -2,6 +2,8 @@
   {
     "id": "axonaut",
     "version": "1.0.0",
+    "description": "Synchronisation des contacts et entreprises dans Axonaut.",
+    "category": "crm",
     "path": "config/tools/axonaut.tool.json",
     "actions": [
       {
@@ -23,6 +25,8 @@
   {
     "id": "brevo",
     "version": "1.0.0",
+    "description": "Envoi d'emails transactionnels via Brevo.",
+    "category": "marketing",
     "path": "config/tools/brevo.tool.json",
     "actions": [
       {
@@ -47,6 +51,8 @@
   {
     "id": "gmail",
     "version": "1.0.0",
+    "description": "Messagerie Gmail pour envoyer ou rechercher des emails.",
+    "category": "trigger_message",
     "path": "config/tools/gmail.tool.json",
     "actions": [
       {
@@ -70,6 +76,8 @@
   {
     "id": "google-docs",
     "version": "1.0.0",
+    "description": "Création et mise à jour de documents Google Docs.",
+    "category": "ged",
     "path": "config/tools/google-docs.tool.json",
     "actions": [
       {
@@ -93,6 +101,8 @@
   {
     "id": "google-drive",
     "version": "1.0.0",
+    "description": "Stockage et partage de fichiers via Google Drive.",
+    "category": "ged",
     "path": "config/tools/google-drive.tool.json",
     "actions": [
       {
@@ -116,6 +126,8 @@
   {
     "id": "monday",
     "version": "1.0.0",
+    "description": "Gestion des éléments CRM et tickets via Monday.com.",
+    "category": "task_manager",
     "path": "config/tools/monday.tool.json",
     "actions": [
       {
@@ -139,6 +151,8 @@
   {
     "id": "openai",
     "version": "1.0.0",
+    "description": "LLM pour résumer, classifier ou extraire des informations textuelles.",
+    "category": "llm",
     "path": "config/tools/openai.tool.json",
     "actions": [
       {
@@ -169,6 +183,8 @@
   {
     "id": "slack",
     "version": "1.0.0",
+    "description": "Notifications et collaboration via Slack.",
+    "category": "trigger_message",
     "path": "config/tools/slack.tool.json",
     "actions": [
       {

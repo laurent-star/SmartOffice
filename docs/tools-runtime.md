@@ -45,6 +45,7 @@ Each tool definition lists:
 - `actions[].name` (operation)
 - `actions[].input` (expected params keys)
 - `actions[].output` (expected output key)
+- `category` (type fonctionnel du tool)
 
 `params` provided in tool steps must match the `actions[].input` list.
 

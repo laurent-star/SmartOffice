@@ -3,7 +3,22 @@
   "version": "1.0.0",
   "description": "Gestion des éléments CRM et tickets via Monday.com.",
   "actions": [
-    { "name": "create_item", "input": ["board_id", "item"], "output": "item_id" },
-    { "name": "update_item", "input": ["item_id", "fields"], "output": "item_id" }
-  ]
+    {
+      "name": "create_item",
+      "input": [
+        "board_id",
+        "item"
+      ],
+      "output": "item_id"
+    },
+    {
+      "name": "update_item",
+      "input": [
+        "item_id",
+        "fields"
+      ],
+      "output": "item_id"
+    }
+  ],
+  "category": "task_manager"
 }
