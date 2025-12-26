@@ -19,14 +19,16 @@
     {
       "id": "node-build-envelope",
       "name": "Build Legacy Envelope",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         420,
         300
       ],
       "parameters": {
-        "functionCode": "const payload = items[0].json || {};\nconst envelope = {\n  context: {\n    memory: {\n      session_id: payload.session_id || 'sess_001',\n      state: payload.state || {},\n      stack: payload.stack || []\n    }\n  },\n  input: {\n    steps: payload.steps || []\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];"
+        "jsCode": "const payload = items[0].json || {};\nconst envelope = {\n  context: {\n    memory: {\n      session_id: payload.session_id || 'sess_001',\n      state: payload.state || {},\n      stack: payload.stack || []\n    }\n  },\n  input: {\n    steps: payload.steps || []\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems"
       }
     }
   ],

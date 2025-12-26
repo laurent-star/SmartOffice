@@ -14,14 +14,16 @@
     {
       "id": "node-build-plan",
       "name": "Build Execution Envelope",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         420,
         300
       ],
       "parameters": {
-        "functionCode": "const input = items[0].json || {}\nconst now = new Date().toISOString();\n\nconst baseMemory = input.payload?.memory ?? {\n  session_id: `sess_${Date.now()}`,\n  state: {},\n  stack: []\n};\n\nconst contextComplete = Boolean(baseMemory.state?.context_complete);\nconst steps = [];\n\nif (!contextComplete) {\n  steps.push({\n    type: 'capability',\n    ref: 'human_validation',\n    params: {\n      message: 'Compléter les informations manquantes avant planification.',\n      destination: 'agent',\n      reason: 'missing_context'\n    }\n  });\n} else {\n  steps.push({\n    type: 'tool',\n    ref: 'slack',\n    params: {\n      action: 'send_message',\n      channel: '#ops',\n      text: 'Plan validé et complet.'\n    }\n  });\n}\n\nconst header = input.header ?? {\n  id: `env-${Date.now()}`,\n  version: '1.0',\n  timestamp: now,\n  source: 'agent.planner',\n  destination: steps[0]?.params?.destination === 'agent' ? 'agent' : 'executor',\n  type: 'execution'\n};\n\nconst envelope = {\n  header,\n  payload: {\n    steps,\n    memory: baseMemory\n  }\n};\n\nreturn [{ json: envelope }];"
+        "jsCode": "const input = items[0].json || {}\nconst now = new Date().toISOString();\n\nconst baseMemory = input.payload?.memory ?? {\n  session_id: `sess_${Date.now()}`,\n  state: {},\n  stack: []\n};\n\nconst contextComplete = Boolean(baseMemory.state?.context_complete);\nconst steps = [];\n\nif (!contextComplete) {\n  steps.push({\n    type: 'capability',\n    ref: 'human_validation',\n    params: {\n      message: 'Compl\u00e9ter les informations manquantes avant planification.',\n      destination: 'agent',\n      reason: 'missing_context'\n    }\n  });\n} else {\n  steps.push({\n    type: 'tool',\n    ref: 'slack',\n    params: {\n      action: 'send_message',\n      channel: '#ops',\n      text: 'Plan valid\u00e9 et complet.'\n    }\n  });\n}\n\nconst header = input.header ?? {\n  id: `env-${Date.now()}`,\n  version: '1.0',\n  timestamp: now,\n  source: 'agent.planner',\n  destination: steps[0]?.params?.destination === 'agent' ? 'agent' : 'executor',\n  type: 'execution'\n};\n\nconst envelope = {\n  header,\n  payload: {\n    steps,\n    memory: baseMemory\n  }\n};\n\nreturn [{ json: envelope }];",
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems"
       }
     }
   ],
