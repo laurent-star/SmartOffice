@@ -148,13 +148,22 @@ if [[ -s "$all_files" ]]; then
   done
 fi
 
-echo "==> Audit report"
-for list in "$not_in_readme" "$not_in_docs" "$invalid_json" "$unused_utils" "$dupe_unreferenced"; do
-  if [[ -s "$list" ]]; then
-    echo "-- ${list##*/}"
-    sort -u "$list"
-  fi
-done
+report_dir="audit-reports/$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$report_dir"
+report_file="$report_dir/audit-report.txt"
+
+{
+  echo "==> Audit report"
+  for list in "$not_in_readme" "$not_in_docs" "$invalid_json" "$unused_utils" "$dupe_unreferenced"; do
+    if [[ -s "$list" ]]; then
+      echo "-- ${list##*/}"
+      sort -u "$list"
+    fi
+  done
+} | tee "$report_file"
+
+cp "$not_in_readme" "$not_in_docs" "$invalid_json" "$unused_utils" "$dupe_unreferenced" "$report_dir" 2>/dev/null || true
+echo "==> Audit logs saved to $report_dir"
 
 to_delete="$audit_dir/to_delete.txt"
 cat "$not_in_readme" "$not_in_docs" "$invalid_json" "$unused_utils" "$dupe_unreferenced" 2>/dev/null | sort -u > "$to_delete"
