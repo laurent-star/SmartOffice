@@ -21,6 +21,9 @@ echo "==> Validate config and cross-refs"
 node scripts/validate_config.js
 node scripts/validate_cross_refs.js
 
+echo "==> Generate registries"
+node scripts/generate_registries.js
+
 echo "==> Validate workflows"
 node scripts/validate_workflows.js
 node scripts/validate_workflow_nodes.js
