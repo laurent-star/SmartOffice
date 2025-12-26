@@ -13,6 +13,15 @@ Ce document liste les taches a realiser cote operations/deploiement.
    - `REGISTRY_TOOLS_FILE_ID`
    - `REGISTRY_CAPABILITIES_FILE_ID`
    - `REGISTRY_USECASES_FILE_ID`
+   - Recuperer les IDs des fichiers Google Drive (URL du fichier -> ID entre `/d/` et `/view`)
+   - n8n Docker :
+     - definir les variables dans l'environnement du container
+     - redemarrer n8n pour prise en compte
+   - n8n UI (si supporte par la stack) :
+     - Settings > Variables
+     - ajouter les trois variables avec leurs IDs
+   - Pour verifier si l'UI est disponible :
+     - ouvrir `http://<host>:5678` et confirmer l'editeur n8n
 
 3) Importer les workflows dans n8n
    - workflows golden
