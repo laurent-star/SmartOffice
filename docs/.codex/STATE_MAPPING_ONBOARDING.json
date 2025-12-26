@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "initiative": "mapping_onboarding_hardening",
+    "single_pr": true,
+    "owner": "codex",
+    "updated_at": null
+  },
+  "discovery": {
+    "package_manager": null,
+    "test_runner": null,
+    "mappings_dir": null,
+    "scripts": {
+      "mapping_lint": "scripts/mapping_lint.js"
+    }
+  },
+  "tasks": [
+    {
+      "id": "ci_mapping_lint",
+      "title": "CI lint automatique des mappings",
+      "status": "todo",
+      "files_expected": [
+        ".github/workflows/mapping-lint.yml",
+        "scripts/mapping_lint.js"
+      ],
+      "checks": [
+        "Workflow runs on pull_request",
+        "Exit non-zero on errors",
+        "CI uses non-interactive mode"
+      ]
+    },
+    {
+      "id": "samples_json",
+      "title": "Samples JSON pour lint interactif",
+      "status": "todo",
+      "files_expected": [
+        "samples/monday/payload.example.json",
+        "samples/hubspot/payload.example.json",
+        "samples/drive/payload.example.json"
+      ],
+      "checks": [
+        "No real IDs/secrets",
+        "Dry-run documented"
+      ]
+    },
+    {
+      "id": "unit_tests_mapping_runtime",
+      "title": "Tests unitaires mapping runtime",
+      "status": "todo",
+      "files_expected": [
+        "tests/mapping/mapping_runtime.test.js"
+      ],
+      "checks": [
+        "Happy path per source",
+        "Missing required field",
+        "Unknown target"
+      ]
+    },
+    {
+      "id": "interactive_lint",
+      "title": "Lint interactif avec complétion des mappings",
+      "status": "todo",
+      "files_expected": [
+        "scripts/mapping_lint.js"
+      ],
+      "checks": [
+        "--interactive flag supported",
+        "Updates mapping file or outputs patch",
+        "Non-interactive behavior unchanged",
+        "CI does not require TTY"
+      ]
+    },
+    {
+      "id": "source_checklists",
+      "title": "Checklists par source",
+      "status": "todo",
+      "files_expected": [
+        "docs/onboarding/monday.checklist.md",
+        "docs/onboarding/hubspot.checklist.md",
+        "docs/onboarding/drive.checklist.md"
+      ],
+      "checks": [
+        "Prereqs + commands + troubleshooting included"
+      ]
+    }
+  ],
+  "log": [
+    {
+      "at": null,
+      "event": "initialized",
+      "details": "State file created; Codex will update statuses and discovery fields as it works."
+    }
+  ]
+}
