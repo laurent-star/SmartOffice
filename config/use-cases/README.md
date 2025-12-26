@@ -2,7 +2,7 @@ README — Config Use cases (Smart Office)
 
 But
 
-Definir des scenarios metier composes de capabilities.
+Definir des scenarios metier composes de capabilities et d'autres use cases.
 Chaque use case declare ses inputs et outputs attendus.
 
 Schema
@@ -17,3 +17,7 @@ Contenu
 
 Ces definitions alimentent :
 - registries/usecases.json
+
+Convention de nommage :
+- `domain.resource.action`
+- Exemple : `briefing.daily.generate`

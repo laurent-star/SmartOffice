@@ -1,0 +1,32 @@
+{
+  "id": "mapping.proposal.generate",
+  "version": "1.0.0",
+  "description": "Genere une proposition de mapping a partir d'un sample.",
+  "inputs": [
+    "input.tool_id",
+    "input.domain",
+    "input.sample_payload"
+  ],
+  "outputs": [
+    "memory.state.mapping.proposal_yaml",
+    "memory.state.mapping.justification"
+  ],
+  "steps": [
+    {
+      "id": "generate_mapping",
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "text.generateModelResponse",
+        "schema": "mapping_proposal_v1",
+        "text": "TOOL={{input.tool_id}}\nDOMAIN={{input.domain}}\nSAMPLE={{input.sample_payload}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.mapping.proposal_yaml": "$.data.structured_data.mapping_yaml",
+          "memory.state.mapping.justification": "$.data.structured_data.justification"
+        }
+      }
+    }
+  ]
+}

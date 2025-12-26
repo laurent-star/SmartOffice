@@ -1,0 +1,41 @@
+{
+  "id": "document.file.notify",
+  "version": "1.0.0",
+  "description": "Recupere un document Drive, le resume et notifie sur Slack.",
+  "inputs": [
+    "memory.state.document.file_id",
+    "memory.state.document.content",
+    "context.slack.channel"
+  ],
+  "outputs": [
+    "memory.state.document.file",
+    "memory.state.content.summary",
+    "memory.state.notification.message_id"
+  ],
+  "steps": [
+    {
+      "id": "fetch",
+      "type": "capability",
+      "ref": "document.file.fetch",
+      "params": {
+        "file_id": "{{memory.state.document.file_id}}"
+      }
+    },
+    {
+      "id": "summarize",
+      "type": "capability",
+      "ref": "content.text.summarize",
+      "params": {
+        "text": "{{memory.state.document.content}}"
+      }
+    },
+    {
+      "id": "notify",
+      "type": "capability",
+      "ref": "notification.message.send",
+      "params": {
+        "message": "Resume document : {{memory.state.content.summary}}"
+      }
+    }
+  ]
+}

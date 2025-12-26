@@ -38,7 +38,7 @@ function buildPlannerWorkflow() {
             "};\n\n" +
             "const normalizeStep = (step) => ({\n" +
             "  type: step.type ?? 'capability',\n" +
-            "  ref: step.ref ?? 'human_validation',\n" +
+            "  ref: step.ref ?? 'human.validation.request',\n" +
             "  params: typeof step.params === 'object' && step.params !== null ? step.params : {}\n" +
             "});\n\n" +
             "let steps = Array.isArray(payload.steps) ? payload.steps.map(normalizeStep) : [];\n" +
@@ -46,7 +46,7 @@ function buildPlannerWorkflow() {
             "if (!contextComplete) {\n" +
             "  steps.unshift({\n" +
             "    type: 'capability',\n" +
-            "    ref: 'human_validation',\n" +
+            "    ref: 'human.validation.request',\n" +
             "    params: {\n" +
             "      message: 'Compléter les informations manquantes avant planification.',\n" +
             "      destination: 'agent',\n" +
@@ -57,7 +57,7 @@ function buildPlannerWorkflow() {
             "if (steps.length === 0) {\n" +
             "  steps.push({\n" +
             "    type: 'capability',\n" +
-            "    ref: 'human_validation',\n" +
+            "    ref: 'human.validation.request',\n" +
             "    params: {\n" +
             "      message: 'Plan vide : merci de préciser les actions attendues.',\n" +
             "      destination: 'agent',\n" +
@@ -124,7 +124,7 @@ function buildSupervisorWorkflow() {
             "};\n\n" +
             "const normalizeStep = (step) => ({\n" +
             "  type: step.type ?? 'capability',\n" +
-            "  ref: step.ref ?? 'human_validation',\n" +
+            "  ref: step.ref ?? 'human.validation.request',\n" +
             "  params: typeof step.params === 'object' && step.params !== null ? step.params : {}\n" +
             "});\n\n" +
             "let steps = Array.isArray(payload.steps) ? payload.steps.map(normalizeStep) : [];\n" +
@@ -132,7 +132,7 @@ function buildSupervisorWorkflow() {
             "if (needsClarification) {\n" +
             "  steps.unshift({\n" +
             "    type: 'capability',\n" +
-            "    ref: 'human_validation',\n" +
+            "    ref: 'human.validation.request',\n" +
             "    params: {\n" +
             "      message: 'Plan incomplet : collecter les informations manquantes.',\n" +
             "      destination: 'agent',\n" +
@@ -143,7 +143,7 @@ function buildSupervisorWorkflow() {
             "if (steps.length === 0) {\n" +
             "  steps.push({\n" +
             "    type: 'capability',\n" +
-            "    ref: 'human_validation',\n" +
+            "    ref: 'human.validation.request',\n" +
             "    params: {\n" +
             "      message: 'Aucun step défini : demander les instructions manquantes.',\n" +
             "      destination: 'agent',\n" +

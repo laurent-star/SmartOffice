@@ -1,0 +1,48 @@
+{
+  "id": "mapping.onboarding.run",
+  "version": "1.0.0",
+  "description": "Orchestre l'onboarding mapping par tool avec proposition LLM, validation Slack et stockage Drive.",
+  "inputs": [
+    "input.tool_id",
+    "input.domain",
+    "input.sample_payload",
+    "context.slack.channel",
+    "context.drive.mappings_folder_id"
+  ],
+  "outputs": [
+    "memory.state.mapping.proposal_yaml",
+    "memory.state.mapping.justification",
+    "memory.state.document.file_id",
+    "memory.state.validation.status"
+  ],
+  "steps": [
+    {
+      "id": "propose",
+      "type": "capability",
+      "ref": "mapping.proposal.generate",
+      "params": {
+        "tool_id": "{{input.tool_id}}",
+        "domain": "{{input.domain}}",
+        "sample_payload": "{{input.sample_payload}}"
+      }
+    },
+    {
+      "id": "validate",
+      "type": "capability",
+      "ref": "human.validation.request",
+      "params": {
+        "message": "Mapping propose pour {{input.tool_id}}/{{input.domain}}. Justification: {{memory.state.mapping.justification}}. Merci de valider ou d'indiquer les corrections."
+      }
+    },
+    {
+      "id": "store",
+      "type": "capability",
+      "ref": "document.file.upload",
+      "params": {
+        "name": "{{input.tool_id}}-{{input.domain}}-mapping.yaml",
+        "folder_id": "{{context.drive.mappings_folder_id}}",
+        "binary": "{{memory.state.mapping.proposal_yaml}}"
+      }
+    }
+  ]
+}

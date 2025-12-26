@@ -1,0 +1,69 @@
+{
+  "id": "briefing.daily.generate",
+  "version": "1.0.0",
+  "description": "Genere un briefing quotidien a partir des emails, evenements et taches, puis l'envoie par email.",
+  "inputs": [
+    "input.time_window.start",
+    "input.time_window.end",
+    "input.email_limit",
+    "input.event_limit",
+    "input.task_limit",
+    "context.gmail.recipient",
+    "context.gmail.query",
+    "context.monday.board_id"
+  ],
+  "outputs": [
+    "memory.state.briefing.summary",
+    "memory.state.email.message_id"
+  ],
+  "steps": [
+    {
+      "id": "emails",
+      "type": "capability",
+      "ref": "email.message.fetch",
+      "params": {
+        "query": "{{context.gmail.query}} after:{{input.time_window.start}} before:{{input.time_window.end}}",
+        "limit": "{{input.email_limit}}"
+      }
+    },
+    {
+      "id": "events",
+      "type": "capability",
+      "ref": "calendar.event.fetch",
+      "params": {
+        "time_min": "{{input.time_window.start}}",
+        "time_max": "{{input.time_window.end}}",
+        "limit": "{{input.event_limit}}"
+      }
+    },
+    {
+      "id": "tasks",
+      "type": "capability",
+      "ref": "task.item.fetch",
+      "params": {
+        "limit": "{{input.task_limit}}"
+      }
+    },
+    {
+      "id": "compose",
+      "type": "capability",
+      "ref": "briefing.summary.generate",
+      "params": {
+        "time_window": {
+          "start": "{{input.time_window.start}}",
+          "end": "{{input.time_window.end}}"
+        }
+      }
+    },
+    {
+      "id": "send",
+      "type": "capability",
+      "ref": "email.message.send",
+      "params": {
+        "to": "{{context.gmail.recipient}}",
+        "subject": "Briefing quotidien",
+        "text": "{{memory.state.briefing.summary}}"
+      }
+    }
+  ]
+}

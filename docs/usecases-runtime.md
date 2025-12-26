@@ -7,7 +7,7 @@ It describes what must stay stable, not how workflows are wired.
 
 ## Purpose
 
-Use cases orchestrate capabilities to deliver business scenarios.
+Use cases orchestrate capabilities and other use cases to deliver business scenarios.
 
 ---
 
@@ -15,7 +15,7 @@ Use cases orchestrate capabilities to deliver business scenarios.
 
 Trigger or Agent
 ↓
-Use case (expands to capabilities)
+Use case (expands to capabilities/use cases)
 ↓
 Executor
 ↓
@@ -42,7 +42,12 @@ Each use case includes:
 
 ---
 
-## Use case: onboarding_mapping_intelligent
+## Naming (configs)
+
+- Format : `domain.resource.action`
+- Exemple : `briefing.daily.generate`, `mapping.onboarding.run`
+
+## Use case: mapping.onboarding.run
 
 Purpose:
 - Orchestration pour un mapping par tool (LLM + validation Slack + stockage Drive).
@@ -64,7 +69,7 @@ Outputs:
 
 ## Rules
 
-- Use cases do not call tools directly unless required.
+- Use cases can call capabilities or other use cases. Tool calls are allowed when no atomic capability exists.
 - Steps must follow `contracts/step.schema.json`.
 - Inputs and outputs must be explicit.
 

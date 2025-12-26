@@ -19,7 +19,7 @@ Workflows
   Supervise ou ajuste le plan avant execution; injecte une clarification si le plan manque des prerequis.
   Nodes :
   - Agent Trigger — Manual Trigger (`n8n-nodes-base.manualTrigger`) : point d'entree pour tester le workflow ; forward l'item tel quel.
-  - Build Execution Envelope — Code (`n8n-nodes-base.code`) : attend `header`, `payload.steps` et `payload.memory.state.context_complete`; preprend ou ajoute une capability `human_validation` si besoin et renvoie une enveloppe d'execution normalisee.
+  - Build Execution Envelope — Code (`n8n-nodes-base.code`) : attend `header`, `payload.steps` et `payload.memory.state.context_complete`; preprend ou ajoute une capability `human.validation.request` si besoin et renvoie une enveloppe d'execution normalisee.
 
 Regles
 

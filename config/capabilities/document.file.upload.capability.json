@@ -1,0 +1,31 @@
+{
+  "id": "document.file.upload",
+  "version": "1.0.0",
+  "description": "Charge un fichier dans Drive.",
+  "inputs": [
+    "input.name",
+    "input.folder_id",
+    "input.binary"
+  ],
+  "outputs": [
+    "memory.state.document.file_id"
+  ],
+  "steps": [
+    {
+      "id": "upload_file",
+      "type": "tool",
+      "ref": "google-drive",
+      "params": {
+        "action": "file.upload",
+        "name": "{{input.name}}",
+        "folderId": "{{input.folder_id}}",
+        "binary": "{{input.binary}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.document.file_id": "$.data.file.id"
+        }
+      }
+    }
+  ]
+}

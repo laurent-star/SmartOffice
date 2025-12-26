@@ -1,10 +1,10 @@
 {
-  "id": "generate_document",
+  "id": "document.file.generate",
   "version": "1.0.0",
-  "description": "Génère un document à partir d'un modèle et expose ses métadonnées.",
+  "description": "Genere un document a partir d'un brief et d'un schema, puis expose le fichier Drive.",
   "inputs": [
-    "memory.state.document.brief",
-    "memory.state.document.schema",
+    "input.brief",
+    "input.schema",
     "context.docs.template_id",
     "context.docs.folder_id"
   ],
@@ -15,13 +15,13 @@
   ],
   "steps": [
     {
-      "id": "draft_content",
+      "id": "draft",
       "type": "tool",
       "ref": "openai",
       "params": {
         "action": "text.generateModelResponse",
-        "text": "{{memory.state.document.brief}}",
-        "schema": "{{memory.state.document.schema}}"
+        "text": "{{input.brief}}",
+        "schema": "{{input.schema}}"
       },
       "save": {
         "to": {
@@ -30,7 +30,7 @@
       }
     },
     {
-      "id": "create_document",
+      "id": "create",
       "type": "tool",
       "ref": "google-docs",
       "params": {
@@ -45,7 +45,7 @@
       }
     },
     {
-      "id": "update_document",
+      "id": "update",
       "type": "tool",
       "ref": "google-docs",
       "params": {
@@ -55,17 +55,11 @@
       }
     },
     {
-      "id": "fetch_document",
-      "type": "tool",
-      "ref": "google-drive",
+      "id": "download",
+      "type": "capability",
+      "ref": "document.file.fetch",
       "params": {
-        "action": "file.download",
-        "fileId": "{{memory.state.document.id}}"
-      },
-      "save": {
-        "to": {
-          "memory.state.document.file": "$.data.file"
-        }
+        "file_id": "{{memory.state.document.id}}"
       }
     }
   ]

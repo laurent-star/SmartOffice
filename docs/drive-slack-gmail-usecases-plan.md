@@ -5,15 +5,15 @@ Il ne contient pas de plan d'execution. Le suivi se fait via le README principal
 
 ## Use cases
 
-- drive_to_slack_notify : recupere un document Drive, le resume et notifie sur Slack.
-- slack_drive_to_gmail : repond a une requete Slack avec un document Drive puis envoi Gmail.
+- document.file.notify : recupere un document Drive, le resume et notifie sur Slack.
+- document.request.email : repond a une requete avec un document Drive puis envoi Gmail.
 
 ## Capabilities requises
 
-- serve_document_drive
-- notify_user
-- summarize_content (si besoin d'un resume avance)
-- human_validation (optionnel)
+- document.file.fetch
+- content.text.summarize
+- notification.message.send
+- human.validation.request (optionnel)
 
 ## Outils impliques
 

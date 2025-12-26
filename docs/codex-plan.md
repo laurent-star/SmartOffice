@@ -84,7 +84,7 @@ Livrable :
 - Le loader Google Drive pour les registries est disponible.
 - La doc et les scripts de validation sont en place.
 - Onboarding intelligent documente dans `docs/.codex/PLAN_MAPPING_ONBOARDING.md`.
-- Use case `onboarding_mapping_intelligent` disponible (LLM + Slack + Drive).
+- Use case `mapping.onboarding.run` disponible (LLM + Slack + Drive).
 - `sampleFetch` ajoute dans tous les tools workflows.
 
 ---

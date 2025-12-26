@@ -101,7 +101,7 @@ If planning fails, the Agent must return a structured error:
 ## Clarification and human validation loop
 
 - After the initial intent analysis, the planner must verify context completeness (memory + trigger payload).
-- When the context is insufficient, the planner emits a first step targeting a clarification capability (ex: `human_validation`).
+- When the context is insufficient, the planner emits a first step targeting a clarification capability (ex: `human.validation.request`).
 - The supervisor may inject the same clarification step if a received plan is incomplete or unordered.
 - The clarification step must explicitly loop back to the Agent (`header.destination = "agent"` or via tool routing) so the new context can be replanned.
 - The Agent marks readiness in memory (ex: `memory.state.context_complete = true`) once all mandatory inputs are gathered.

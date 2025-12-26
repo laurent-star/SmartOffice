@@ -57,7 +57,7 @@ Ce document liste les taches a realiser cote operations/deploiement.
 8) Onboarding mapping intelligent (tous les tools)
    - Canal Slack : `#smartoffice`
    - Dossier Drive : creer automatiquement `mappings/` via workflow
-   - Use case : `onboarding_mapping_intelligent`
+   - Use case : `mapping.onboarding.run`
    - Les tools utilisent `sampleFetch` pour recuperer un payload minimal
    - Plan detaille : `docs/.codex/PLAN_MAPPING_ONBOARDING.md`
    - Etat : `docs/.codex/STATE_MAPPING_ONBOARDING.json`

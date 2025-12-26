@@ -1,7 +1,7 @@
 {
-  "id": "sync_crm_client",
+  "id": "crm.client.sync",
   "version": "1.0.0",
-  "description": "Crée ou met à jour les données clients dans Monday et Axonaut, puis informe par email.",
+  "description": "Cree ou met a jour les donnees client dans Monday et Axonaut, puis envoie un email.",
   "inputs": [
     "context.monday.board_id",
     "memory.state.client",
@@ -15,7 +15,7 @@
   ],
   "steps": [
     {
-      "id": "upsert_deal",
+      "id": "monday_upsert",
       "type": "tool",
       "ref": "monday",
       "params": {
@@ -30,7 +30,7 @@
       }
     },
     {
-      "id": "sync_crm",
+      "id": "axonaut_update",
       "type": "tool",
       "ref": "axonaut",
       "params": {
@@ -45,14 +45,14 @@
       }
     },
     {
-      "id": "send_welcome",
+      "id": "welcome_email",
       "type": "tool",
       "ref": "brevo",
       "params": {
         "action": "email.sendEmail",
         "to": "{{memory.state.client.contact.email}}",
         "subject": "Bienvenue {{memory.state.client.contact.name}}",
-        "body": "Votre dossier est créé. Référence: {{memory.state.client.monday_item_id}}"
+        "body": "Votre dossier est cree. Reference: {{memory.state.client.monday_item_id}}"
       }
     }
   ]

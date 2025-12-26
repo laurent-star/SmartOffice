@@ -1,0 +1,44 @@
+{
+  "id": "document.request.email",
+  "version": "1.0.0",
+  "description": "Repond a une requete en recuperant un document Drive puis envoi Gmail.",
+  "inputs": [
+    "memory.state.document.file_id",
+    "memory.state.document.content",
+    "memory.state.email.to",
+    "memory.state.email.subject"
+  ],
+  "outputs": [
+    "memory.state.document.file",
+    "memory.state.content.summary",
+    "memory.state.email.message_id"
+  ],
+  "steps": [
+    {
+      "id": "fetch",
+      "type": "capability",
+      "ref": "document.file.fetch",
+      "params": {
+        "file_id": "{{memory.state.document.file_id}}"
+      }
+    },
+    {
+      "id": "summarize",
+      "type": "capability",
+      "ref": "content.text.summarize",
+      "params": {
+        "text": "{{memory.state.document.content}}"
+      }
+    },
+    {
+      "id": "send",
+      "type": "capability",
+      "ref": "email.message.send",
+      "params": {
+        "to": "{{memory.state.email.to}}",
+        "subject": "{{memory.state.email.subject}}",
+        "text": "{{memory.state.content.summary}}"
+      }
+    }
+  ]
+}

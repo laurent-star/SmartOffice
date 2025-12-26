@@ -1,0 +1,27 @@
+{
+  "id": "content.text.summarize",
+  "version": "1.0.0",
+  "description": "Resume un contenu textuel.",
+  "inputs": [
+    "input.text"
+  ],
+  "outputs": [
+    "memory.state.content.summary"
+  ],
+  "steps": [
+    {
+      "id": "summarize_text",
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "text.generateChatCompletion",
+        "text": "{{input.text}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.content.summary": "$.data.summary"
+        }
+      }
+    }
+  ]
+}

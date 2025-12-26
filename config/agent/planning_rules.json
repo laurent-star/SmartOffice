@@ -9,7 +9,7 @@
   ],
   "clarification": {
     "enabled": true,
-    "capability_ref": "human_validation",
+    "capability_ref": "human.validation.request",
     "destinations": ["agent"],
     "max_attempts": 2
   }

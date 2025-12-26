@@ -1,0 +1,27 @@
+{
+  "id": "document.file.fetch",
+  "version": "1.0.0",
+  "description": "Telecharge un fichier Drive.",
+  "inputs": [
+    "input.file_id"
+  ],
+  "outputs": [
+    "memory.state.document.file"
+  ],
+  "steps": [
+    {
+      "id": "download_file",
+      "type": "tool",
+      "ref": "google-drive",
+      "params": {
+        "action": "file.download",
+        "fileId": "{{input.file_id}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.document.file": "$.data.file"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "email.message.send",
+  "version": "1.0.0",
+  "description": "Envoie un email avec sujet et contenu.",
+  "inputs": [
+    "input.to",
+    "input.subject",
+    "input.text"
+  ],
+  "outputs": [
+    "memory.state.email.message_id"
+  ],
+  "steps": [
+    {
+      "id": "send_message",
+      "type": "tool",
+      "ref": "gmail",
+      "params": {
+        "action": "message.send",
+        "to": "{{input.to}}",
+        "subject": "{{input.subject}}",
+        "text": "{{input.text}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.email.message_id": "$.data.message"
+        }
+      }
+    }
+  ]
+}

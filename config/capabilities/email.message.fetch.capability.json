@@ -1,0 +1,29 @@
+{
+  "id": "email.message.fetch",
+  "version": "1.0.0",
+  "description": "Recupere des emails selon une requete et une limite.",
+  "inputs": [
+    "input.query",
+    "input.limit"
+  ],
+  "outputs": [
+    "memory.state.email.messages"
+  ],
+  "steps": [
+    {
+      "id": "fetch_messages",
+      "type": "tool",
+      "ref": "gmail",
+      "params": {
+        "action": "message.getMany",
+        "query": "{{input.query}}",
+        "limit": "{{input.limit}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.email.messages": "$.data.messages"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "lead.client.convert",
+  "version": "1.0.0",
+  "description": "Convertit un lead entrant en client en classifiant la demande puis en synchronisant le CRM.",
+  "inputs": [
+    "memory.state.email.body",
+    "context.monday.board_id",
+    "memory.state.client",
+    "memory.state.client.company",
+    "memory.state.client.contact.email",
+    "memory.state.client.contact.name",
+    "context.slack.channel"
+  ],
+  "outputs": [
+    "memory.state.client.monday_item_id",
+    "memory.state.client.axonaut_company_id",
+    "memory.state.notification.message_id"
+  ],
+  "steps": [
+    {
+      "id": "classify",
+      "type": "capability",
+      "ref": "email.message.classify",
+      "params": {
+        "text": "{{memory.state.email.body}}",
+        "labels": ["lead", "client", "support"]
+      }
+    },
+    {
+      "id": "sync",
+      "type": "usecase",
+      "ref": "crm.client.sync",
+      "params": {}
+    },
+    {
+      "id": "notify",
+      "type": "capability",
+      "ref": "notification.message.send",
+      "params": {
+        "message": "Lead converti et synchronise"
+      }
+    }
+  ]
+}

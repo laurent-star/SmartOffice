@@ -1,0 +1,29 @@
+{
+  "id": "email.message.classify",
+  "version": "1.0.0",
+  "description": "Classifie un email a partir de son contenu.",
+  "inputs": [
+    "input.text",
+    "input.labels"
+  ],
+  "outputs": [
+    "memory.state.email.category"
+  ],
+  "steps": [
+    {
+      "id": "classify_message",
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "text.classifyTextForViolations",
+        "text": "{{input.text}}",
+        "labels": "{{input.labels}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.email.category": "$.data.classification"
+        }
+      }
+    }
+  ]
+}

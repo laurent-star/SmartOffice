@@ -1,0 +1,42 @@
+{
+  "id": "incident.case.manage",
+  "version": "1.0.0",
+  "description": "Gere un incident en classifiant le ticket, en produisant un resume et en notifiant l'equipe.",
+  "inputs": [
+    "memory.state.email.body",
+    "memory.state.email.subject",
+    "context.slack.channel"
+  ],
+  "outputs": [
+    "memory.state.email.category",
+    "memory.state.content.summary",
+    "memory.state.notification.message_id"
+  ],
+  "steps": [
+    {
+      "id": "classify",
+      "type": "capability",
+      "ref": "email.message.classify",
+      "params": {
+        "text": "{{memory.state.email.body}}",
+        "labels": ["incident", "demande", "information"]
+      }
+    },
+    {
+      "id": "summarize",
+      "type": "capability",
+      "ref": "content.text.summarize",
+      "params": {
+        "text": "{{memory.state.email.body}}"
+      }
+    },
+    {
+      "id": "notify",
+      "type": "capability",
+      "ref": "notification.message.send",
+      "params": {
+        "message": "Resume incident pret : {{memory.state.content.summary}}"
+      }
+    }
+  ]
+}

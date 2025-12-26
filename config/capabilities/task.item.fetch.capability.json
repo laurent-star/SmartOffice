@@ -1,0 +1,29 @@
+{
+  "id": "task.item.fetch",
+  "version": "1.0.0",
+  "description": "Recupere des taches depuis Monday.",
+  "inputs": [
+    "context.monday.board_id",
+    "input.limit"
+  ],
+  "outputs": [
+    "memory.state.task.items"
+  ],
+  "steps": [
+    {
+      "id": "fetch_tasks",
+      "type": "tool",
+      "ref": "monday",
+      "params": {
+        "action": "boardItem.getMany",
+        "boardId": "{{context.monday.board_id}}",
+        "limit": "{{input.limit}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.task.items": "$.data.items"
+        }
+      }
+    }
+  ]
+}

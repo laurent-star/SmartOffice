@@ -50,7 +50,7 @@ Le mapping officiel provider -> categorie pour la generation des registries se t
 
 - Les tools ne contiennent aucune logique metier
 - Les capabilities ne connaissent pas les workflows
-- Les use cases n'appellent que des capabilities
+- Les use cases appellent des capabilities et peuvent composer d'autres use cases
 - Toute communication passe par une envelope standard
 - Les schemas sont la source de verite
 
@@ -93,6 +93,12 @@ Seuls les workflows suivants sont utilises :
 - utils (si reutilises par plusieurs workflows)
 
 Tout le reste est du JSON declaratif simple qui respecte les contrats.
+
+## Convention de nommage (configs)
+
+- Format : `domain.resource.action`
+- Exemple capability : `email.message.fetch`
+- Exemple use case : `briefing.daily.generate`
 
 Pour demarrer, un nouveau client ne fait que :
 - importer les workflows dans n8n

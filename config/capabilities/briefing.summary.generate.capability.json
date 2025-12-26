@@ -1,0 +1,31 @@
+{
+  "id": "briefing.summary.generate",
+  "version": "1.0.0",
+  "description": "Genere un resume de briefing quotidien a partir des sources collectees.",
+  "inputs": [
+    "input.time_window.start",
+    "input.time_window.end",
+    "memory.state.email.messages",
+    "memory.state.calendar.events",
+    "memory.state.task.items"
+  ],
+  "outputs": [
+    "memory.state.briefing.summary"
+  ],
+  "steps": [
+    {
+      "id": "generate_briefing",
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "text.generateChatCompletion",
+        "text": "Redige un briefing quotidien clair et concis pour la periode {{input.time_window.start}} -> {{input.time_window.end}}.\n- Emails (peut etre vide): {{memory.state.email.messages}}\n- Evenements (peut etre vide): {{memory.state.calendar.events}}\n- Taches (peut etre vide): {{memory.state.task.items}}\nFormate en markdown avec des puces. Ignore les sections vides. Termine par des appels a l'action explicites."
+      },
+      "save": {
+        "to": {
+          "memory.state.briefing.summary": "$.data.summary"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "calendar.event.fetch",
+  "version": "1.0.0",
+  "description": "Recupere des evenements dans une fenetre de temps.",
+  "inputs": [
+    "input.time_min",
+    "input.time_max",
+    "input.limit"
+  ],
+  "outputs": [
+    "memory.state.calendar.events"
+  ],
+  "steps": [
+    {
+      "id": "fetch_events",
+      "type": "tool",
+      "ref": "google-calendar",
+      "params": {
+        "action": "event.getMany",
+        "timeMin": "{{input.time_min}}",
+        "timeMax": "{{input.time_max}}",
+        "limit": "{{input.limit}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.calendar.events": "$.data.events"
+        }
+      }
+    }
+  ]
+}
