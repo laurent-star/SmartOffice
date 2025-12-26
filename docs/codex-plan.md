@@ -27,7 +27,7 @@ alignes avec les contrats et la doc runtime.
 
 Livrables :
 - workflows/golden/*.json
-- workflows/golden/README.md aligne
+- [[workflows/golden/README.md](workflows/golden/README.md)](workflows/golden/README.md) aligne
 
 ---
 
@@ -72,7 +72,7 @@ A produire :
 - verification d'execution
 
 Livrable :
-- docs/n8n-installation.md
+- [[docs/n8n-installation.md](docs/n8n-installation.md)](docs/n8n-installation.md)
 
 ---
 

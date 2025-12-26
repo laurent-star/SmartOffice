@@ -5,7 +5,7 @@ But
 L'Executor est le moteur d'execution de Smart Office.
 Il execute des plans declaratifs (steps) produits par l'agent ou un trigger.
 
-Spec de reference : docs/executor-runtime.md
+Spec de reference : [[docs/executor-runtime.md](docs/executor-runtime.md)](docs/executor-runtime.md)
 
 Position dans l'architecture
 
