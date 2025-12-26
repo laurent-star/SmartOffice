@@ -5,3 +5,9 @@ build/
 
 # Unused utils workflows
 workflows/utils/
+
+# n8n raw artifacts
+docs/n8n/raw/
+
+# Audit reports
+audit-reports/
