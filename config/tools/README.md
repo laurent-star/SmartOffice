@@ -23,4 +23,4 @@ Ces definitions alimentent :
 - registries/tools.json
 
 Catalogue :
-- [[[docs/tools-catalog.md](docs/tools-catalog.md)](docs/tools-catalog.md)](docs/tools-catalog.md)
+- [docs/tools-catalog.md](docs/tools-catalog.md)

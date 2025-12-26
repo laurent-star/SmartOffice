@@ -37,9 +37,35 @@ function listMd(target) {
 }
 
 function linkify(line) {
+  let sanitized = line;
+  let prev;
+  do {
+    prev = sanitized;
+    sanitized = sanitized.replace(/\[(\[[^\]]+\]\([^)]+\))\]\([^)]+\)/g, "$1");
+  } while (sanitized !== prev);
+  line = sanitized;
+
   let out = "";
   let i = 0;
   const re = /[A-Za-z0-9_./-]+\.md/g;
+  const linkSpans = [];
+  const linkRe = /\[[^\]]*\]\([^)]+\)/g;
+  let linkMatch;
+  while ((linkMatch = linkRe.exec(line))) {
+    const linkStart = linkMatch.index;
+    const linkEnd = linkStart + linkMatch[0].length;
+    const labelStart = line.indexOf("[", linkStart) + 1;
+    const labelEnd = line.indexOf("]", labelStart);
+    const urlStart = line.indexOf("(", labelEnd) + 1;
+    const urlEnd = line.indexOf(")", urlStart);
+    if (labelStart > 0 && labelEnd > labelStart) {
+      linkSpans.push([labelStart, labelEnd]);
+    }
+    if (urlStart > 0 && urlEnd > urlStart) {
+      linkSpans.push([urlStart, urlEnd]);
+    }
+    if (linkEnd <= linkRe.lastIndex) continue;
+  }
   let m;
   while ((m = re.exec(line))) {
     const start = m.index;
@@ -47,7 +73,8 @@ function linkify(line) {
     const before = line.slice(0, start);
     const inCode = (before.split("`").length - 1) % 2 === 1;
     const prevTwo = line.slice(start - 2, start);
-    if (inCode || prevTwo === "](") continue;
+    const inLink = linkSpans.some(([s, e]) => start >= s && end <= e);
+    if (inCode || prevTwo === "](" || inLink) continue;
     out += line.slice(i, start) + `[${m[0]}](${m[0]})`;
     i = end;
   }

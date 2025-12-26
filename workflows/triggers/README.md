@@ -5,7 +5,7 @@ But
 Les triggers ingestent des evenements externes et emettent des envelopes.
 Ce sont les points d'entree du systeme.
 
-Spec de reference : [[[docs/triggers-runtime.md](docs/triggers-runtime.md)](docs/triggers-runtime.md)](docs/triggers-runtime.md)
+Spec de reference : [docs/triggers-runtime.md](docs/triggers-runtime.md)
 
 Workflows
 

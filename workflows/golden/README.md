@@ -6,7 +6,7 @@ Les workflows golden sont des implementations de reference.
 Ils servent de base stable pour les humains et les assistants AI.
 Ils doivent rester coherents avec les specs dans docs/ et contracts/.
 
-Spec de reference : [[[docs/golden-workflows.md](docs/golden-workflows.md)](docs/golden-workflows.md)](docs/golden-workflows.md)
+Spec de reference : [docs/golden-workflows.md](docs/golden-workflows.md)
 
 ---
 

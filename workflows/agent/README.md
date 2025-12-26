@@ -5,7 +5,7 @@ But
 Les workflows agent implementent la couche de decision et de planification.
 Ils traduisent une intention en une liste ordonnee de steps pour l'executor.
 
-Spec de reference : [[[docs/agent-runtime.md](docs/agent-runtime.md)](docs/agent-runtime.md)](docs/agent-runtime.md)
+Spec de reference : [docs/agent-runtime.md](docs/agent-runtime.md)
 
 Workflows
 
