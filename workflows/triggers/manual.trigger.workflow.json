@@ -21,7 +21,8 @@
         300
       ],
       "parameters": {
-        "jsCode": "const envelope = {\n  context: {\n    memory: {\n      session_id: 'sess_001',\n      state: {},\n      stack: []\n    }\n  },\n  input: {\n    steps: [\n      {\n        type: 'tool',\n        ref: 'slack',\n        params: {\n          channel: '#ops',\n          text: 'Hello from manual trigger'\n        }\n      }\n    ]\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
+        "jsCode": "const now = new Date().toISOString();\n\nconst envelope = {\n  context: {\n    memory: {\n      session_id: `sess_${Date.now()}`,
+      state: {},\n      stack: []\n    }\n  },\n  input: {\n    event: {\n      source: 'manual',\n      timestamp: now\n    }\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
         "language": "JavaScript",
         "mode": "runOnceForAllItems"
       }

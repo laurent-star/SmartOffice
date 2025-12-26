@@ -28,7 +28,9 @@
         300
       ],
       "parameters": {
-        "jsCode": "const envelope = {\n  context: {\n    memory: {\n      session_id: 'sess_001',\n      state: {},\n      stack: []\n    }\n  },\n  input: {\n    steps: [\n      {\n        type: 'tool',\n        ref: 'gmail',\n        params: {\n          query: 'is:unread',\n          maxResults: 5\n        }\n      }\n    ]\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
+        "jsCode": "const payload = items[0].json || {};\nconst now = new Date().toISOString();\n\nconst envelope = {\n  context: {\n    memory: {
+      session_id: payload.session_id || `sess_${Date.now()}`,
+      state: payload.state || {},\n      stack: payload.stack || []\n    }\n  },\n  input: {\n    event: {\n      source: 'gmail',\n      timestamp: now,\n      payload\n    }\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
         "language": "JavaScript",
         "mode": "runOnceForAllItems"
       }
