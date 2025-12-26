@@ -41,7 +41,7 @@ Cette note dresse l'inventaire des artefacts déjà présents dans le dépôt (s
 
 ### Agent
 - planning_rules.json
-- [[system_prompt.md](system_prompt.md)](system_prompt.md)
+- [[[system_prompt.md](system_prompt.md)](system_prompt.md)](system_prompt.md)
 - tool_selection.json
 
 ### Tools (`config/tools/`)
@@ -73,11 +73,11 @@ Cette note dresse l'inventaire des artefacts déjà présents dans le dépôt (s
 - usecases.json (4 entrées)
 
 ## Documentation disponible (`docs/`)
-- [[agent-runtime.md](agent-runtime.md)](agent-runtime.md), [[executor-runtime.md](executor-runtime.md)](executor-runtime.md), [[tools-runtime.md](tools-runtime.md)](tools-runtime.md), [[triggers-runtime.md](triggers-runtime.md)](triggers-runtime.md), [[utils-runtime.md](utils-runtime.md)](utils-runtime.md)
-- [[golden-workflows.md](golden-workflows.md)](golden-workflows.md) (règles et périmètre des goldens)
-- [[n8n-installation.md](n8n-installation.md)](n8n-installation.md) (guide d’installation)
-- [[codex-plan.md](codex-plan.md)](codex-plan.md) (plan d’exécution)
-- [[docs/archives/md-audit-2025-12-24.md](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)
+- [[[agent-runtime.md](agent-runtime.md)](agent-runtime.md)](agent-runtime.md), [[[executor-runtime.md](executor-runtime.md)](executor-runtime.md)](executor-runtime.md), [[[tools-runtime.md](tools-runtime.md)](tools-runtime.md)](tools-runtime.md), [[[triggers-runtime.md](triggers-runtime.md)](triggers-runtime.md)](triggers-runtime.md), [[[utils-runtime.md](utils-runtime.md)](utils-runtime.md)](utils-runtime.md)
+- [[[golden-workflows.md](golden-workflows.md)](golden-workflows.md)](golden-workflows.md) (règles et périmètre des goldens)
+- [[[n8n-installation.md](n8n-installation.md)](n8n-installation.md)](n8n-installation.md) (guide d’installation)
+- [[[codex-plan.md](codex-plan.md)](codex-plan.md)](codex-plan.md) (plan d’exécution)
+- [[[docs/archives/md-audit-2025-12-24.md](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)
 
 ## Informations manquantes pour finaliser
 - État de validation des goldens : quels workflows ont déjà été importés/testés dans n8n et avec quels résultats ?

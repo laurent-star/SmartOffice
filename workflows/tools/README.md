@@ -5,7 +5,7 @@ But
 Les tools implementent des actions atomiques liees a des APIs.
 Chaque tool execute une operation unique et renvoie un resultat structure.
 
-Spec de reference : [[docs/tools-runtime.md](docs/tools-runtime.md)](docs/tools-runtime.md)
+Spec de reference : [[[docs/tools-runtime.md](docs/tools-runtime.md)](docs/tools-runtime.md)](docs/tools-runtime.md)
 Schemas :
 - contracts/tool-input.schema.json
 - contracts/tool-result.schema.json
