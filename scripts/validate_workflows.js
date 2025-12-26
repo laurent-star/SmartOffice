@@ -18,6 +18,7 @@ function loadJson(file) {
 }
 
 function listWorkflowFiles(dir) {
+  if (!fs.existsSync(dir)) return [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   let files = [];
   for (const entry of entries) {

@@ -4,12 +4,13 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
-AUDIT_ONLY="0"
-SKIP_AUDIT="0"
-SKIP_LINKS="0"
-AUTO_CLEAN="0"
-CLEAN_LAST="0"
-SKIP_UPDATE="0"
+AUDIT_ONLY="${AUDIT_ONLY:-0}"
+SKIP_AUDIT="${SKIP_AUDIT:-0}"
+SKIP_LINKS="${SKIP_LINKS:-0}"
+AUTO_CLEAN="${AUTO_CLEAN:-0}"
+CLEAN_LAST="${CLEAN_LAST:-0}"
+SKIP_UPDATE="${SKIP_UPDATE:-0}"
+SKIP_CLEAN="${SKIP_CLEAN:-0}"
 
 usage() {
   cat <<'EOF'
@@ -19,6 +20,7 @@ Options:
   --audit-only         Run audit only, skip validations
   --refresh-docs       Force docs fetch (overrides SKIP_FETCH)
   --no-fetch           Skip docs fetch
+  --no-audit           Skip audit step
   --clean              Auto-confirm clean when candidates exist
   --no-clean           Skip clean prompt
   --clean-last         Clean using the last audit report
@@ -43,6 +45,9 @@ for arg in "$@"; do
       ;;
     --clean)
       AUTO_CLEAN="1"
+      ;;
+    --no-audit)
+      SKIP_AUDIT="1"
       ;;
     --no-clean)
       SKIP_CLEAN="1"
@@ -81,7 +86,6 @@ fi
 
 if [[ "$AUDIT_ONLY" == "1" ]]; then
   echo "==> Audit-only mode"
-  SKIP_AUDIT="0"
 else
   echo "==> Validate contracts/formats"
   NODE_PATH=./node_modules node scripts/validate_contracts_preload.js

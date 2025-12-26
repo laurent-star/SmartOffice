@@ -1,12 +1,11 @@
 {
-  "ai": {
+  "billing": {
     "providers": [
-      "openai"
+      "axonaut"
     ],
     "operations": [
-      "assistant.classify",
-      "assistant.extract",
-      "assistant.summarize"
+      "billing.company.update",
+      "billing.contact.create"
     ]
   },
   "calendar": {
@@ -14,45 +13,45 @@
       "google-calendar"
     ],
     "operations": [
-      "event.create",
-      "event.getMany"
-    ]
-  },
-  "communication": {
-    "providers": [
-      "gmail",
-      "slack"
-    ],
-    "operations": [
-      "conversation.getMany",
-      "file.get",
-      "file.getMany",
-      "file.upload",
-      "message.delete",
-      "message.get",
-      "message.getMany",
-      "message.getPermalink",
-      "message.search",
-      "message.send"
+      "calendar.event.create",
+      "calendar.event.getMany"
     ]
   },
   "crm": {
     "providers": [
-      "axonaut"
+      "axonaut",
+      "monday"
     ],
     "operations": [
-      "company.update",
-      "contact.create"
+      "crm.boardItem.create",
+      "crm.boardItem.getMany",
+      "crm.boardItem.updateColumnValues",
+      "crm.company.update",
+      "crm.contact.create"
     ]
   },
-  "documents": {
+  "ged": {
     "providers": [
-      "google-docs"
+      "google-docs",
+      "google-drive"
     ],
     "operations": [
-      "document.create",
-      "document.get",
-      "document.update"
+      "ged.document.create",
+      "ged.document.get",
+      "ged.document.update",
+      "ged.file.get",
+      "ged.file.upload",
+      "ged.fileFolder.search"
+    ]
+  },
+  "llm": {
+    "providers": [
+      "openai"
+    ],
+    "operations": [
+      "llm.assistant.classify",
+      "llm.assistant.extract",
+      "llm.assistant.summarize"
     ]
   },
   "marketing": {
@@ -60,43 +59,50 @@
       "brevo"
     ],
     "operations": [
-      "campaign.createCampaign",
-      "email.sendEmail"
+      "marketing.campaign.createCampaign",
+      "marketing.email.sendEmail"
     ]
   },
-  "spreadsheets": {
+  "sales": {
     "providers": [
-      "google-sheets"
+      "axonaut",
+      "monday"
     ],
     "operations": [
-      "sheet.append",
-      "sheet.read",
-      "sheet.update",
-      "spreadsheet.create"
+      "sales.boardItem.create",
+      "sales.boardItem.getMany",
+      "sales.boardItem.updateColumnValues",
+      "sales.company.update",
+      "sales.contact.create"
     ]
   },
-  "storage": {
-    "providers": [
-      "google-drive"
-    ],
-    "operations": [
-      "file.download",
-      "file.get",
-      "file.upload",
-      "fileFolder.search",
-      "folder.create"
-    ]
-  },
-  "work-management": {
+  "task_manager": {
     "providers": [
       "monday"
     ],
     "operations": [
-      "boardItem.addUpdate",
-      "boardItem.create",
-      "boardItem.get",
-      "boardItem.getMany",
-      "boardItem.updateColumnValues"
+      "task_manager.boardItem.create",
+      "task_manager.boardItem.getMany",
+      "task_manager.boardItem.updateColumnValues"
+    ]
+  },
+  "trigger_message": {
+    "providers": [
+      "gmail"
+    ],
+    "operations": [
+      "trigger_message.message.getMany",
+      "trigger_message.message.send"
+    ]
+  },
+  "validation_humaine": {
+    "providers": [
+      "slack"
+    ],
+    "operations": [
+      "validation_humaine.conversation.getMany",
+      "validation_humaine.message.search",
+      "validation_humaine.message.send"
     ]
   }
 }

@@ -1,166 +1,289 @@
 [
   {
     "id": "axonaut",
-    "nodeType": "n8n-nodes-base.axonaut",
-    "category": "crm",
-    "actions": [
-      "company.update",
-      "contact.create"
+    "version": "1.0.0",
+    "description": "Synchronisation des contacts et entreprises dans Axonaut.",
+    "categories": [
+      "crm",
+      "sales",
+      "billing"
     ],
-    "capabilities": [
-      "create_contact",
-      "update_company"
+    "path": "config/tools/axonaut.tool.json",
+    "actions": [
+      {
+        "name": "contact.create",
+        "input": [
+          "contact"
+        ],
+        "output": "contact_id"
+      },
+      {
+        "name": "company.update",
+        "input": [
+          "company_id",
+          "fields"
+        ],
+        "output": "company_id"
+      }
     ]
   },
   {
     "id": "brevo",
-    "nodeType": "n8n-nodes-base.brevo",
-    "category": "marketing",
-    "actions": [
-      "campaign.createCampaign",
-      "email.sendEmail"
+    "version": "1.0.0",
+    "description": "Envoi d'emails transactionnels via Brevo.",
+    "categories": [
+      "marketing"
     ],
-    "capabilities": [
-      "create_campaign",
-      "send_email"
+    "path": "config/tools/brevo.tool.json",
+    "actions": [
+      {
+        "name": "email.sendEmail",
+        "input": [
+          "to",
+          "subject",
+          "body",
+          "attachments"
+        ],
+        "output": "message_id"
+      },
+      {
+        "name": "campaign.createCampaign",
+        "input": [
+          "name",
+          "content"
+        ],
+        "output": "campaign_id"
+      }
     ]
   },
   {
     "id": "gmail",
-    "nodeType": "n8n-nodes-base.gmail",
-    "category": "communication",
-    "actions": [
-      "message.get",
-      "message.getMany",
-      "message.send"
+    "version": "1.0.0",
+    "description": "Messagerie Gmail pour envoyer ou rechercher des emails.",
+    "categories": [
+      "trigger_message"
     ],
-    "capabilities": [
-      "list_message",
-      "read_message",
-      "send_message"
+    "path": "config/tools/gmail.tool.json",
+    "actions": [
+      {
+        "name": "message.send",
+        "input": [
+          "to",
+          "subject",
+          "text"
+        ],
+        "output": "message"
+      },
+      {
+        "name": "message.getMany",
+        "input": [
+          "query",
+          "limit"
+        ],
+        "output": "messages"
+      }
     ]
   },
   {
     "id": "google-calendar",
-    "nodeType": "n8n-nodes-base.googleCalendar",
-    "category": "calendar",
-    "actions": [
-      "event.create",
-      "event.getMany"
+    "version": "1.0.0",
+    "description": "Gestion des evenements calendrier via Google Calendar.",
+    "categories": [
+      "calendar"
     ],
-    "capabilities": [
-      "create_event",
-      "list_event"
+    "path": "config/tools/google-calendar.tool.json",
+    "actions": [
+      {
+        "name": "event.create",
+        "input": [
+          "title",
+          "start",
+          "end"
+        ],
+        "output": "eventId"
+      },
+      {
+        "name": "event.getMany",
+        "input": [
+          "timeMin",
+          "timeMax",
+          "limit"
+        ],
+        "output": "events"
+      }
     ]
   },
   {
     "id": "google-docs",
-    "nodeType": "n8n-nodes-base.googleDocs",
-    "category": "documents",
-    "actions": [
-      "document.create",
-      "document.get",
-      "document.update"
+    "version": "1.0.0",
+    "description": "Création et mise à jour de documents Google Docs.",
+    "categories": [
+      "ged"
     ],
-    "capabilities": [
-      "create_document",
-      "read_document",
-      "update_document"
+    "path": "config/tools/google-docs.tool.json",
+    "actions": [
+      {
+        "name": "document.create",
+        "input": [
+          "title",
+          "folderId"
+        ],
+        "output": "documentId"
+      },
+      {
+        "name": "document.update",
+        "input": [
+          "documentId",
+          "text"
+        ],
+        "output": "documentId"
+      },
+      {
+        "name": "document.get",
+        "input": [
+          "documentId"
+        ],
+        "output": "document"
+      }
     ]
   },
   {
     "id": "google-drive",
-    "nodeType": "n8n-nodes-base.googleDrive",
-    "category": "storage",
-    "actions": [
-      "file.download",
-      "file.get",
-      "file.upload",
-      "fileFolder.search",
-      "folder.create"
+    "version": "1.0.0",
+    "description": "Stockage et partage de fichiers via Google Drive.",
+    "categories": [
+      "ged"
     ],
-    "capabilities": [
-      "create_folder",
-      "download_file",
-      "read_file",
-      "search_filefolder",
-      "upload_file"
-    ]
-  },
-  {
-    "id": "google-sheets",
-    "nodeType": "n8n-nodes-base.googleSheets",
-    "category": "spreadsheets",
+    "path": "config/tools/google-drive.tool.json",
     "actions": [
-      "sheet.append",
-      "sheet.read",
-      "sheet.update",
-      "spreadsheet.create"
-    ],
-    "capabilities": [
-      "append_sheet",
-      "create_spreadsheet",
-      "read_sheet",
-      "update_sheet"
+      {
+        "name": "file.upload",
+        "input": [
+          "name",
+          "folderId",
+          "binary"
+        ],
+        "output": "file"
+      },
+      {
+        "name": "file.get",
+        "input": [
+          "fileId"
+        ],
+        "output": "file"
+      },
+      {
+        "name": "fileFolder.search",
+        "input": [
+          "query"
+        ],
+        "output": "items"
+      }
     ]
   },
   {
     "id": "monday",
-    "nodeType": "n8n-nodes-base.mondayCom",
-    "category": "work-management",
-    "actions": [
-      "boardItem.addUpdate",
-      "boardItem.create",
-      "boardItem.get",
-      "boardItem.getMany",
-      "boardItem.updateColumnValues"
+    "version": "1.0.0",
+    "description": "Gestion des éléments CRM et tickets via Monday.com.",
+    "categories": [
+      "sales",
+      "task_manager",
+      "crm"
     ],
-    "capabilities": [
-      "append_board_item_update",
-      "create_board_item",
-      "list_board_item",
-      "read_board_item",
-      "update_board_item"
+    "path": "config/tools/monday.tool.json",
+    "actions": [
+      {
+        "name": "boardItem.create",
+        "input": [
+          "boardId",
+          "itemName"
+        ],
+        "output": "itemId"
+      },
+      {
+        "name": "boardItem.getMany",
+        "input": [
+          "boardId",
+          "limit"
+        ],
+        "output": "items"
+      },
+      {
+        "name": "boardItem.updateColumnValues",
+        "input": [
+          "itemId",
+          "columnValues"
+        ],
+        "output": "itemId"
+      }
     ]
   },
   {
     "id": "openai",
-    "nodeType": "n8n-nodes-base.openAi",
-    "category": "ai",
-    "actions": [
-      "assistant.classify",
-      "assistant.extract",
-      "assistant.summarize"
+    "version": "1.0.0",
+    "description": "LLM pour résumer, classifier ou extraire des informations textuelles.",
+    "categories": [
+      "llm"
     ],
-    "capabilities": [
-      "classify_assistant",
-      "extract_assistant",
-      "summarize_assistant"
+    "path": "config/tools/openai.tool.json",
+    "actions": [
+      {
+        "name": "assistant.summarize",
+        "input": [
+          "text"
+        ],
+        "output": "summary"
+      },
+      {
+        "name": "assistant.classify",
+        "input": [
+          "labels",
+          "text"
+        ],
+        "output": "classification"
+      },
+      {
+        "name": "assistant.extract",
+        "input": [
+          "schema",
+          "text"
+        ],
+        "output": "structured_data"
+      }
     ]
   },
   {
     "id": "slack",
-    "nodeType": "n8n-nodes-base.slack",
-    "category": "communication",
-    "actions": [
-      "conversation.getMany",
-      "file.get",
-      "file.getMany",
-      "file.upload",
-      "message.delete",
-      "message.getPermalink",
-      "message.search",
-      "message.send"
+    "version": "1.0.0",
+    "description": "Notifications et collaboration via Slack.",
+    "categories": [
+      "validation_humaine"
     ],
-    "capabilities": [
-      "delete_message",
-      "list_conversation",
-      "list_file",
-      "read_file",
-      "read_message",
-      "search_message",
-      "send_message",
-      "upload_file"
+    "path": "config/tools/slack.tool.json",
+    "actions": [
+      {
+        "name": "message.send",
+        "input": [
+          "channel",
+          "text"
+        ],
+        "output": "message_id"
+      },
+      {
+        "name": "message.search",
+        "input": [
+          "query"
+        ],
+        "output": "messages"
+      },
+      {
+        "name": "conversation.getMany",
+        "input": [
+          "types",
+          "limit"
+        ],
+        "output": "conversations"
+      }
     ]
   }
 ]
