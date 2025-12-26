@@ -71,6 +71,14 @@ Registries are typically loaded from Google Drive using file IDs stored in:
 - `REGISTRY_CAPABILITIES_FILE_ID`
 - `REGISTRY_USECASES_FILE_ID`
 
+All three variables are optional. If a file ID is missing or the Google
+Drive node returns an empty file, triggers must still build a valid
+execution envelope by falling back to the local copies in
+`registries/tools.json`, `registries/capabilities.json` and
+`registries/usecases.json`. The fallback should also be passed in
+`payload.options.fallbackRegistry` to keep the Executor operational when
+remote storage is unavailable.
+
 ---
 
 ## Header requirements

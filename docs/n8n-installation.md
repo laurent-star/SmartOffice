@@ -58,6 +58,14 @@ dans l'environnement n8n :
 - `REGISTRY_CAPABILITIES_FILE_ID`
 - `REGISTRY_USECASES_FILE_ID`
 
+Ces variables sont optionnelles : si elles ne sont pas definies ou si les
+binaires Google Drive sont vides, le workflow `so.trigger.registry-loader`
+repliera automatiquement sur les copies locales du depot
+(`registries/tools.json`, `registries/capabilities.json`,
+`registries/usecases.json`). Le fallback est egalement insere dans
+`payload.options.fallbackRegistry` pour garantir que l'Executor dispose
+toujours d'un catalogue valide.
+
 ## Onboarding intelligent (mapping)
 
 Pour un onboarding complet des mappings tools, suivre le plan :
