@@ -226,3 +226,10 @@ bash scripts/update_docs.sh
 Ce script :
 - lance la revalidation complete (sans clean interactif)
 - regenere l'index des docs dans `docs/docs-index.md`
+
+## Scripts principaux
+
+- `scripts/validate_all.sh` : revalidation complete + audit + verification des liens markdown.
+- `scripts/update_docs.sh` : revalidation + regeneration de l'index docs (option `--majdoc` pour fetch n8n).
+- `scripts/fetch_n8n_docs.sh` : telecharge la doc n8n (connecteurs + workflows + core nodes).
+- `scripts/linkify_md_refs.js` : rend cliquables les references `.md` dans la doc.
