@@ -1,6 +1,6 @@
 # Exports des workflows Tools
 
-Ce dossier regroupe les exports n8n de tous les tools Smart Office, sans aucun credential pre-renseigne **et sans node provider**. Chaque fichier `*.workflow.json` sert uniquement de squelette `so.tool.<provider>` : importez-le puis ajoutez vous-meme, dans l'UI n8n, les nodes connecteur (Google, Slack, Monday, etc.) avec vos credentials.
+Ce dossier regroupe les exports n8n de tous les tools Smart Office, sans aucun credential pre-renseigne. Chaque fichier `*.workflow.json` sert de squelette `so.tool.<provider>` comprenant un trigger manuel et un **node provider dummy (desactive)** qui sert uniquement de placeholder importable dans n8n. Activez ce node et remplacez/completez ses parametres dans l'UI avec vos credentials et l'operation souhaitee.
 
 ## Workflows disponibles
 - `axonaut.workflow.json`
@@ -15,7 +15,7 @@ Ce dossier regroupe les exports n8n de tous les tools Smart Office, sans aucun c
 - `slack.workflow.json`
 
 ## Parametres attendus par provider (pour configurer vos nodes)
-Les workflows n'incluent plus aucun node provider ni node `Set` : ajoutez vos propres nodes connecteur dans l'UI et cabler-les a partir du trigger/manipulation qui vous convient. Les operations a declarer et leurs champs attendus sont ci-dessous ; configurez vos nodes avec ces parametres en entree/sortie.
+Les workflows contiennent un node provider dummy (desactive) par tool, sans credentials ni valeurs obligatoires. Activez-le ou remplacez-le dans l'UI n8n par un node provider reelement configure, en cablant les champs `operation` et `params` attendus ci-dessous. Aucun node `Set` n'est requis pour normaliser l'enveloppe : les tools sont supposes recevoir l'item en entree et renvoyer le `tool-result` via le node provider configure.
 
 ### Axonaut (`n8n-nodes-base.axonaut`)
 - Credentials a associer : API Key Axonaut.

@@ -12,17 +12,19 @@
       ]
     },
     {
-      "id": "placeholder",
-      "name": "Configure Provider Nodes",
-      "type": "n8n-nodes-base.code",
+      "id": "provider",
+      "name": "brevo (dummy provider)",
+      "type": "n8n-nodes-base.brevo",
       "typeVersion": 1,
       "position": [
-        420,
+        440,
         300
       ],
+      "disabled": true,
       "parameters": {
-        "language": "JavaScript",
-        "jsCode": "const provider = 'brevo';\n// Ajouter depuis l'UI les nodes connecteur du provider (documentes dans exports/README.md)\n// et cabler leurs sorties vers ce workflow selon vos besoins.\nreturn items.map(item => ({ json: {\n  ...item.json,\n  note: 'Ajoutez les nodes connecteur pour ' + provider + ' dans l\\'UI (voir exports/README.md).',\n  expectedProvider: provider\n}}));\n"
+        "resource": "campaign",
+        "operation": "createCampaign",
+        "options": {}
       }
     }
   ],
@@ -31,7 +33,7 @@
       "main": [
         [
           {
-            "node": "Configure Provider Nodes",
+            "node": "brevo (dummy provider)",
             "type": "main",
             "index": 0
           }

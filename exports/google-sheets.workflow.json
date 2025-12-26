@@ -12,17 +12,21 @@
       ]
     },
     {
-      "id": "placeholder",
-      "name": "Configure Provider Nodes",
-      "type": "n8n-nodes-base.code",
+      "id": "provider",
+      "name": "google-sheets (dummy provider)",
+      "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 1,
       "position": [
-        420,
+        440,
         300
       ],
+      "disabled": true,
       "parameters": {
-        "language": "JavaScript",
-        "jsCode": "const provider = 'google-sheets';\n// Ajouter depuis l'UI les nodes connecteur du provider (documentes dans exports/README.md)\n// et cabler leurs sorties vers ce workflow selon vos besoins.\nreturn items.map(item => ({ json: {\n  ...item.json,\n  note: 'Ajoutez les nodes connecteur pour ' + provider + ' dans l\\'UI (voir exports/README.md).',\n  expectedProvider: provider\n}}));\n"
+        "operation": "append",
+        "options": {},
+        "updateAll": false,
+        "dataStartRow": 1,
+        "data": []
       }
     }
   ],
@@ -31,7 +35,7 @@
       "main": [
         [
           {
-            "node": "Configure Provider Nodes",
+            "node": "google-sheets (dummy provider)",
             "type": "main",
             "index": 0
           }
