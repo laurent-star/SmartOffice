@@ -23,7 +23,6 @@ Ce guide decrit l'installation et l'import des workflows Smart Office
    - tools/
    - triggers/
    - agent/
-   - utils/
    - executor/ (si tu utilises la version exportee)
 
 ---
@@ -37,7 +36,10 @@ Ce guide decrit l'installation et l'import des workflows Smart Office
    - workflows/tools/
    - workflows/triggers/
    - workflows/agent/
-   - workflows/utils/
+   - workflows/executor/
+
+4) Importer le loader des registries (optionnel mais recommande)
+   - workflows/triggers/registry-loader.trigger.workflow.json
 
 ---
 
@@ -56,6 +58,14 @@ dans l'environnement n8n :
 - `REGISTRY_CAPABILITIES_FILE_ID`
 - `REGISTRY_USECASES_FILE_ID`
 
+## Onboarding intelligent (mapping)
+
+Pour un onboarding complet des mappings tools, suivre le plan :
+- docs/.codex/PLAN_MAPPING_ONBOARDING.md
+
+Etat et suivi :
+- docs/.codex/STATE_MAPPING_ONBOARDING.json
+
 ---
 
 ## Verification rapide
@@ -63,6 +73,8 @@ dans l'environnement n8n :
 - Executer un workflow golden (manuel)
 - Executer un tool simple (ex: slack)
 - Verifier l'enveloppe en sortie
+ - Verifier les tests mapping si besoin :
+   - `node --test tests/mapping/mapping_runtime.test.js`
 
 ---
 
