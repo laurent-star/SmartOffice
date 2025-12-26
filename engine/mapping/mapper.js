@@ -53,24 +53,29 @@ const resolveSourceValue = (payload, sourcePath) => {
 
 const applyConverter = (rawValue, converter, registry, payload) => {
   if (!converter) return rawValue;
-  const converterName = converter.name || registry?.[converter.use]?.name || converter.use;
-  const resolvedParams = converter.params || registry?.[converter.use]?.params || converter;
+  const registryEntry = converter.use ? registry?.[converter.use] : null;
+  const converterName = converter.name || registryEntry?.name || converter.use;
+  const resolvedParams = converter.params || registryEntry?.params || registryEntry || converter;
   const handler = builtins[converterName];
   if (!handler) return rawValue;
   if (converterName === 'concat') {
     const bindings = {};
-    const bindingDefs = converter.bindings || registry?.[converter.use]?.bindings || {};
+    const bindingDefs = converter.bindings || registryEntry?.bindings || {};
     for (const [key, src] of Object.entries(bindingDefs)) {
       bindings[key] = resolveSourceValue(payload, src);
     }
-    return handler(null, { bindings, template: converter.template || registry?.[converter.use]?.template });
+    return handler(null, { bindings, template: converter.template || registryEntry?.template });
   }
   if (converterName === 'coalesce') {
     const ordered = Array.isArray(rawValue) ? rawValue : [rawValue];
     return handler(ordered, resolvedParams);
   }
   if (converterName === 'enum_map') {
-    const params = converter.map ? { map: converter.map } : resolvedParams;
+    const params = converter.map
+      ? { map: converter.map }
+      : registryEntry?.map
+        ? { map: registryEntry.map }
+        : resolvedParams;
     return handler(Array.isArray(rawValue) ? rawValue[0] : rawValue, params);
   }
   return handler(rawValue, resolvedParams);

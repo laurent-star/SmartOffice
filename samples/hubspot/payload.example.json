@@ -1,0 +1,14 @@
+{
+  "contact": {
+    "vid": 98765,
+    "properties": {
+      "firstname": "Alex",
+      "lastname": "Martin",
+      "lifecyclestage": "marketingqualifiedlead",
+      "hubspot_owner_id": "owner-001",
+      "email": ["alex.martin@example.com"],
+      "phone": ["+33102030405"],
+      "hs_tags": ["newsletter", "demo-request"]
+    }
+  }
+}

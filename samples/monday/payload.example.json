@@ -1,0 +1,14 @@
+{
+  "item": {
+    "id": "itm-1234",
+    "name": "Website redesign"
+  },
+  "column": {
+    "client_ref": { "text": "client-42" },
+    "status": { "text": "working on it" },
+    "start": { "text": "2024-11-01" },
+    "due": { "text": "2024-12-15" },
+    "owner": { "email": "pm@example.com" },
+    "labels": ["priority", "q4"]
+  }
+}

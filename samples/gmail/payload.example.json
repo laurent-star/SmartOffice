@@ -1,0 +1,21 @@
+{
+  "message": {
+    "id": "1789c9a2b3f4e5",
+    "snippet": "Hi team, attaching the updated contract.",
+    "payload": {
+      "headers": [
+        { "name": "From", "value": "legal@example.com" },
+        { "name": "To", "value": "ops@example.com" },
+        { "name": "Subject", "value": "Updated contract" }
+      ],
+      "parts": [
+        {
+          "filename": "contract.pdf",
+          "mimeType": "application/pdf",
+          "body": { "attachmentId": "att-123" }
+        }
+      ]
+    },
+    "internalDate": "1683897600000"
+  }
+}

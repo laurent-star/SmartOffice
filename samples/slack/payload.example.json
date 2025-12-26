@@ -1,0 +1,18 @@
+{
+  "event": {
+    "type": "message",
+    "user": "U024BE7LH",
+    "text": "Reminder: share the project brief",
+    "ts": "1683897600.000200",
+    "channel": "C024BE91L",
+    "team": "T012AB3C4",
+    "files": [
+      {
+        "id": "F1234567890",
+        "name": "brief.pdf",
+        "mimetype": "application/pdf",
+        "url_private": "https://slack.example.com/files/F123"
+      }
+    ]
+  }
+}

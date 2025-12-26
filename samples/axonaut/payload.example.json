@@ -1,0 +1,13 @@
+{
+  "contact": {
+    "id": "ax-90210",
+    "civility": "Mr",
+    "firstname": "Louis",
+    "lastname": "Dupont",
+    "email": "louis.dupont@example.com",
+    "phone": "+33612345678",
+    "company": "Dupont SARL",
+    "status": "lead",
+    "owner_id": "user-44"
+  }
+}

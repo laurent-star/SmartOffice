@@ -1,0 +1,14 @@
+{
+  "file": {
+    "id": "file-987",
+    "name": "Project overview",
+    "mimeType": "application/vnd.google-apps.document",
+    "webViewLink": "https://drive.example.com/file/987",
+    "owners": [
+      { "emailAddress": "owner@example.com" }
+    ],
+    "createdTime": "2024-10-01T10:00:00Z",
+    "modifiedTime": "2024-10-02T12:30:00Z",
+    "labels": ["proposal", "draft"]
+  }
+}
