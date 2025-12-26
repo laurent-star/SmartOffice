@@ -106,3 +106,13 @@ The Agent must always:
 - emit schema-valid envelopes
 - remain the only planner/decision layer
 - keep tool execution delegated to the Executor
+
+---
+
+## Regle de nommage des workflows
+
+Convention : `so.<layer>.<name>`
+
+Exemples :
+- `so.agent.planner`
+- `so.agent.supervisor`

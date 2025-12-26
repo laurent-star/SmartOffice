@@ -92,3 +92,13 @@ Triggers must always:
 - emit schema-valid envelopes
 - avoid business logic and planning
 - include memory (even empty) so the Agent can loop through clarification if needed
+
+---
+
+## Regle de nommage des workflows
+
+Convention : `so.<layer>.<name>`
+
+Exemples :
+- `so.trigger.webhook`
+- `so.trigger.schedule`
