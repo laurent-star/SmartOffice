@@ -22,7 +22,7 @@
       ],
       "parameters": {
         "language": "javascript",
-        "jsCode": "const input = items[0].json || {};\nconst toolInput = {\n  runId: input.runId || 'run-001',\n  stepId: input.stepId || '0-slack',\n  tool: input.tool || { ref: 'slack', provider: 'slack', operation: 'chat.postMessage' },\n  params: input.params || { channel: '#ops', text: 'Hello from tool' },\n  context: input.context || { memory: { session_id: 'sess_001', state: {}, stack: [] } }\n};\n\nconst result = {\n  ok: true,\n  data: { echoed: toolInput.params },\n  error: null,\n  meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n};\n\nreturn [{ json: result }];"
+        "jsCode": "const input = items[0].json || {};\nconst toolInput = {\n  runId: input.runId || 'run-001',\n  stepId: input.stepId || '0-slack',\n  tool: input.tool || { ref: 'slack', provider: 'slack', operation: 'chat.postMessage' },\n  params: input.params || { channel: '#ops', text: 'Hello from tool' },\n  context: input.context || { memory: { session_id: 'sess_001', state: {}, stack: [] } }\n};\n\nconst isSampleFetch = toolInput.params && toolInput.params.action === 'sampleFetch';\nconst payload = isSampleFetch ? { sample_payload: toolInput.params.sample_payload || {} } : { echoed: toolInput.params };\n\nconst result = {\n  ok: true,\n  data: payload,\n  error: null,\n  meta: { tool: toolInput.tool, runId: toolInput.runId, stepId: toolInput.stepId }\n};\n\nreturn [{ json: result }];"
       }
     }
   ],
