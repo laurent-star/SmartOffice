@@ -9,6 +9,7 @@ SKIP_AUDIT="0"
 SKIP_LINKS="0"
 AUTO_CLEAN="0"
 CLEAN_LAST="0"
+SKIP_UPDATE="0"
 
 usage() {
   cat <<'EOF'
@@ -30,6 +31,9 @@ for arg in "$@"; do
   case "$arg" in
     --audit-only)
       AUDIT_ONLY="1"
+      SKIP_FETCH="1"
+      SKIP_LINKS="1"
+      SKIP_UPDATE="1"
       ;;
     --refresh-docs)
       SKIP_FETCH="0"
@@ -59,8 +63,12 @@ for arg in "$@"; do
   esac
 done
 
-echo "==> Update repo"
-git pull --ff-only
+if [[ "$SKIP_UPDATE" == "1" ]]; then
+  echo "==> Update repo skipped (audit-only)"
+else
+  echo "==> Update repo"
+  git pull --ff-only
+fi
 
 if [[ "${SKIP_FETCH:-}" == "1" ]]; then
   echo "==> Refresh n8n docs skipped (SKIP_FETCH=1)"
