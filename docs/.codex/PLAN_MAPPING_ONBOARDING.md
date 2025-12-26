@@ -15,7 +15,7 @@ Périmètre des tâches (issues internes)
 2) Samples JSON pour lint interactif
 3) Tests unitaires mapping runtime
 4) Lint interactif avec complétion des mappings
-5) Checklists d’onboarding par source (Monday/HubSpot/Drive)
+5) Checklists d’onboarding par source (Monday/Drive/Slack/Gmail/Google Calendar/Google Docs/Axonaut/Brevo)
 
 Arborescence cible (proposition)
 - scripts/
@@ -26,15 +26,30 @@ Arborescence cible (proposition)
 - samples/
   - monday/
     - payload.example.json
-  - hubspot/
-    - payload.example.json
   - drive/
+    - payload.example.json
+  - slack/
+    - payload.example.json
+  - gmail/
+    - payload.example.json
+  - google-calendar/
+    - payload.example.json
+  - google-docs/
+    - payload.example.json
+  - axonaut/
+    - payload.example.json
+  - brevo/
     - payload.example.json
 - docs/
   - onboarding/
     - monday.checklist.md
-    - hubspot.checklist.md
     - drive.checklist.md
+    - slack.checklist.md
+    - gmail.checklist.md
+    - google-calendar.checklist.md
+    - google-docs.checklist.md
+    - axonaut.checklist.md
+    - brevo.checklist.md
     - mappings.md                        (si doc centrale)
 - tests/
   - mapping/
@@ -57,8 +72,13 @@ Exigences fonctionnelles détaillées
 (2) Samples JSON versionnés
 - Ajouter des payloads exemples MINIMAUX mais réalistes pour:
   - Monday
-  - HubSpot
   - Google Drive
+  - Slack
+  - Gmail
+  - Google Calendar
+  - Google Docs
+  - Axonaut
+  - Brevo
 - But : permettre un “dry-run” du lint / mapping sur un input connu.
 - Aucun identifiant réel : utiliser des valeurs fictives.
 
@@ -84,7 +104,7 @@ Exigences fonctionnelles détaillées
 - En CI, l’interactif doit être désactivé par défaut.
 
 (5) Checklists par source
-- Ajouter 3 checklists Markdown (Monday/HubSpot/Drive) décrivant:
+- Ajouter des checklists Markdown (Monday/Drive/Slack/Gmail/Google Calendar/Google Docs/Axonaut/Brevo) décrivant:
   - Pré-requis opérateur
   - Champs attendus / IDs / colonnes
   - Conventions de mapping (ex: date formats, enums, null handling)

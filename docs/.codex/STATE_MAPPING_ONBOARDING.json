@@ -3,7 +3,7 @@
     "initiative": "mapping_onboarding_hardening",
     "single_pr": true,
     "owner": "codex",
-    "updated_at": null
+    "updated_at": "2025-12-26T02:55:45Z"
   },
   "discovery": {
     "package_manager": null,
@@ -34,8 +34,13 @@
       "status": "todo",
       "files_expected": [
         "samples/monday/payload.example.json",
-        "samples/hubspot/payload.example.json",
-        "samples/drive/payload.example.json"
+        "samples/drive/payload.example.json",
+        "samples/slack/payload.example.json",
+        "samples/gmail/payload.example.json",
+        "samples/google-calendar/payload.example.json",
+        "samples/google-docs/payload.example.json",
+        "samples/axonaut/payload.example.json",
+        "samples/brevo/payload.example.json"
       ],
       "checks": [
         "No real IDs/secrets",
@@ -75,8 +80,13 @@
       "status": "todo",
       "files_expected": [
         "docs/onboarding/monday.checklist.md",
-        "docs/onboarding/hubspot.checklist.md",
-        "docs/onboarding/drive.checklist.md"
+        "docs/onboarding/drive.checklist.md",
+        "docs/onboarding/slack.checklist.md",
+        "docs/onboarding/gmail.checklist.md",
+        "docs/onboarding/google-calendar.checklist.md",
+        "docs/onboarding/google-docs.checklist.md",
+        "docs/onboarding/axonaut.checklist.md",
+        "docs/onboarding/brevo.checklist.md"
       ],
       "checks": [
         "Prereqs + commands + troubleshooting included"
