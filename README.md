@@ -200,3 +200,18 @@ npm install --prefix . ajv@8 ajv-formats --save-dev
 # lancer le validateur qui precharge les schemas
 NODE_PATH=./node_modules node scripts/validate_contracts_preload.js
 ```
+
+## Procedure de revalidation complete
+
+Script tout-en-un :
+
+```bash
+bash scripts/validate_all.sh
+```
+
+Ce script :
+- met a jour le repo
+- regenere la doc n8n locale
+- valide les schemas/formats
+- valide les configs et cross-refs
+- valide les workflows (structure + nodes)
