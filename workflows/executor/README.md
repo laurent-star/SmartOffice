@@ -99,6 +99,28 @@ Notes d'implementation (n8n)
 - Appel des tools via Execute Workflow
 - Catalogue tools : registries/tools.json (actions et params attendus)
 
+Detail des nodes
+
+- Executor Trigger — Webhook (`n8n-nodes-base.webhook`) : recoit une enveloppe (legacy ou execution) en HTTP; propage le body vers la suite.
+- Normalize Envelope — Code (`n8n-nodes-base.code`) : attend `header`, `payload` ou `input` selon le format; construit un state interne avec `steps`, `memory`, `options`, `registryFiles` et curseur normalisé.
+- Parse JSON Safe — Code (`n8n-nodes-base.code`) : parse en JSON les champs stringifies (`steps`, `memory`, `options`, `params` des steps) et remonte `error` si un parse echoue.
+- Validate Contracts — Code (`n8n-nodes-base.code`) : verifie que `steps` est un tableau non vide et que chaque step a `type`, `ref` et `params` valides; remplit `error` sinon.
+- Has Error? (Init) — If (`n8n-nodes-base.if`) : route vers la fin erreur si `error` est non null apres l'init.
+- Load Registry — Code (`n8n-nodes-base.code`) : attend `registryFiles` ou `options.fallbackRegistry`; construit `registry` (tools, capabilities, usecases) et `registryHash`, ou positionne `error` si vide.
+- Has Error? (Registry) — If (`n8n-nodes-base.if`) : interrompt le flux si le chargement registry a echoue.
+- Has Next Step? — If (`n8n-nodes-base.if`) : verifie l'existence d'un step a l'index courant; si non, construit l'output final.
+- Execution Guards — Code (`n8n-nodes-base.code`) : incremente `options.stepCount`, controle `maxSteps`/`maxDepth`, dectecte la repetition de step et ecrit `error` en cas de depassement.
+- Has Error? (Guards) — If (`n8n-nodes-base.if`) : deroute vers sortie erreur si un guard a echoue.
+- Resolve Step — Code (`n8n-nodes-base.code`) : attend le step courant; selon `type`, resolve tool/provider/operation, ou injecte les steps d'une capability/usecase depuis le registry, ou positionne `error`.
+- Has Error? (Resolve) — If (`n8n-nodes-base.if`) : stoppe si la resolution a echoue.
+- Switch Step Type — Switch (`n8n-nodes-base.switch`) : oriente vers le run tool ou les branches capability/usecase (deja expansees) selon `currentStep.type`.
+- Switch Tool Provider — Switch (`n8n-nodes-base.switch`) : oriente vers l'execution tool selon `currentStep.tool.provider` (mock dans l'implementation actuelle).
+- Execute Tool — Code (`n8n-nodes-base.code`) : construit `toolInput` (runId, stepId, tool, params, context.memory), renvoie `toolResult` (mock ou erreur TOOL_NOT_IMPLEMENTED), stocke `toolInput`/`toolResult`.
+- Append Step Result — Code (`n8n-nodes-base.code`) : ajoute une entree dans `results`, sauvegarde `memory[saveAs]` si demande et `ok`, et avance le curseur; positionne `error` si le tool a echoue.
+- Has Error? (Append) — If (`n8n-nodes-base.if`) : deroute vers Build Error Envelope en cas d'echec d'etape.
+- Build Output Envelope — Code (`n8n-nodes-base.code`) : produit `{ header, output, error:null }` avec `results`, `memory`, `trace`/`debug` si `options.debug`.
+- Build Error Envelope — Code (`n8n-nodes-base.code`) : produit `{ header, output, error }` en reprenant l'etat et les traces.
+
 Regle de nommage
 
 - Convention : `so.<layer>.<name>`

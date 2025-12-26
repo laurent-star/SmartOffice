@@ -26,23 +26,29 @@ qu'elles respectent l'architecture.
 
 - 10_agent.json (`so.golden.agent`)
   Exemples de construction d'enveloppe d'execution par un agent.
+  Nodes : Manual Trigger (`n8n-nodes-base.manualTrigger`) → Build Execution Envelope (`n8n-nodes-base.code`) : attend `header`/`payload` facultatifs, renvoie une enveloppe avec steps et memoire par defaut.
 
 - 15_agent_planner.json (`so.golden.agent_planner`)
   Exemple de planification avec boucle de clarification.
+  Nodes : Planner Trigger — Manual Trigger → Build Plan Envelope — Code : attend `payload.memory.state.context_complete`; produit un plan avec step de clarification ou de notification et header vers agent/executor.
 
 - 16_agent_supervisor.json (`so.golden.agent_supervisor`)
   Exemple de supervision du plan avant execution.
+  Nodes : Supervisor Trigger — Manual Trigger → Build Supervised Envelope — Code : attend `payload.steps`/`payload.memory`; preprend une capability de validation si besoin et renvoie l'enveloppe.
 
 - 20_tools.json (`so.golden.tools`)
   Exemples de pattern d'execution d'un tool (I/O standardise).
 
   Moteur d'execution canonique (iteration, dispatch, output).
+  Nodes : Tool Trigger — Manual Trigger → Dispatch Operation — Code : attend `payload.steps` ou `input.steps`; simule la resolution/dispatch et renvoie un output standardise avec results/debug.
 
 - 40_triggers.json (`so.golden.triggers`)
   Patterns de triggers et emission d'enveloppe.
+  Nodes : Trigger Event — Manual Trigger → Build Legacy Envelope — Code : construit une enveloppe legacy a partir du payload manuel.
 
 - 50_utils.json (`so.golden.utils`)
   Utils deterministes et reusables.
+  Nodes : Utils Trigger — Manual Trigger → Normalize Text — Code : attend `text` dans l'input; renvoie une version normalisee (trim, lowercase) dans `result`.
 
 ---
 
