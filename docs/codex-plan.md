@@ -98,6 +98,7 @@ Livrable :
 - Importer le workflow `workflows/triggers/registry-loader.trigger.workflow.json`.
 - Verifier que les credentials Google Drive sont associes.
 - Executer un test n8n de bout en bout (trigger -> executor -> tool).
+- Activer ou forcer `payload.options.debug = true` pour tracer l'execution.
 
 ---
 

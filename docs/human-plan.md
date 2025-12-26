@@ -28,6 +28,12 @@ Ce document liste les taches a realiser cote operations/deploiement.
 
 7) Verifier les logs et la sortie de l'executor
 
+## Debug runtime (executor)
+
+- `debug` est actif par defaut dans l'executor.
+- Pour forcer le debug depuis un trigger/agent :
+  - `payload.options.debug = true`
+
 ## Notes
 
 - Le loader charge les registries et les injecte dans l'enveloppe.
