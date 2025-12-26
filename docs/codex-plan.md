@@ -15,12 +15,10 @@ alignes avec les contrats et la doc runtime.
    - agent
    - tools
    - triggers
-   - utils
 
 2) Completer les goldens manquants ou incomplets ✅
    - I/O explicites et deterministes
    - pas de credentials
-   - usage des utils quand pertinent
    - ajouts : `15_agent_planner.json`, `16_agent_supervisor.json`
 
 3) Valider la coherence avec les schemas ✅
@@ -51,7 +49,6 @@ Objectif : generer les workflows et configs reels a partir des defs.
    - triggers/ : un workflow par type d'entree
    - agent/ : planner + supervisor coherents avec specs
    - executor/ : workflow canonique
-   - utils/ : workflows utilitaires reutilisables (mais ignores par defaut)
 
 4) Validation ✅
    - AJV sur formats/
@@ -85,6 +82,7 @@ Livrable :
 - Les registries sont generes via `validate_all.sh`.
 - Le loader Google Drive pour les registries est disponible.
 - La doc et les scripts de validation sont en place.
+ - Onboarding intelligent documente dans `docs/.codex/PLAN_MAPPING_ONBOARDING.md`.
 
 ---
 

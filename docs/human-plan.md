@@ -28,6 +28,19 @@ Ce document liste les taches a realiser cote operations/deploiement.
 
 7) Verifier les logs et la sortie de l'executor
 
+## Onboarding intelligent (mapping)
+
+Objectif : finaliser le mapping des tools pour un nouveau client.
+
+1) Suivre le plan d'onboarding
+   - `docs/.codex/PLAN_MAPPING_ONBOARDING.md`
+
+2) Mettre a jour l'etat du mapping
+   - `docs/.codex/STATE_MAPPING_ONBOARDING.json`
+
+3) Verifier le runtime de mapping (tests)
+   - `node --test tests/mapping/mapping_runtime.test.js`
+
 ## Debug runtime (executor)
 
 - `debug` est actif par defaut dans l'executor.
