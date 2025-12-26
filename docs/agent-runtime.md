@@ -69,6 +69,9 @@ Minimum output requirements:
 - The Agent may include `save` or `on_error` policies in steps, but must not invent tool behavior.
 - If required inputs are missing, the Agent must add a clarification step (capability) instead of guessing tool inputs.
 
+Planning rules are configured in `config/agent/planning_rules.json`
+and must validate against `contracts/agent-planning.schema.json`.
+
 ---
 
 ## Memory handling

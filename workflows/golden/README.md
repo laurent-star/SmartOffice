@@ -27,6 +27,9 @@ qu'elles respectent l'architecture.
 - 10_agent.json
   Exemples de construction d'enveloppe d'execution par un agent.
 
+- 15_agent_planner.json
+  Exemple de planification avec boucle de clarification.
+
 - 20_tools.json
   Exemples de pattern d'execution d'un tool (I/O standardise).
 
