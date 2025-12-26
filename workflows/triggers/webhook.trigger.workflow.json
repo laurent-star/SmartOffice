@@ -26,8 +26,7 @@
         300
       ],
       "parameters": {
-        "jsCode": "const payload = items[0].json || {};\nconst now = new Date().toISOString();\n\nconst envelope = {\n  context: {\n    memory: {\n      session_id: payload.session_id || `sess_${Date.now()}`,
-      state: payload.state || {},\n      stack: payload.stack || []\n    }\n  },\n  input: {\n    event: {\n      source: 'webhook',\n      timestamp: now,\n      body: payload,\n      query: items[0].query || {},\n      headers: items[0].headers || {}\n    }\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
+        "jsCode": "const payload = items[0].json || {};\nconst now = new Date().toISOString();\n\nconst envelope = {\n  context: {\n    memory: {\n      session_id: payload.session_id || `sess_${Date.now()}`,\n      state: payload.state || {},\n      stack: payload.stack || []\n    }\n  },\n  input: {\n    event: {\n      source: 'webhook',\n      timestamp: now,\n      body: payload,\n      query: items[0].query || {},\n      headers: items[0].headers || {}\n    }\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
         "language": "JavaScript",
         "mode": "runOnceForAllItems"
       }

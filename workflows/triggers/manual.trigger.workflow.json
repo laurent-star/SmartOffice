@@ -21,8 +21,7 @@
         300
       ],
       "parameters": {
-        "jsCode": "const now = new Date().toISOString();\n\nconst envelope = {\n  context: {\n    memory: {\n      session_id: `sess_${Date.now()}`,
-      state: {},\n      stack: []\n    }\n  },\n  input: {\n    event: {\n      source: 'manual',\n      timestamp: now\n    }\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
+        "jsCode": "const now = new Date().toISOString();\n\nconst envelope = {\n  context: {\n    memory: {\n      session_id: `sess_${Date.now()}`,\n      state: {},\n      stack: []\n    }\n  },\n  input: {\n    event: {\n      source: 'manual',\n      timestamp: now\n    }\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
         "language": "JavaScript",
         "mode": "runOnceForAllItems"
       }

@@ -3,6 +3,6 @@
   "required_fields": ["name", "nodes", "connections"],
   "required_nodes": [
     { "name": "Agent Trigger", "type": "n8n-nodes-base.manualTrigger" },
-    { "name": "Build Execution Envelope", "type": "n8n-nodes-base.function" }
+    { "name": "Build Execution Envelope", "type": "n8n-nodes-base.code" }
   ]
 }
