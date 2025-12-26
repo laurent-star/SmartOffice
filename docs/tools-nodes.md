@@ -27,7 +27,7 @@ Tous les workflows d'outils normalisent l'entrée (`provider`, `operation`, `par
 ### Google Calendar (`workflows/tools/google-calendar.workflow.json`)
 - Nombre total de nodes : 6
 - Liste : Manual Trigger, Normalize Input, Dispatch Operation, event.create, event.getMany, sampleFetch
-- Champs requis mappés : `title`, `start`, `end` pour `event.create` et `sampleFetch`, avec options `attendees`, `description`, `limit`, `timeMax`, `timeMin` dans `additionalFields`.【F:workflows/tools/google-calendar.workflow.json†L93-L154】
+- Champs requis mappés : `title`, `start`, `end`, `calendar` pour `event.create` et `sampleFetch`, avec options `attendees`, `description`, `limit`, `timeMax`, `timeMin` dans `additionalFields`.【F:workflows/tools/google-calendar.workflow.json†L93-L154】
 
 ### Google Docs (`workflows/tools/google-docs.workflow.json`)
 - Nombre total de nodes : 7
