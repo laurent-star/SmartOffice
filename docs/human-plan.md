@@ -24,8 +24,11 @@ Ce document liste les taches a realiser cote operations/deploiement.
      - ouvrir `http://<host>:5678` et confirmer l'editeur n8n
 
 3) Importer les workflows dans n8n
-   - workflows golden
-   - workflows reels (tools, triggers, agent, executor)
+   - `workflows/golden/*.json`
+   - `workflows/tools/*.workflow.json`
+   - `workflows/triggers/*.workflow.json`
+   - `workflows/agent/*.workflow.json`
+   - `workflows/executor/executor.workflow.json`
 
 4) Importer le loader de registry
    - `workflows/triggers/registry-loader.trigger.workflow.json`
