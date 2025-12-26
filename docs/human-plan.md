@@ -41,6 +41,13 @@ Objectif : finaliser le mapping des tools pour un nouveau client.
 3) Verifier le runtime de mapping (tests)
    - `node --test tests/mapping/mapping_runtime.test.js`
 
+### Pour un nouveau client (minimum requis)
+
+- Adapter les mappings dans `registries/mappings/<source>/*.json`
+- Valider via `node scripts/mapping_lint.js --interactive` si besoin
+- Repasser `node scripts/mapping_lint.js --ci`
+- Poursuivre l'onboarding n8n (workflows + credentials) via `docs/n8n-installation.md`
+
 ## Debug runtime (executor)
 
 - `debug` est actif par defaut dans l'executor.

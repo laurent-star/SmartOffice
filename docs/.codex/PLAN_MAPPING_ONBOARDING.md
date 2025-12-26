@@ -146,3 +146,23 @@ Plan d’exécution (ordre)
 Notes
 - Si le repo utilise pnpm/yarn, adapter toutes les commandes CI.
 - Si les mappings ne sont pas dans /mappings, détecter et ajuster.
+
+---
+
+## Onboarding d'un nouveau client (ce qui est a refaire)
+
+Ce plan vise a durcir le framework. Pour un nouveau client, seules les etapes
+ci-dessous sont necessaires (le reste est deja en place une fois pour toutes).
+
+1) Completer/adapter les mappings client
+   - `registries/mappings/<source>/*.json`
+
+2) Valider les mappings
+   - `node scripts/mapping_lint.js --interactive` (si besoin)
+   - `node scripts/mapping_lint.js --ci`
+
+3) Verifier les tests mapping
+   - `node --test tests/mapping/mapping_runtime.test.js`
+
+4) Passer a l'onboarding n8n (workflows + credentials)
+   - suivre `docs/n8n-installation.md`
