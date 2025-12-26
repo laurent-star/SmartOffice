@@ -87,7 +87,10 @@
       "parameters": {
         "resource": "document",
         "operation": "create",
-        "additionalFields": {}
+        "additionalFields": {
+          "folderId": "={{$json.params.folderId}}"
+        },
+        "title": "={{$json.params.title}}"
       }
     },
     {
@@ -102,7 +105,8 @@
       "parameters": {
         "resource": "document",
         "operation": "get",
-        "additionalFields": {}
+        "additionalFields": {},
+        "documentId": "={{$json.params.documentId}}"
       }
     },
     {
@@ -117,7 +121,12 @@
       "parameters": {
         "resource": "document",
         "operation": "update",
-        "additionalFields": {}
+        "additionalFields": {
+          "html": "={{$json.params.html}}",
+          "requests": "={{$json.params.requests}}",
+          "text": "={{$json.params.text}}"
+        },
+        "documentId": "={{$json.params.documentId}}"
       }
     },
     {
@@ -132,7 +141,8 @@
       "parameters": {
         "resource": "document",
         "operation": "get",
-        "additionalFields": {}
+        "additionalFields": {},
+        "documentId": "={{$json.params.documentId}}"
       }
     }
   ],

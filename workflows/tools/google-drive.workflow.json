@@ -95,7 +95,9 @@
       "parameters": {
         "resource": "file",
         "operation": "download",
-        "additionalFields": {}
+        "additionalFields": {},
+        "fileId": "={{$json.params.fileId}}",
+        "binaryPropertyName": "={{$json.params.binaryPropertyName || 'data'}}"
       }
     },
     {
@@ -110,7 +112,8 @@
       "parameters": {
         "resource": "file",
         "operation": "get",
-        "additionalFields": {}
+        "additionalFields": {},
+        "fileId": "={{$json.params.fileId}}"
       }
     },
     {
@@ -125,7 +128,11 @@
       "parameters": {
         "resource": "file",
         "operation": "upload",
-        "additionalFields": {}
+        "additionalFields": {},
+        "binary": "={{$json.params.binary || 'data'}}",
+        "folderId": "={{$json.params.folderId}}",
+        "name": "={{$json.params.name}}",
+        "mimeType": "={{$json.params.mimeType}}"
       }
     },
     {
@@ -140,7 +147,11 @@
       "parameters": {
         "resource": "fileFolder",
         "operation": "search",
-        "additionalFields": {}
+        "additionalFields": {
+          "limit": "={{$json.params.limit}}",
+          "returnAll": "={{$json.params.returnAll}}"
+        },
+        "query": "={{$json.params.query}}"
       }
     },
     {
@@ -155,7 +166,10 @@
       "parameters": {
         "resource": "folder",
         "operation": "create",
-        "additionalFields": {}
+        "additionalFields": {
+          "parentFolderId": "={{$json.params.parentFolderId}}"
+        },
+        "name": "={{$json.params.name}}"
       }
     },
     {
@@ -170,7 +184,8 @@
       "parameters": {
         "resource": "file",
         "operation": "get",
-        "additionalFields": {}
+        "additionalFields": {},
+        "fileId": "={{$json.params.fileId}}"
       }
     }
   ],

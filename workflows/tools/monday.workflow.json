@@ -95,7 +95,9 @@
       "parameters": {
         "resource": "boardItem",
         "operation": "addUpdate",
-        "additionalFields": {}
+        "additionalFields": {},
+        "itemId": "={{$json.params.itemId}}",
+        "text": "={{$json.params.text}}"
       }
     },
     {
@@ -110,7 +112,12 @@
       "parameters": {
         "resource": "boardItem",
         "operation": "create",
-        "additionalFields": {}
+        "additionalFields": {
+          "columnValues": "={{$json.params.columnValues}}",
+          "groupId": "={{$json.params.groupId}}"
+        },
+        "boardId": "={{$json.params.boardId}}",
+        "itemName": "={{$json.params.itemName}}"
       }
     },
     {
@@ -125,7 +132,8 @@
       "parameters": {
         "resource": "boardItem",
         "operation": "get",
-        "additionalFields": {}
+        "additionalFields": {},
+        "itemId": "={{$json.params.itemId}}"
       }
     },
     {
@@ -140,7 +148,11 @@
       "parameters": {
         "resource": "boardItem",
         "operation": "getMany",
-        "additionalFields": {}
+        "additionalFields": {
+          "limit": "={{$json.params.limit}}",
+          "page": "={{$json.params.page}}"
+        },
+        "boardId": "={{$json.params.boardId}}"
       }
     },
     {
@@ -155,7 +167,9 @@
       "parameters": {
         "resource": "boardItem",
         "operation": "updateColumnValues",
-        "additionalFields": {}
+        "additionalFields": {},
+        "columnValues": "={{$json.params.columnValues}}",
+        "itemId": "={{$json.params.itemId}}"
       }
     },
     {
@@ -170,7 +184,8 @@
       "parameters": {
         "resource": "boardItem",
         "operation": "getMany",
-        "additionalFields": {}
+        "additionalFields": {},
+        "itemId": "={{$json.params.itemId}}"
       }
     }
   ],

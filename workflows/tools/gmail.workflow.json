@@ -87,7 +87,10 @@
       "parameters": {
         "resource": "message",
         "operation": "get",
-        "additionalFields": {}
+        "additionalFields": {
+          "format": "={{$json.params.format}}"
+        },
+        "messageId": "={{$json.params.messageId}}"
       }
     },
     {
@@ -102,7 +105,11 @@
       "parameters": {
         "resource": "message",
         "operation": "getMany",
-        "additionalFields": {}
+        "additionalFields": {
+          "includeSpamTrash": "={{$json.params.includeSpamTrash}}",
+          "limit": "={{$json.params.limit}}",
+          "query": "={{$json.params.query}}"
+        }
       }
     },
     {
@@ -117,7 +124,14 @@
       "parameters": {
         "resource": "message",
         "operation": "send",
-        "additionalFields": {}
+        "additionalFields": {
+          "attachments": "={{$json.params.attachments}}",
+          "html": "={{$json.params.html}}",
+          "text": "={{$json.params.text}}",
+          "threadId": "={{$json.params.threadId}}"
+        },
+        "subject": "={{$json.params.subject}}",
+        "to": "={{$json.params.to}}"
       }
     },
     {
@@ -132,7 +146,14 @@
       "parameters": {
         "resource": "message",
         "operation": "getMany",
-        "additionalFields": {}
+        "additionalFields": {
+          "attachments": "={{$json.params.attachments}}",
+          "html": "={{$json.params.html}}",
+          "text": "={{$json.params.text}}",
+          "threadId": "={{$json.params.threadId}}"
+        },
+        "subject": "={{$json.params.subject}}",
+        "to": "={{$json.params.to}}"
       }
     }
   ],

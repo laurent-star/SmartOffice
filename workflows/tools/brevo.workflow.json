@@ -83,7 +83,9 @@
       "parameters": {
         "resource": "campaign",
         "operation": "createCampaign",
-        "additionalFields": {}
+        "additionalFields": {},
+        "content": "={{$json.params.content}}",
+        "name": "={{$json.params.name}}"
       }
     },
     {
@@ -98,7 +100,12 @@
       "parameters": {
         "resource": "email",
         "operation": "sendEmail",
-        "additionalFields": {}
+        "additionalFields": {
+          "attachments": "={{$json.params.attachments}}"
+        },
+        "body": "={{$json.params.body}}",
+        "subject": "={{$json.params.subject}}",
+        "to": "={{$json.params.to}}"
       }
     },
     {
@@ -119,6 +126,12 @@
               "value": "={{$json.params.sample_payload}}"
             }
           ]
+        },
+        "body": "={{$json.params.body}}",
+        "subject": "={{$json.params.subject}}",
+        "to": "={{$json.params.to}}",
+        "additionalFields": {
+          "attachments": "={{$json.params.attachments}}"
         }
       }
     }

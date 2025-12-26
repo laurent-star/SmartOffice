@@ -24,8 +24,7 @@
         "resource": "file",
         "operation": "download",
         "fileId": "={{$env.REGISTRY_TOOLS_FILE_ID}}",
-        "binaryPropertyName": "data",
-        "additionalFields": {}
+        "binaryPropertyName": "data"
       }
     },
     {
@@ -55,8 +54,7 @@
         "resource": "file",
         "operation": "download",
         "fileId": "={{$env.REGISTRY_CAPABILITIES_FILE_ID}}",
-        "binaryPropertyName": "data",
-        "additionalFields": {}
+        "binaryPropertyName": "data"
       }
     },
     {
@@ -99,8 +97,7 @@
         "resource": "file",
         "operation": "download",
         "fileId": "={{$env.REGISTRY_USECASES_FILE_ID}}",
-        "binaryPropertyName": "data",
-        "additionalFields": {}
+        "binaryPropertyName": "data"
       }
     },
     {
