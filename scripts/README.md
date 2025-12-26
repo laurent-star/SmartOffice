@@ -18,4 +18,5 @@ Outils internes pour valider et maintenir les contrats, configs et workflows.
 - `validate_cross_refs.js` : contrôle les références entre configs, registries et n8n-official-ops.
 - `validate_workflow_nodes.js` : vérifie que les nodes des workflows tools pointent vers des operations n8n officielles.
 - `smoke_build_tools.js` : lance la pipeline `build:tools` et vérifie la présence des artefacts clés.
+- Onboarding mappings : voir `docs/.codex/PLAN_MAPPING_ONBOARDING.md` et `docs/.codex/STATE_MAPPING_ONBOARDING.json`.
 - `mapping_lint.js` : lint d'un mapping YAML et validation optionnelle sur un payload d'exemple via le moteur `engine/mapping`.
