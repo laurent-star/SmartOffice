@@ -132,6 +132,7 @@ utiliser le nom conforme a cette convention pour garantir le routage.
 - [docs/drive-slack-gmail-usecases-plan.md](docs/drive-slack-gmail-usecases-plan.md)
 - [docs/archives/md-audit-2025-12-24.md](docs/archives/md-audit-2025-12-24.md)
 - [docs/archives/status-auto.md](docs/archives/status-auto.md)
+- [docs/workflow-node-audit.md](docs/workflow-node-audit.md)
 
 ## Readme par repertoire
 

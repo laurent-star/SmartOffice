@@ -53,6 +53,7 @@ Objectif : generer les workflows et configs reels a partir des defs.
 4) Validation ✅
    - AJV sur formats/
    - validate_all.sh (workflows, configs, registries, links)
+   - audit des nodes de workflows (`npm run validate:workflow-nodes`)
 
 Livrables :
 - workflows/*.json complets
