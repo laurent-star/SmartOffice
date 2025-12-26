@@ -126,7 +126,7 @@ EOF
 for entry in "${CONNECTOR_DOCS[@]}"; do
   name="${entry%%|*}"
   url="${entry#*|}"
-  echo "Fetching $name…"
+  echo "Fetching ${name}..."
 
   curl -L "$url" -o "$HTML_DIR/$name.html"
 
