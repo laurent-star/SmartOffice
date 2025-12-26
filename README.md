@@ -217,3 +217,13 @@ Ce script :
 - valide les schemas/formats
 - valide les configs et cross-refs
 - valide les workflows (structure + nodes)
+
+## Procedure de mise a jour de la doc
+
+```bash
+bash scripts/update_docs.sh
+```
+
+Ce script :
+- lance la revalidation complete (sans clean interactif)
+- regenere l'index des docs dans `docs/docs-index.md`

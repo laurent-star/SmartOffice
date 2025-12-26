@@ -188,13 +188,17 @@ cat "$not_in_readme" "$not_in_docs" "$invalid_json" "$unused_utils" "$dupe_unref
 if [[ -s "$to_delete" ]]; then
   echo "==> Clean candidates"
   cat "$to_delete"
-  read -r -p "Proceed with clean (delete files + empty dirs)? [y/N] " confirm
-  if [[ "$confirm" =~ ^[Yy]$ ]]; then
-    while IFS= read -r rel; do
-      rm -f "$repo_root/$rel"
-    done < "$to_delete"
-    find "$repo_root/docs" "$repo_root/workflows" "$repo_root/config" "$repo_root/registries" \
-      "$repo_root/formats" "$repo_root/contracts" "$repo_root/scripts" -type d -empty -delete
+  if [[ "${SKIP_CLEAN:-}" == "1" ]]; then
+    echo "==> Clean skipped (SKIP_CLEAN=1)"
+  else
+    read -r -p "Proceed with clean (delete files + empty dirs)? [y/N] " confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+      while IFS= read -r rel; do
+        rm -f "$repo_root/$rel"
+      done < "$to_delete"
+      find "$repo_root/docs" "$repo_root/workflows" "$repo_root/config" "$repo_root/registries" \
+        "$repo_root/formats" "$repo_root/contracts" "$repo_root/scripts" -type d -empty -delete
+    fi
   fi
 fi
 
