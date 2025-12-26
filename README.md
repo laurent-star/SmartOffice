@@ -210,6 +210,8 @@ bash scripts/validate_all.sh
 ```
 
 Ce script :
+- fait un audit (fichiers non references, doublons, utils non appeles, JSON invalides)
+- propose un clean avec confirmation
 - met a jour le repo
 - regenere la doc n8n locale
 - valide les schemas/formats
