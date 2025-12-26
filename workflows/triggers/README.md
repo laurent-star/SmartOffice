@@ -40,15 +40,15 @@ Nodes et I/O
 
 - registry-loader.trigger.workflow.json
   - Trigger Event — Manual Trigger (`n8n-nodes-base.manualTrigger`) : lancement manuel pour charger les registres.
-  - Download Tools Registry — Google Drive (`n8n-nodes-base.googleDrive`) : attend `fileId` depuis l'environnement; telecharge le JSON des tools.
-  - Parse Tools Registry — Code (`n8n-nodes-base.code`) : parse le fichier tools en objet et ajoute `category:'tools'`.
-  - Download Capabilities Registry — Google Drive (`n8n-nodes-base.googleDrive`) : telecharge le JSON des capabilities.
-  - Parse Capabilities Registry — Code (`n8n-nodes-base.code`) : parse et marque `category:'capabilities'`.
-  - Merge Registries A — Merge (`n8n-nodes-base.merge`) : fusionne tools + capabilities en liste unique.
-  - Download Usecases Registry — Google Drive (`n8n-nodes-base.googleDrive`) : telecharge le JSON des usecases.
-  - Parse Usecases Registry — Code (`n8n-nodes-base.code`) : parse et marque `category:'usecases'`.
+  - Download Tools Registry — Google Drive (`n8n-nodes-base.googleDrive`) : attend `fileId` depuis l'environnement; telecharge le JSON des tools si la variable est definie.
+  - Parse Tools Registry — Code (`n8n-nodes-base.code`) : parse le fichier tools si present ou renvoie `null` pour activer le fallback local.
+  - Download Capabilities Registry — Google Drive (`n8n-nodes-base.googleDrive`) : telecharge le JSON des capabilities quand l'ID Drive existe.
+  - Parse Capabilities Registry — Code (`n8n-nodes-base.code`) : parse si un binaire est fourni, sinon laisse le champ vide pour utiliser la copie locale.
+  - Merge Registries A — Merge (`n8n-nodes-base.merge`) : fusionne tools + capabilities en un seul item.
+  - Download Usecases Registry — Google Drive (`n8n-nodes-base.googleDrive`) : telecharge le JSON des usecases si configure.
+  - Parse Usecases Registry — Code (`n8n-nodes-base.code`) : parse si present, sinon laisse la place au fallback.
   - Merge Registries B — Merge (`n8n-nodes-base.merge`) : ajoute les usecases au flux fusionne.
-  - Build Execution Envelope — Code (`n8n-nodes-base.code`) : construit une enveloppe d'execution contenant `payload.registryFiles` alimente par les trois registres pour l'executor.
+  - Build Execution Envelope — Code (`n8n-nodes-base.code`) : construit une enveloppe d'execution contenant `payload.registryFiles` et `payload.options.fallbackRegistry` en lisant les registries Google Drive ou, a defaut, les fichiers locaux `registries/*.json`.
 
 Variables attendues (n8n env)
 
