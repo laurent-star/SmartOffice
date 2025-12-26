@@ -7,6 +7,6 @@
   "google-drive": "n8n-nodes-base.googleDrive",
   "google-sheets": "n8n-nodes-base.googleSheets",
   "monday": "n8n-nodes-base.mondayCom",
-  "openai": "n8n-nodes-base.openAi",
+  "openai": "n8n-nodes-langchain.lmchatopenai",
   "slack": "n8n-nodes-base.slack"
 }
