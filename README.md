@@ -100,41 +100,41 @@ Pour demarrer, un nouveau client ne fait que :
 
 ## Documentation runtime
 
-- [[[[docs/executor-runtime.md](docs/executor-runtime.md)](docs/executor-runtime.md)](docs/executor-runtime.md)](docs/executor-runtime.md)
-- [[[[docs/agent-runtime.md](docs/agent-runtime.md)](docs/agent-runtime.md)](docs/agent-runtime.md)](docs/agent-runtime.md)
-- [[[[docs/tools-runtime.md](docs/tools-runtime.md)](docs/tools-runtime.md)](docs/tools-runtime.md)](docs/tools-runtime.md)
-- [[[[docs/capabilities-runtime.md](docs/capabilities-runtime.md)](docs/capabilities-runtime.md)](docs/capabilities-runtime.md)](docs/capabilities-runtime.md)
-- [[[[docs/usecases-runtime.md](docs/usecases-runtime.md)](docs/usecases-runtime.md)](docs/usecases-runtime.md)](docs/usecases-runtime.md)
-- [[[[docs/triggers-runtime.md](docs/triggers-runtime.md)](docs/triggers-runtime.md)](docs/triggers-runtime.md)](docs/triggers-runtime.md)
-- [[[[docs/utils-runtime.md](docs/utils-runtime.md)](docs/utils-runtime.md)](docs/utils-runtime.md)](docs/utils-runtime.md)
-- [[[[docs/golden-workflows.md](docs/golden-workflows.md)](docs/golden-workflows.md)](docs/golden-workflows.md)](docs/golden-workflows.md)
-- [[[[docs/codex-plan.md](docs/codex-plan.md)](docs/codex-plan.md)](docs/codex-plan.md)](docs/codex-plan.md)
-- [[[[docs/tools-catalog.md](docs/tools-catalog.md)](docs/tools-catalog.md)](docs/tools-catalog.md)](docs/tools-catalog.md)
-- [[[[docs/n8n-installation.md](docs/n8n-installation.md)](docs/n8n-installation.md)](docs/n8n-installation.md)](docs/n8n-installation.md)
-- [[[[docs/n8n/README.md](docs/n8n/README.md)](docs/n8n/README.md)](docs/n8n/README.md)](docs/n8n/README.md)
-- [[[[docs/n8n/minimal-types.md](docs/n8n/minimal-types.md)](docs/n8n/minimal-types.md)](docs/n8n/minimal-types.md)](docs/n8n/minimal-types.md)
+- [[[[[[docs/executor-runtime.md](docs/executor-runtime.md)](docs/executor-runtime.md)](docs/executor-runtime.md)](docs/executor-runtime.md)](docs/executor-runtime.md)](docs/executor-runtime.md)
+- [[[[[[docs/agent-runtime.md](docs/agent-runtime.md)](docs/agent-runtime.md)](docs/agent-runtime.md)](docs/agent-runtime.md)](docs/agent-runtime.md)](docs/agent-runtime.md)
+- [[[[[[docs/tools-runtime.md](docs/tools-runtime.md)](docs/tools-runtime.md)](docs/tools-runtime.md)](docs/tools-runtime.md)](docs/tools-runtime.md)](docs/tools-runtime.md)
+- [[[[[[docs/capabilities-runtime.md](docs/capabilities-runtime.md)](docs/capabilities-runtime.md)](docs/capabilities-runtime.md)](docs/capabilities-runtime.md)](docs/capabilities-runtime.md)](docs/capabilities-runtime.md)
+- [[[[[[docs/usecases-runtime.md](docs/usecases-runtime.md)](docs/usecases-runtime.md)](docs/usecases-runtime.md)](docs/usecases-runtime.md)](docs/usecases-runtime.md)](docs/usecases-runtime.md)
+- [[[[[[docs/triggers-runtime.md](docs/triggers-runtime.md)](docs/triggers-runtime.md)](docs/triggers-runtime.md)](docs/triggers-runtime.md)](docs/triggers-runtime.md)](docs/triggers-runtime.md)
+- [[[[[[docs/utils-runtime.md](docs/utils-runtime.md)](docs/utils-runtime.md)](docs/utils-runtime.md)](docs/utils-runtime.md)](docs/utils-runtime.md)](docs/utils-runtime.md)
+- [[[[[[docs/golden-workflows.md](docs/golden-workflows.md)](docs/golden-workflows.md)](docs/golden-workflows.md)](docs/golden-workflows.md)](docs/golden-workflows.md)](docs/golden-workflows.md)
+- [[[[[[docs/codex-plan.md](docs/codex-plan.md)](docs/codex-plan.md)](docs/codex-plan.md)](docs/codex-plan.md)](docs/codex-plan.md)](docs/codex-plan.md)
+- [[[[[[docs/tools-catalog.md](docs/tools-catalog.md)](docs/tools-catalog.md)](docs/tools-catalog.md)](docs/tools-catalog.md)](docs/tools-catalog.md)](docs/tools-catalog.md)
+- [[[[[[docs/n8n-installation.md](docs/n8n-installation.md)](docs/n8n-installation.md)](docs/n8n-installation.md)](docs/n8n-installation.md)](docs/n8n-installation.md)](docs/n8n-installation.md)
+- [[[[[[docs/n8n/README.md](docs/n8n/README.md)](docs/n8n/README.md)](docs/n8n/README.md)](docs/n8n/README.md)](docs/n8n/README.md)](docs/n8n/README.md)
+- [[[[[[docs/n8n/minimal-types.md](docs/n8n/minimal-types.md)](docs/n8n/minimal-types.md)](docs/n8n/minimal-types.md)](docs/n8n/minimal-types.md)](docs/n8n/minimal-types.md)](docs/n8n/minimal-types.md)
 - [docs/n8n/core-nodes.json](docs/n8n/core-nodes.json)
-- [[[[docs/n8n/sources.md](docs/n8n/sources.md)](docs/n8n/sources.md)](docs/n8n/sources.md)](docs/n8n/sources.md)
-- [[[[docs/drive-slack-gmail-usecases-plan.md](docs/drive-slack-gmail-usecases-plan.md)](docs/drive-slack-gmail-usecases-plan.md)](docs/drive-slack-gmail-usecases-plan.md)](docs/drive-slack-gmail-usecases-plan.md)
-- [[[[docs/archives/md-audit-2025-12-24.md](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)
-- [[[[docs/archives/status-auto.md](docs/archives/status-auto.md)](docs/archives/status-auto.md)](docs/archives/status-auto.md)](docs/archives/status-auto.md)
+- [[[[[[docs/n8n/sources.md](docs/n8n/sources.md)](docs/n8n/sources.md)](docs/n8n/sources.md)](docs/n8n/sources.md)](docs/n8n/sources.md)](docs/n8n/sources.md)
+- [[[[[[docs/drive-slack-gmail-usecases-plan.md](docs/drive-slack-gmail-usecases-plan.md)](docs/drive-slack-gmail-usecases-plan.md)](docs/drive-slack-gmail-usecases-plan.md)](docs/drive-slack-gmail-usecases-plan.md)](docs/drive-slack-gmail-usecases-plan.md)](docs/drive-slack-gmail-usecases-plan.md)
+- [[[[[[docs/archives/md-audit-2025-12-24.md](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)](docs/archives/md-audit-2025-12-24.md)
+- [[[[[[docs/archives/status-auto.md](docs/archives/status-auto.md)](docs/archives/status-auto.md)](docs/archives/status-auto.md)](docs/archives/status-auto.md)](docs/archives/status-auto.md)](docs/archives/status-auto.md)
 
 ## Readme par repertoire
 
-- [[[[contracts/README.md](contracts/README.md)](contracts/README.md)](contracts/README.md)](contracts/README.md)
-- [[[[config/README.md](config/README.md)](config/README.md)](config/README.md)](config/README.md)
-- [[[[config/tools/README.md](config/tools/README.md)](config/tools/README.md)](config/tools/README.md)](config/tools/README.md)
-- [[[[config/capabilities/README.md](config/capabilities/README.md)](config/capabilities/README.md)](config/capabilities/README.md)](config/capabilities/README.md)
-- [[[[config/use-cases/README.md](config/use-cases/README.md)](config/use-cases/README.md)](config/use-cases/README.md)](config/use-cases/README.md)
-- [[[[config/agent/README.md](config/agent/README.md)](config/agent/README.md)](config/agent/README.md)](config/agent/README.md)
-- [[[[registries/README.md](registries/README.md)](registries/README.md)](registries/README.md)](registries/README.md)
-- [[[[formats/README.md](formats/README.md)](formats/README.md)](formats/README.md)](formats/README.md)
-- [[[[scripts/README.md](scripts/README.md)](scripts/README.md)](scripts/README.md)](scripts/README.md)
-- [[[[workflows/agent/README.md](workflows/agent/README.md)](workflows/agent/README.md)](workflows/agent/README.md)](workflows/agent/README.md)
-- [[[[workflows/executor/README.md](workflows/executor/README.md)](workflows/executor/README.md)](workflows/executor/README.md)](workflows/executor/README.md)
-- [[[[workflows/tools/README.md](workflows/tools/README.md)](workflows/tools/README.md)](workflows/tools/README.md)](workflows/tools/README.md)
-- [[[[workflows/triggers/README.md](workflows/triggers/README.md)](workflows/triggers/README.md)](workflows/triggers/README.md)](workflows/triggers/README.md)
-- [[[[workflows/golden/README.md](workflows/golden/README.md)](workflows/golden/README.md)](workflows/golden/README.md)](workflows/golden/README.md)
+- [[[[[[contracts/README.md](contracts/README.md)](contracts/README.md)](contracts/README.md)](contracts/README.md)](contracts/README.md)](contracts/README.md)
+- [[[[[[config/README.md](config/README.md)](config/README.md)](config/README.md)](config/README.md)](config/README.md)](config/README.md)
+- [[[[[[config/tools/README.md](config/tools/README.md)](config/tools/README.md)](config/tools/README.md)](config/tools/README.md)](config/tools/README.md)](config/tools/README.md)
+- [[[[[[config/capabilities/README.md](config/capabilities/README.md)](config/capabilities/README.md)](config/capabilities/README.md)](config/capabilities/README.md)](config/capabilities/README.md)](config/capabilities/README.md)
+- [[[[[[config/use-cases/README.md](config/use-cases/README.md)](config/use-cases/README.md)](config/use-cases/README.md)](config/use-cases/README.md)](config/use-cases/README.md)](config/use-cases/README.md)
+- [[[[[[config/agent/README.md](config/agent/README.md)](config/agent/README.md)](config/agent/README.md)](config/agent/README.md)](config/agent/README.md)](config/agent/README.md)
+- [[[[[[registries/README.md](registries/README.md)](registries/README.md)](registries/README.md)](registries/README.md)](registries/README.md)](registries/README.md)
+- [[[[[[formats/README.md](formats/README.md)](formats/README.md)](formats/README.md)](formats/README.md)](formats/README.md)](formats/README.md)
+- [[[[[[scripts/README.md](scripts/README.md)](scripts/README.md)](scripts/README.md)](scripts/README.md)](scripts/README.md)](scripts/README.md)
+- [[[[[[workflows/agent/README.md](workflows/agent/README.md)](workflows/agent/README.md)](workflows/agent/README.md)](workflows/agent/README.md)](workflows/agent/README.md)](workflows/agent/README.md)
+- [[[[[[workflows/executor/README.md](workflows/executor/README.md)](workflows/executor/README.md)](workflows/executor/README.md)](workflows/executor/README.md)](workflows/executor/README.md)](workflows/executor/README.md)
+- [[[[[[workflows/tools/README.md](workflows/tools/README.md)](workflows/tools/README.md)](workflows/tools/README.md)](workflows/tools/README.md)](workflows/tools/README.md)](workflows/tools/README.md)
+- [[[[[[workflows/triggers/README.md](workflows/triggers/README.md)](workflows/triggers/README.md)](workflows/triggers/README.md)](workflows/triggers/README.md)](workflows/triggers/README.md)](workflows/triggers/README.md)
+- [[[[[[workflows/golden/README.md](workflows/golden/README.md)](workflows/golden/README.md)](workflows/golden/README.md)](workflows/golden/README.md)](workflows/golden/README.md)](workflows/golden/README.md)
 
 ### Checklist rapide lors d'une mise a jour d'un README
 
@@ -232,4 +232,5 @@ Ce script :
 - `scripts/validate_all.sh` : revalidation complete + audit + verification des liens markdown.
 - `scripts/update_docs.sh` : revalidation + regeneration de l'index docs (option `--majdoc` pour fetch n8n).
 - `scripts/fetch_n8n_docs.sh` : telecharge la doc n8n (connecteurs + workflows + core nodes).
+- `scripts/validate_n8n_official_ops_fragments.js` : valide les fragments et overrides n8n avant build.
 - `scripts/linkify_md_refs.js` : rend cliquables les references `.md` dans la doc.
