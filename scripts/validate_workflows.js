@@ -149,7 +149,7 @@ const checks = [
   { type: "triggers", dir: "workflows/triggers", files: listWorkflowFiles("workflows/triggers") },
   { type: "agent", dir: "workflows/agent", files: listWorkflowFiles("workflows/agent") },
   { type: "utils", dir: "workflows/utils", files: listWorkflowFiles("workflows/utils") },
-  { type: "executor", dir: "workflows/golden", files: ["workflows/golden/30_executor.json"] },
+  { type: "executor", dir: "workflows/executor", files: ["workflows/executor/executor.workflow.json"] },
   { type: "golden", dir: "workflows/golden", files: fs.readdirSync("workflows/golden")
       .filter((f) => f.endsWith(".json"))
       .map((f) => path.join("workflows/golden", f))

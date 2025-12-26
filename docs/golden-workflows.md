@@ -28,7 +28,7 @@ Files use a numeric prefix to ensure deterministic ordering:
 
 Example:
 
-- `30_executor.json`
+- Executor : `workflows/executor/executor.workflow.json`
 
 ---
 

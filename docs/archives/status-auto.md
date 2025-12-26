@@ -7,7 +7,6 @@ Cette note dresse l'inventaire des artefacts déjà présents dans le dépôt (s
 ### Golden (`workflows/golden/`)
 - 10_agent.json
 - 20_tools.json
-- 30_executor.json
 - 40_triggers.json
 - 50_utils.json
 
@@ -16,7 +15,7 @@ Cette note dresse l'inventaire des artefacts déjà présents dans le dépôt (s
 - supervisor.workflow.json
 
 ### Executor (`workflows/executor/`)
-- executor.json (workdir racine)
+- executor.workflow.json
 
 ### Tools (`workflows/tools/`)
 - axonaut.workflow.json

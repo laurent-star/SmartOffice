@@ -30,7 +30,6 @@ qu'elles respectent l'architecture.
 - 20_tools.json
   Exemples de pattern d'execution d'un tool (I/O standardise).
 
-- 30_executor.json
   Moteur d'execution canonique (iteration, dispatch, output).
 
 - 40_triggers.json
