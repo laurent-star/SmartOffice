@@ -123,20 +123,16 @@
     {
       "id": "sample-fetch",
       "name": "sampleFetch",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         920,
         750
       ],
-      "type": "n8n-nodes-base.googleSheets",
       "parameters": {
-        "resource": "sheet",
-        "operation": "read",
-        "additionalFields": {
-          "returnAll": "={{$json.params.returnAll}}"
-        },
-        "range": "={{$json.params.range}}",
-        "spreadsheetId": "={{$json.params.spreadsheetId}}"
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'google-sheets', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
       }
     }
   ],

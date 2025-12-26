@@ -87,21 +87,16 @@
     {
       "id": "sample-fetch",
       "name": "sampleFetch",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         920,
         450
       ],
-      "type": "n8n-nodes-base.googleCalendar",
       "parameters": {
-        "resource": "event",
-        "operation": "getMany",
-        "calendar": "={{$json.params.calendar}}",
-        "additionalFields": {
-          "limit": "={{$json.params.limit}}",
-          "timeMax": "={{$json.params.timeMax}}",
-          "timeMin": "={{$json.params.timeMin}}"
-        }
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'google-calendar', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
       }
     }
   ],

@@ -104,20 +104,16 @@
     {
       "id": "sample-fetch",
       "name": "sampleFetch",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         920,
         600
       ],
-      "type": "n8n-nodes-base.gmail",
       "parameters": {
-        "resource": "message",
-        "operation": "getMany",
-        "additionalFields": {
-          "includeSpamTrash": "={{$json.params.includeSpamTrash}}",
-          "limit": "={{$json.params.limit}}",
-          "query": "={{$json.params.query}}"
-        }
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'gmail', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
       }
     }
   ],

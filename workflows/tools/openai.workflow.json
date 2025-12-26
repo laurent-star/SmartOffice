@@ -90,12 +90,12 @@
     {
       "id": "sample-fetch",
       "name": "sampleFetch",
+      "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
         920,
         600
       ],
-      "type": "n8n-nodes-base.code",
       "parameters": {
         "language": "JavaScript",
         "mode": "runOnceForAllItems",

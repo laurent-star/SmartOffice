@@ -134,20 +134,16 @@
     {
       "id": "sample-fetch",
       "name": "sampleFetch",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         920,
         900
       ],
-      "type": "n8n-nodes-base.mondayCom",
       "parameters": {
-        "resource": "boardItem",
-        "operation": "getMany",
-        "additionalFields": {
-          "limit": "={{$json.params.limit}}",
-          "page": "={{$json.params.page}}"
-        },
-        "boardId": "={{$json.params.boardId}}"
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'monday', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
       }
     }
   ],
