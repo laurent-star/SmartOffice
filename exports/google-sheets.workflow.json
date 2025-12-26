@@ -1,0 +1,49 @@
+{
+  "name": "so.tool.google-sheets",
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "id": "provider",
+      "name": "google-sheets (dummy provider)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        440,
+        300
+      ],
+      "disabled": true,
+      "parameters": {
+        "operation": "append",
+        "options": {},
+        "updateAll": false,
+        "dataStartRow": 1,
+        "data": []
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "google-sheets (dummy provider)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "pinData": {},
+  "tags": []
+}
