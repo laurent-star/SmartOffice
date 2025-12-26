@@ -135,6 +135,11 @@
       "at": "2025-12-26T03:22:55Z",
       "event": "sources_aligned",
       "details": "Removed HubSpot assets and added Google Sheets sample/checklist to match current tool list"
+    },
+    {
+      "at": "2025-12-26T03:29:00Z",
+      "event": "onboarding_client_laure",
+      "details": "Onboarding considered complete for Laurent based on current mapping plan and tasks marked done."
     }
   ]
 }
