@@ -11,8 +11,8 @@ Schema
 
 Contenu
 
-- inputs : champs requis (input/context/memory)
-- outputs : champs produits (memory)
+- inputs : champs requis (input/context/memory) — obligatoire
+- outputs : champs produits (memory) — obligatoire
 - steps : liste ordonnee de steps (avec `params` obligatoire, meme vide)
 
 Ces definitions alimentent :

@@ -8,6 +8,7 @@ It describes what must stay stable, not how workflows are wired.
 ## Purpose
 
 Use cases orchestrate capabilities and other use cases to deliver business scenarios.
+Business logic and objectives live here, not inside capabilities or tools.
 
 ---
 
@@ -70,6 +71,7 @@ Outputs:
 ## Rules
 
 - Use cases can call capabilities or other use cases. Tool calls are allowed when no atomic capability exists.
+- Business logic stays in use cases to keep the planner aligned with intent.
 - Steps must follow `contracts/step.schema.json`.
 - Inputs and outputs must be explicit.
 

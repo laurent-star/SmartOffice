@@ -36,5 +36,5 @@
       "items": { "$ref": "https://smart-office.local/schemas/step.schema.json" }
     }
   },
-  "required": ["id", "version", "steps"]
+  "required": ["id", "version", "inputs", "outputs", "steps"]
 }

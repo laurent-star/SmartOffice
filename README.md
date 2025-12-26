@@ -49,8 +49,8 @@ Le mapping officiel provider -> categorie pour la generation des registries se t
 ## Regles d'architecture
 
 - Les tools ne contiennent aucune logique metier
-- Les capabilities ne connaissent pas les workflows
-- Les use cases appellent des capabilities et peuvent composer d'autres use cases
+- Les capabilities restent atomiques (pas de logique metier)
+- Les use cases portent la logique metier et peuvent composer d'autres use cases
 - Toute communication passe par une envelope standard
 - Les schemas sont la source de verite
 

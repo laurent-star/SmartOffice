@@ -37,8 +37,8 @@ Cross references:
 
 Each capability includes:
 
-- `inputs`: expected fields (input/context/memory)
-- `outputs`: produced fields (memory)
+- `inputs`: expected fields (input/context/memory) — required
+- `outputs`: produced fields (memory) — required
 - `steps`: ordered list of tool/capability/usecase steps
 
 ---
@@ -55,7 +55,8 @@ Each capability includes:
 ## Rules
 
 - Capabilities must be deterministic.
-- A capability must not embed business decisions.
+- Capabilities must not embed business decisions (they are atomic building blocks).
+- Inputs/outputs must be explicitly documented so the planner can validate context completeness.
 - Steps must follow `contracts/step.schema.json`.
 
 ---
