@@ -47,6 +47,15 @@ Ce guide decrit l'installation et l'import des workflows Smart Office
 - Garder les credentials hors Git
 - Verifier que les nodes utilisent le bon credential name
 
+## Variables d'environnement (registries Google Drive)
+
+Pour charger les registries depuis Google Drive, definir ces variables
+dans l'environnement n8n :
+
+- `REGISTRY_TOOLS_FILE_ID`
+- `REGISTRY_CAPABILITIES_FILE_ID`
+- `REGISTRY_USECASES_FILE_ID`
+
 ---
 
 ## Verification rapide

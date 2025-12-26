@@ -9,6 +9,9 @@
       "n8n-nodes-base.gmailTrigger",
       "n8n-nodes-base.slackTrigger"
     ] },
-    { "name": "Build Legacy Envelope", "type": "n8n-nodes-base.function" }
+    { "name": ["Build Legacy Envelope", "Build Execution Envelope"], "types": [
+      "n8n-nodes-base.function",
+      "n8n-nodes-base.code"
+    ] }
   ]
 }

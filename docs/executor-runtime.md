@@ -65,6 +65,11 @@ Tool resolution rules:
 - the expected params keys come from `actions[].input`
 - if `step.operation` is missing, `step.params.action` is used as fallback
 
+Registry loading:
+
+- the Executor expects `payload.registryFiles` in the execution envelope
+- optional fallback registry can be provided via `payload.options.fallbackRegistry`
+
 All behaviors are driven **only by JSON configuration**.
 
 ---

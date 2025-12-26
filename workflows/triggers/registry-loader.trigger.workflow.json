@@ -1,0 +1,155 @@
+{
+  "name": "trigger-registry-loader",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Trigger Event",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "download-tools",
+      "name": "Download Tools Registry",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "resource": "file",
+        "operation": "download",
+        "fileId": "={{$env.REGISTRY_TOOLS_FILE_ID}}",
+        "binaryPropertyName": "data",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "parse-tools",
+      "name": "Parse Tools Registry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [640, 300],
+      "parameters": {
+        "language": "javascript",
+        "jsCode": "const binary = items[0].binary?.data;\nif (!binary || !binary.data) {\n  throw new Error('Missing tools registry binary');\n}\nconst content = Buffer.from(binary.data, 'base64').toString('utf8');\nconst toolsRegistry = JSON.parse(content);\nreturn [{ json: { toolsRegistry } }];"
+      }
+    },
+    {
+      "id": "download-capabilities",
+      "name": "Download Capabilities Registry",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 1,
+      "position": [420, 520],
+      "parameters": {
+        "resource": "file",
+        "operation": "download",
+        "fileId": "={{$env.REGISTRY_CAPABILITIES_FILE_ID}}",
+        "binaryPropertyName": "data",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "parse-capabilities",
+      "name": "Parse Capabilities Registry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [640, 520],
+      "parameters": {
+        "language": "javascript",
+        "jsCode": "const binary = items[0].binary?.data;\nif (!binary || !binary.data) {\n  throw new Error('Missing capabilities registry binary');\n}\nconst content = Buffer.from(binary.data, 'base64').toString('utf8');\nconst capabilitiesRegistry = JSON.parse(content);\nreturn [{ json: { capabilitiesRegistry } }];"
+      }
+    },
+    {
+      "id": "merge-registries-a",
+      "name": "Merge Registries A",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [860, 420],
+      "parameters": {
+        "mode": "mergeByIndex"
+      }
+    },
+    {
+      "id": "download-usecases",
+      "name": "Download Usecases Registry",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 1,
+      "position": [420, 740],
+      "parameters": {
+        "resource": "file",
+        "operation": "download",
+        "fileId": "={{$env.REGISTRY_USECASES_FILE_ID}}",
+        "binaryPropertyName": "data",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "parse-usecases",
+      "name": "Parse Usecases Registry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [640, 740],
+      "parameters": {
+        "language": "javascript",
+        "jsCode": "const binary = items[0].binary?.data;\nif (!binary || !binary.data) {\n  throw new Error('Missing usecases registry binary');\n}\nconst content = Buffer.from(binary.data, 'base64').toString('utf8');\nconst usecasesRegistry = JSON.parse(content);\nreturn [{ json: { usecasesRegistry } }];"
+      }
+    },
+    {
+      "id": "merge-registries-b",
+      "name": "Merge Registries B",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [1080, 520],
+      "parameters": {
+        "mode": "mergeByIndex"
+      }
+    },
+    {
+      "id": "build-envelope",
+      "name": "Build Execution Envelope",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1300, 520],
+      "parameters": {
+        "language": "javascript",
+        "jsCode": "const input = items[0].json || {};\nconst now = new Date().toISOString();\n\nconst registryFiles = [\n  { category: 'tools', ref: 'tools', content: input.toolsRegistry || {} },\n  { category: 'capabilities', ref: 'capabilities', content: input.capabilitiesRegistry || {} },\n  { category: 'usecases', ref: 'usecases', content: input.usecasesRegistry || {} }\n];\n\nconst envelope = {\n  header: {\n    id: `env-${Date.now()}`,\n    version: '1.0',\n    timestamp: now,\n    source: 'trigger.registry_loader',\n    destination: 'executor',\n    type: 'execution'\n  },\n  payload: {\n    steps: [\n      {\n        type: 'tool',\n        ref: 'slack',\n        params: { channel: '#ops', text: 'Registry loaded' }\n      }\n    ],\n    memory: { session_id: 'sess_001', state: {}, stack: [] },\n    registryFiles\n  }\n};\n\nreturn [{ json: envelope }];"
+      }
+    }
+  ],
+  "connections": {
+    "Trigger Event": {
+      "main": [
+        [
+          { "node": "Download Tools Registry", "type": "main", "index": 0 },
+          { "node": "Download Capabilities Registry", "type": "main", "index": 0 },
+          { "node": "Download Usecases Registry", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Download Tools Registry": {
+      "main": [[{ "node": "Parse Tools Registry", "type": "main", "index": 0 }]]
+    },
+    "Parse Tools Registry": {
+      "main": [[{ "node": "Merge Registries A", "type": "main", "index": 0 }]]
+    },
+    "Download Capabilities Registry": {
+      "main": [[{ "node": "Parse Capabilities Registry", "type": "main", "index": 0 }]]
+    },
+    "Parse Capabilities Registry": {
+      "main": [[{ "node": "Merge Registries A", "type": "main", "index": 1 }]]
+    },
+    "Merge Registries A": {
+      "main": [[{ "node": "Merge Registries B", "type": "main", "index": 0 }]]
+    },
+    "Download Usecases Registry": {
+      "main": [[{ "node": "Parse Usecases Registry", "type": "main", "index": 0 }]]
+    },
+    "Parse Usecases Registry": {
+      "main": [[{ "node": "Merge Registries B", "type": "main", "index": 1 }]]
+    },
+    "Merge Registries B": {
+      "main": [[{ "node": "Build Execution Envelope", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

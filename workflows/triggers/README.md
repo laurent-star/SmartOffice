@@ -14,6 +14,13 @@ Workflows
 - schedule.trigger.workflow.json
 - slack.trigger.workflow.json
 - webhook.trigger.workflow.json
+- registry-loader.trigger.workflow.json (charge les registries depuis Google Drive)
+
+Variables attendues (n8n env)
+
+- REGISTRY_TOOLS_FILE_ID
+- REGISTRY_CAPABILITIES_FILE_ID
+- REGISTRY_USECASES_FILE_ID
 
 Regles
 

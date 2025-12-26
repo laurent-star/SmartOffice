@@ -55,6 +55,22 @@ with minimal context and input. The legacy envelope must include
 `context.memory` (can be empty) to satisfy the schema.
 If the trigger targets the Executor, it must emit a full execution envelope.
 
+## Registry injection (Google Drive)
+
+When routing directly to the Executor, triggers should inject registries
+so the Executor can resolve tools/capabilities/usecases.
+
+Expected fields in the execution envelope:
+
+- `payload.registryFiles` as an array of `{ category, ref, content }`
+- `payload.options.fallbackRegistry` (optional)
+
+Registries are typically loaded from Google Drive using file IDs stored in:
+
+- `REGISTRY_TOOLS_FILE_ID`
+- `REGISTRY_CAPABILITIES_FILE_ID`
+- `REGISTRY_USECASES_FILE_ID`
+
 ---
 
 ## Header requirements
