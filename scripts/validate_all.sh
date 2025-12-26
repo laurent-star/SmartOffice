@@ -100,6 +100,7 @@ else
   echo "==> Validate workflows"
   node scripts/validate_workflows.js
   node scripts/validate_workflow_nodes.js
+  node scripts/validate_agent_workflows.js
 
   if [[ "$SKIP_LINKS" == "1" ]]; then
     echo "==> Markdown linkify skipped (--skip-links)"

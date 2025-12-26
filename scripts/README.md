@@ -17,6 +17,7 @@ Outils internes pour valider et maintenir les contrats, configs et workflows.
 - `generate_tool_workflows.js` : génère un workflow par provider en couvrant toutes les actions déclarées.
 - `generate_agent_workflows.js` : génère les workflows `planner` et `supervisor` de l'agent.
 - `generate_workflows.sh` : génère les workflows tools puis lance `validate_workflows.js` et `validate_workflow_nodes.js`.
+- `validate_all.sh` : pipeline globale (docs n8n, contrats, config, registries, workflows, liens MD, audit/clean) incluant `validate_agent_workflows.js`.
 - `validate_cross_refs.js` : contrôle les références entre configs, registries et n8n-official-ops.
 - `validate_workflow_nodes.js` : vérifie que les nodes des workflows pointent vers des operations n8n officielles ou des nodes core autorisés (`docs/n8n/core-nodes.json`).
 - `validate_agent_workflows.js` : valide les workflows d'agent avec `contracts/workflow-agent.schema.json`.
