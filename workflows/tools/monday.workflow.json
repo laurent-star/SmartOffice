@@ -184,8 +184,11 @@
       "parameters": {
         "resource": "boardItem",
         "operation": "getMany",
-        "additionalFields": {},
-        "itemId": "={{$json.params.itemId}}"
+        "additionalFields": {
+          "limit": "={{$json.params.limit}}",
+          "page": "={{$json.params.page}}"
+        },
+        "boardId": "={{$json.params.boardId}}"
       }
     }
   ],

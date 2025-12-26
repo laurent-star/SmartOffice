@@ -124,12 +124,10 @@
         "resource": "event",
         "operation": "getMany",
         "additionalFields": {
-          "attendees": "={{$json.params.attendees}}",
-          "description": "={{$json.params.description}}"
-        },
-        "title": "={{$json.params.title}}",
-        "start": "={{$json.params.start}}",
-        "end": "={{$json.params.end}}"
+          "limit": "={{$json.params.limit}}",
+          "timeMax": "={{$json.params.timeMax}}",
+          "timeMin": "={{$json.params.timeMin}}"
+        }
       }
     }
   ],

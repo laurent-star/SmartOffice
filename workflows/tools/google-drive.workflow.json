@@ -112,7 +112,9 @@
       "parameters": {
         "resource": "file",
         "operation": "get",
-        "additionalFields": {},
+        "additionalFields": {
+          "simplifyOutput": "={{$json.params.simplifyOutput}}"
+        },
         "fileId": "={{$json.params.fileId}}"
       }
     },
@@ -184,7 +186,9 @@
       "parameters": {
         "resource": "file",
         "operation": "get",
-        "additionalFields": {},
+        "additionalFields": {
+          "simplifyOutput": "={{$json.params.simplifyOutput}}"
+        },
         "fileId": "={{$json.params.fileId}}"
       }
     }
