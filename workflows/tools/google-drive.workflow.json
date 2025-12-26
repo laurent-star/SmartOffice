@@ -95,7 +95,7 @@
       "parameters": {
         "resource": "file",
         "operation": "download",
-        "options": {}
+        "additionalFields": {}
       }
     },
     {
@@ -110,7 +110,7 @@
       "parameters": {
         "resource": "file",
         "operation": "get",
-        "options": {}
+        "additionalFields": {}
       }
     },
     {
@@ -125,7 +125,7 @@
       "parameters": {
         "resource": "file",
         "operation": "upload",
-        "options": {}
+        "additionalFields": {}
       }
     },
     {
@@ -140,7 +140,7 @@
       "parameters": {
         "resource": "fileFolder",
         "operation": "search",
-        "options": {}
+        "additionalFields": {}
       }
     },
     {
@@ -155,7 +155,7 @@
       "parameters": {
         "resource": "folder",
         "operation": "create",
-        "options": {}
+        "additionalFields": {}
       }
     },
     {
@@ -170,7 +170,7 @@
       "parameters": {
         "resource": "file",
         "operation": "get",
-        "options": {}
+        "additionalFields": {}
       }
     }
   ],

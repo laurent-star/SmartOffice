@@ -87,7 +87,7 @@
       "parameters": {
         "resource": "assistant",
         "operation": "classify",
-        "options": {}
+        "additionalFields": {}
       }
     },
     {
@@ -102,7 +102,7 @@
       "parameters": {
         "resource": "assistant",
         "operation": "extract",
-        "options": {}
+        "additionalFields": {}
       }
     },
     {
@@ -117,7 +117,7 @@
       "parameters": {
         "resource": "assistant",
         "operation": "summarize",
-        "options": {}
+        "additionalFields": {}
       }
     },
     {
