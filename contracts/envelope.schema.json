@@ -116,6 +116,31 @@
                 "$ref": "https://smart-office.local/schemas/step.schema.json"
               }
             },
+            "registryFiles": {
+              "type": "array",
+              "description": "Fichiers de registry injectés par les triggers (tools, capabilities, usecases).",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "category": {
+                    "enum": ["tools", "capabilities", "usecases"],
+                    "description": "Catégorie de registry transportée."
+                  },
+                  "ref": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Référence du fragment de registry (souvent identique à la catégorie)."
+                  },
+                  "content": {
+                    "type": "object",
+                    "description": "Contenu JSON brut de la registry pour la catégorie donnée.",
+                    "additionalProperties": true
+                  }
+                },
+                "required": ["category", "ref", "content"]
+              }
+            },
             "memory": {
               "$ref": "https://smart-office.local/schemas/memory.schema.json",
               "description": "Mémoire persistante de la session."
@@ -123,9 +148,34 @@
             "result": {
               "$ref": "https://smart-office.local/schemas/result.schema.json",
               "description": "Résultat de l'exécution (succès ou erreur)."
+            },
+            "options": {
+              "type": "object",
+              "description": "Options d'exécution, notamment la registry de secours.",
+              "additionalProperties": true,
+              "properties": {
+                "fallbackRegistry": {
+                  "type": "object",
+                  "description": "Registry locale de secours lorsque les fichiers Drive sont absents.",
+                  "additionalProperties": true,
+                  "properties": {
+                    "tools": { "type": "object" },
+                    "capabilities": { "type": "object" },
+                    "usecases": { "type": "object" }
+                  }
+                }
+              }
+            },
+            "fallbackRegistry": {
+              "type": "object",
+              "description": "Alias direct pour la registry de secours (compatibilité).",
+              "additionalProperties": true
             }
           },
-          "required": ["steps"]
+          "anyOf": [
+            { "required": ["steps"] },
+            { "required": ["registryFiles"] }
+          ]
         }
       },
       "required": ["header", "payload"]
