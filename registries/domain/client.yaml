@@ -1,0 +1,38 @@
+domain: client
+version: 0.1
+summary: Canonical client entity shared across CRM, billing, and delivery pipelines.
+fields:
+  - name: id
+    type: string
+    required: true
+    description: Stable identifier for the client in the Smart Office data plane.
+  - name: name
+    type: string
+    required: true
+    description: Legal or display name of the client.
+  - name: status
+    type: enum
+    required: false
+    values: [prospect, active, churned, paused]
+    description: High-level lifecycle status.
+  - name: contacts
+    type: array
+    items:
+      type: object
+      fields:
+        - name: full_name
+          type: string
+        - name: email
+          type: string
+        - name: role
+          type: string
+    description: Primary points of contact.
+  - name: owner
+    type: string
+    required: false
+    description: Internal account owner (email or internal user ID).
+  - name: tags
+    type: array
+    items:
+      type: string
+    description: Labels for routing/segmentation.

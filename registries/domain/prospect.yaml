@@ -1,0 +1,34 @@
+domain: prospect
+version: 0.1
+summary: Canonical prospect entity used across CRM and marketing sources.
+fields:
+  - name: id
+    type: string
+    required: true
+    description: Stable identifier for the prospect in Smart Office.
+  - name: name
+    type: string
+    required: true
+    description: Display name or company name associated with the prospect.
+  - name: lifecycle_stage
+    type: enum
+    values: [lead, marketing_qualified, sales_qualified, opportunity, closed]
+    description: Normalized lifecycle stage.
+  - name: owner
+    type: string
+    description: Internal owner of the prospect.
+  - name: emails
+    type: array
+    items:
+      type: string
+    description: Contact email addresses.
+  - name: phone_numbers
+    type: array
+    items:
+      type: string
+    description: Contact phone numbers.
+  - name: tags
+    type: array
+    items:
+      type: string
+    description: Labels for segmentation or routing.

@@ -1,0 +1,49 @@
+version: 0.1
+source: hubspot
+domain: prospect
+description: Mapping HubSpot contacts/deals into canonical prospect entities.
+source_descriptor:
+  objects: contacts
+  pipelines: deals
+converters:
+  - name: enum_map
+    id: lifecycle_map
+    map:
+      lead: lead
+      subscriber: lead
+      marketingqualifiedlead: marketing_qualified
+      salesqualifiedlead: sales_qualified
+      opportunity: opportunity
+      closedwon: closed
+      closelost: closed
+fields:
+  - target: id
+    source: contact.vid
+    required: true
+  - target: name
+    source: contact.properties.firstname|contact.properties.lastname
+    converter:
+      name: concat
+      template: "{{firstname}} {{lastname}}"
+      bindings:
+        firstname: contact.properties.firstname
+        lastname: contact.properties.lastname
+    fallback: "Unnamed prospect"
+  - target: lifecycle_stage
+    source: contact.properties.lifecyclestage
+    converter:
+      use: lifecycle_map
+  - target: owner
+    source: contact.properties.hubspot_owner_id
+  - target: emails
+    source: contact.properties.email[]
+    converter:
+      name: normalize_array
+  - target: phone_numbers
+    source: contact.properties.phone[]
+    converter:
+      name: normalize_array
+  - target: tags
+    source: contact.properties.hs_tags[]
+    converter:
+      name: normalize_array

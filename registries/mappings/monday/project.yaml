@@ -1,0 +1,48 @@
+version: 0.1
+source: monday
+domain: project
+description: Mapping for Monday project boards into canonical project entities.
+source_descriptor:
+  board_purpose: delivery_projects
+  board_hint: projects
+converters:
+  - name: enum_map
+    id: status_map
+    map:
+      new: backlog
+      working on it: in_progress
+      stuck: blocked
+      done: done
+      archived: archived
+  - name: date_iso
+    id: date_iso
+    params:
+      timezone: UTC
+fields:
+  - target: id
+    source: item.id
+    required: true
+  - target: name
+    source: item.name
+    required: true
+    fallback: "Untitled project"
+  - target: client_id
+    source: column.client_ref.text
+  - target: status
+    source: column.status.text
+    converter:
+      use: status_map
+  - target: start_date
+    source: column.start.text
+    converter:
+      use: date_iso
+  - target: due_date
+    source: column.due.text
+    converter:
+      use: date_iso
+  - target: owner
+    source: column.owner.email
+  - target: tags
+    source: column.labels[]
+    converter:
+      name: normalize_array
