@@ -83,6 +83,7 @@
       "parameters": {
         "resource": "event",
         "operation": "create",
+        "calendar": "={{$json.params.calendar}}",
         "additionalFields": {
           "attendees": "={{$json.params.attendees}}",
           "description": "={{$json.params.description}}"
@@ -104,6 +105,7 @@
       "parameters": {
         "resource": "event",
         "operation": "getMany",
+        "calendar": "={{$json.params.calendar}}",
         "additionalFields": {
           "limit": "={{$json.params.limit}}",
           "timeMax": "={{$json.params.timeMax}}",
@@ -123,6 +125,7 @@
       "parameters": {
         "resource": "event",
         "operation": "getMany",
+        "calendar": "={{$json.params.calendar}}",
         "additionalFields": {
           "limit": "={{$json.params.limit}}",
           "timeMax": "={{$json.params.timeMax}}",

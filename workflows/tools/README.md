@@ -47,8 +47,8 @@ Nodes (par workflow)
 
 - google-calendar.workflow.json (`n8n-nodes-base.googleCalendar`)
   - Manual Trigger / Normalize Input / Dispatch Operation identiques.
-  - event.create — Google Calendar : attend `params.title`, `params.start`, `params.end` et optionnellement `params.attendees`/`params.description`; renvoie l'event cree.
-  - event.getMany — Google Calendar : attend les filtres `params.timeMin`, `params.timeMax`, `params.limit` et s'appuie sur le calendrier par defaut faute de `params.calendar` (ecart a corriger pour selectionner explicitement un calendrier).
+  - event.create — Google Calendar : attend `params.title`, `params.start`, `params.end`, `params.calendar` et optionnellement `params.attendees`/`params.description`; renvoie l'event cree.
+  - event.getMany — Google Calendar : attend `params.calendar` et les filtres `params.timeMin`, `params.timeMax`, `params.limit`; renvoie les events du calendrier cible.
   - sampleFetch — Google Calendar : recupere un event exemple.
 
 - google-docs.workflow.json (`n8n-nodes-base.googleDocs`)
@@ -64,7 +64,7 @@ Nodes (par workflow)
   - file.get — Google Drive : attend `params.fileId`; renvoie les metadonnees.
   - file.upload — Google Drive : attend `params.folderId`, `params.name`, `params.binary` (defaut `data`) et `params.mimeType`; renvoie le fichier cree.
   - fileFolder.search — Google Drive : attend `params.query` avec `params.returnAll`/`params.limit` optionnels; renvoie la liste.
-  - folder.create — Google Drive : attend `params.parentId`, `params.folderName`; renvoie le dossier.
+  - folder.create — Google Drive : attend `params.parentFolderId` et `params.name`; renvoie le dossier.
   - sampleFetch — Google Drive : exemple de resultat.
 
 - google-sheets.workflow.json (`n8n-nodes-base.googleSheets`)
@@ -115,6 +115,6 @@ Regle de nommage
 
 Gaps vs doc officielle / plan d'actions
 
-- Google Calendar : les workflows n'acceptent pas encore `params.calendar` alors que le node officiel l'exige pour cibler un calendrier specifique. Action : ajouter le champ dans `event.create` et `event.getMany`, propager depuis l'enveloppe et tester avec un calendrier autre que "primary".
-- Google Drive : les params documentes utilisaient `parentId`/`fileName`/`binaryProperty` alors que le workflow consomme `folderId`/`name`/`binary` et `mimeType` (conforme aux nodes actuels). Action : aligner les steps/fonctions d'appel sur ces noms de params et fournir une valeur par defaut pour le binaire dans l'executor.
-- Google Sheets : les workflows attendent `values` + `valueInputMode` et non `data`. Action : adapter les steps agents/executor pour envoyer `values` (tableau) et optionnellement `valueInputMode`.
+- Google Calendar : workflows acceptent `params.calendar` pour cibler explicitement un calendrier dans `event.create`, `event.getMany` et `sampleFetch`.
+- Google Drive : les appels doivent utiliser `folderId`/`name`/`binary` et `mimeType`, avec `binaryPropertyName` par defaut `data` pour les downloads; les workflows sont alignes.
+- Google Sheets : les workflows attendent `values` + `valueInputMode` et non `data`. Adapter les steps agents/executor pour envoyer `values` (tableau) et optionnellement `valueInputMode`.
