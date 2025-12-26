@@ -19,7 +19,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "text.classifyTextForViolations",
+        "action": "assistant.classify",
         "text": "{{memory.state.email.body}}",
         "labels": ["incident", "demande", "information"]
       },

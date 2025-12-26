@@ -62,6 +62,10 @@
           },
           {
             "operation": "equal",
+            "value": "file.get"
+          },
+          {
+            "operation": "equal",
             "value": "file.upload"
           },
           {
@@ -91,10 +95,27 @@
       "parameters": {
         "resource": "file",
         "operation": "download",
+        "additionalFields": {},
         "fileId": "={{$json.params.fileId}}",
-        "options": {
-          "binaryPropertyName": "={{$json.params.binaryPropertyName || 'data'}}"
-        }
+        "binaryPropertyName": "={{$json.params.binaryPropertyName || 'data'}}"
+      }
+    },
+    {
+      "id": "file-get",
+      "name": "file.get",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 1,
+      "position": [
+        920,
+        300
+      ],
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "additionalFields": {
+          "simplifyOutput": "={{$json.params.simplifyOutput}}"
+        },
+        "fileId": "={{$json.params.fileId}}"
       }
     },
     {
@@ -109,12 +130,11 @@
       "parameters": {
         "resource": "file",
         "operation": "upload",
+        "additionalFields": {},
         "binary": "={{$json.params.binary || 'data'}}",
         "folderId": "={{$json.params.folderId}}",
         "name": "={{$json.params.name}}",
-        "options": {
-          "mimeType": "={{$json.params.mimeType}}"
-        }
+        "mimeType": "={{$json.params.mimeType}}"
       }
     },
     {
@@ -129,11 +149,11 @@
       "parameters": {
         "resource": "fileFolder",
         "operation": "search",
-        "query": "={{$json.params.query}}",
-        "options": {
+        "additionalFields": {
           "limit": "={{$json.params.limit}}",
           "returnAll": "={{$json.params.returnAll}}"
-        }
+        },
+        "query": "={{$json.params.query}}"
       }
     },
     {
@@ -148,10 +168,10 @@
       "parameters": {
         "resource": "folder",
         "operation": "create",
-        "name": "={{$json.params.name}}",
-        "options": {
+        "additionalFields": {
           "parentFolderId": "={{$json.params.parentFolderId}}"
-        }
+        },
+        "name": "={{$json.params.name}}"
       }
     },
     {
@@ -165,11 +185,11 @@
       "type": "n8n-nodes-base.googleDrive",
       "parameters": {
         "resource": "file",
-        "operation": "download",
-        "fileId": "={{$json.params.fileId}}",
-        "options": {
-          "binaryPropertyName": "={{$json.params.binaryPropertyName || 'data'}}"
-        }
+        "operation": "get",
+        "additionalFields": {
+          "simplifyOutput": "={{$json.params.simplifyOutput}}"
+        },
+        "fileId": "={{$json.params.fileId}}"
       }
     }
   ],
@@ -204,6 +224,11 @@
           "index": 0
         },
         {
+          "node": "file.get",
+          "type": "main",
+          "index": 0
+        },
+        {
           "node": "file.upload",
           "type": "main",
           "index": 0
@@ -226,6 +251,9 @@
       ]
     },
     "file.download": {
+      "main": []
+    },
+    "file.get": {
       "main": []
     },
     "file.upload": {

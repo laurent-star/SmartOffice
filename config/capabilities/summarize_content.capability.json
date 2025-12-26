@@ -15,7 +15,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "text.generateChatCompletion",
+        "action": "assistant.summarize",
         "text": "{{memory.state.content.raw}}"
       },
       "save": {
