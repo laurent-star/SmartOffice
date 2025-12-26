@@ -2,3 +2,6 @@
 bundle-chatgpt/
 node_modules/
 build/
+
+# Unused utils workflows
+workflows/utils/
