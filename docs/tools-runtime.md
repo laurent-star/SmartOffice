@@ -97,3 +97,13 @@ Tools must always:
 - accept the tool input contract
 - return a structured tool result
 - avoid orchestration or business logic
+
+---
+
+## Regle de nommage des workflows
+
+Convention : `so.<layer>.<name>`
+
+Exemples :
+- `so.tool.google-drive`
+- `so.tool.slack`

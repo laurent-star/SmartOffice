@@ -24,11 +24,25 @@ Ce document liste les taches a realiser cote operations/deploiement.
      - ouvrir `http://<host>:5678` et confirmer l'editeur n8n
 
 3) Importer les workflows dans n8n
-   - `workflows/golden/*.json`
-   - `workflows/tools/*.workflow.json`
-   - `workflows/triggers/*.workflow.json`
-   - `workflows/agent/*.workflow.json`
-   - `workflows/executor/executor.workflow.json`
+   - `workflows/agent/planner.workflow.json` → `so.agent.planner`
+   - `workflows/agent/supervisor.workflow.json` → `so.agent.supervisor`
+   - `workflows/executor/executor.workflow.json` → `so.executor.core`
+   - `workflows/tools/axonaut.workflow.json` → `so.tool.axonaut`
+   - `workflows/tools/brevo.workflow.json` → `so.tool.brevo`
+   - `workflows/tools/gmail.workflow.json` → `so.tool.gmail`
+   - `workflows/tools/google-calendar.workflow.json` → `so.tool.google-calendar`
+   - `workflows/tools/google-docs.workflow.json` → `so.tool.google-docs`
+   - `workflows/tools/google-drive.workflow.json` → `so.tool.google-drive`
+   - `workflows/tools/google-sheets.workflow.json` → `so.tool.google-sheets`
+   - `workflows/tools/monday.workflow.json` → `so.tool.monday`
+   - `workflows/tools/openai.workflow.json` → `so.tool.openai`
+   - `workflows/tools/slack.workflow.json` → `so.tool.slack`
+   - `workflows/triggers/gmail.trigger.workflow.json` → `so.trigger.gmail`
+   - `workflows/triggers/manual.trigger.workflow.json` → `so.trigger.manual`
+   - `workflows/triggers/registry-loader.trigger.workflow.json` → `so.trigger.registry-loader`
+   - `workflows/triggers/schedule.trigger.workflow.json` → `so.trigger.schedule`
+   - `workflows/triggers/slack.trigger.workflow.json` → `so.trigger.slack`
+   - `workflows/triggers/webhook.trigger.workflow.json` → `so.trigger.webhook`
 
 4) Importer le loader de registry
    - `workflows/triggers/registry-loader.trigger.workflow.json`

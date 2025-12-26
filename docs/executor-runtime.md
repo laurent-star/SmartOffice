@@ -156,6 +156,17 @@ it does **not** belong in the Executor.
 
 ---
 
+## Regle de nommage des workflows
+
+Convention : `so.<layer>.<name>`
+
+Exemples :
+- `so.executor.core`
+- `so.tool.google-drive`
+- `so.trigger.webhook`
+
+---
+
 ## Scope boundaries
 
 The following are explicitly out of scope:
