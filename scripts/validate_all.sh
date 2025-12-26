@@ -25,6 +25,9 @@ echo "==> Validate workflows"
 node scripts/validate_workflows.js
 node scripts/validate_workflow_nodes.js
 
+echo "==> Validate and update markdown links"
+node scripts/linkify_md_refs.js
+
 echo "==> Audit: detect redundant/unused/inconsistent files"
 audit_dir="$(mktemp -d)"
 trap 'rm -rf "$audit_dir"' EXIT
