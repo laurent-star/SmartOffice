@@ -28,6 +28,13 @@ function listWorkflowFiles() {
   return files;
 }
 
+function hasParameter(container, paramName) {
+  if (!container || typeof container !== 'object') return false;
+  if (Array.isArray(container)) return container.some((value) => hasParameter(value, paramName));
+  if (Object.prototype.hasOwnProperty.call(container, paramName)) return true;
+  return Object.values(container).some((value) => hasParameter(value, paramName));
+}
+
 function main() {
   const ops = loadJson(OPS_PATH);
   const nodeTypeMap = fs.existsSync(NODETYPE_MAP_PATH) ? loadJson(NODETYPE_MAP_PATH) : {};
@@ -86,7 +93,22 @@ function main() {
         const opDef = resourceDef && resourceDef.operations && resourceDef.operations[operation];
         if (!opDef) {
           errors.push(`Unknown operation ${resource}.${operation} in ${node.name} (${file})`);
+          return;
         }
+
+        const paramDef = opDef.params || { required: [], optional: [] };
+        const expectedParams = [
+          ...(paramDef.required || []),
+          ...(paramDef.optional || [])
+        ];
+
+          expectedParams.forEach((param) => {
+            if (!hasParameter(params, param)) {
+              errors.push(
+                `Missing parameter ${param} for ${resource}.${operation} in ${node.name} (${file})`
+              );
+            }
+          });
       });
     }
   });

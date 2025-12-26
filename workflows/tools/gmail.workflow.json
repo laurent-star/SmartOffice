@@ -147,13 +147,10 @@
         "resource": "message",
         "operation": "getMany",
         "additionalFields": {
-          "attachments": "={{$json.params.attachments}}",
-          "html": "={{$json.params.html}}",
-          "text": "={{$json.params.text}}",
-          "threadId": "={{$json.params.threadId}}"
-        },
-        "subject": "={{$json.params.subject}}",
-        "to": "={{$json.params.to}}"
+          "includeSpamTrash": "={{$json.params.includeSpamTrash}}",
+          "limit": "={{$json.params.limit}}",
+          "query": "={{$json.params.query}}"
+        }
       }
     }
   ],
