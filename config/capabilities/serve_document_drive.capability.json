@@ -16,7 +16,7 @@
       "type": "tool",
       "ref": "google-drive",
       "params": {
-        "action": "file.get",
+        "action": "file.download",
         "fileId": "{{memory.state.document.file_id}}"
       },
       "save": {
@@ -30,7 +30,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "assistant.summarize",
+        "action": "text.generateChatCompletion",
         "text": "{{memory.state.document.content}}"
       },
       "save": {

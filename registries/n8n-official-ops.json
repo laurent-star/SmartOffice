@@ -301,26 +301,6 @@
                 ]
               }
             },
-            "get": {
-              "params": {
-                "required": [
-                  "fileId"
-                ],
-                "optional": [
-                  "simplifyOutput"
-                ]
-              },
-              "returns": {
-                "data": [
-                  "id",
-                  "mimeType",
-                  "name",
-                  "parents",
-                  "webViewLink"
-                ],
-                "binary": []
-              }
-            },
             "upload": {
               "params": {
                 "required": [
@@ -569,14 +549,13 @@
       }
     },
     "openai": {
-      "nodeType": "n8n-nodes-langchain.lmchatopenai",
+      "nodeType": "n8n-nodes-langchain.openai",
       "resources": {
-        "assistant": {
+        "text": {
           "operations": {
-            "classify": {
+            "classifyTextForViolations": {
               "params": {
                 "required": [
-                  "labels",
                   "text"
                 ],
                 "optional": []
@@ -588,22 +567,21 @@
                 "binary": []
               }
             },
-            "extract": {
+            "generateModelResponse": {
               "params": {
                 "required": [
-                  "schema",
                   "text"
                 ],
                 "optional": []
               },
               "returns": {
                 "data": [
-                  "structured_data"
+                  "response"
                 ],
                 "binary": []
               }
             },
-            "summarize": {
+            "generateChatCompletion": {
               "params": {
                 "required": [
                   "text"
@@ -612,13 +590,10 @@
               },
               "returns": {
                 "data": [
-                  "summary"
+                  "completion"
                 ],
                 "binary": []
-              },
-              "notes": [
-                "Basé sur le node OpenAI (chat/completion) pour générer un résumé"
-              ]
+              }
             }
           }
         }

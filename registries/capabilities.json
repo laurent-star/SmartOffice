@@ -26,7 +26,7 @@
       "ai"
     ],
     "operations": [
-      "openai.assistant.classify"
+      "openai.text.classifyTextForViolations"
     ]
   },
   {
@@ -126,7 +126,7 @@
       "ai"
     ],
     "operations": [
-      "openai.assistant.extract"
+      "openai.text.generateModelResponse"
     ]
   },
   {
@@ -207,7 +207,7 @@
       "storage"
     ],
     "operations": [
-      "google-drive.file.get",
+      "google-drive.file.download",
       "slack.file.get"
     ]
   },
@@ -280,7 +280,7 @@
       "ai"
     ],
     "operations": [
-      "openai.assistant.summarize"
+      "openai.text.generateChatCompletion"
     ]
   },
   {

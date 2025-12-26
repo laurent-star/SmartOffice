@@ -22,26 +22,6 @@
             ]
           }
         },
-        "get": {
-          "params": {
-            "required": [
-              "fileId"
-            ],
-            "optional": [
-              "simplifyOutput"
-            ]
-          },
-          "returns": {
-            "data": [
-              "id",
-              "mimeType",
-              "name",
-              "parents",
-              "webViewLink"
-            ],
-            "binary": []
-          }
-        },
         "upload": {
           "params": {
             "required": [

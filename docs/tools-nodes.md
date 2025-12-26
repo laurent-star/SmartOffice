@@ -1,18 +1,18 @@
 # Inventaire des nodes
 
-Tous les workflows d'outils normalisent l'entrée (`provider`, `operation`, `params`) puis alimentent les champs requis documentés dans `registries/n8n-official-ops/*.json`. Les options facultatives sont, lorsque disponibles, regroupées dans `additionalFields` pour éviter de polluer les champs obligatoires.
+Tous les workflows d'outils normalisent l'entrée (`provider`, `operation`, `params`) puis alimentent les champs requis documentés dans `registries/n8n-official-ops/*.json`. Les options facultatives sont regroupées dans `additionalFields` ou `options` selon le node.
 
 ## Tools
 
 ### Google Drive (`workflows/tools/google-drive.workflow.json`)
-- Nombre total de nodes : 9
-- Liste : Manual Trigger, Normalize Input, Dispatch Operation, file.download, file.get, file.upload, fileFolder.search, folder.create, sampleFetch
-- Champs requis mappés : `fileId` (download/get/sample), `binary` + `folderId` + `name` (upload), `query` (fileFolder.search), `name` (folder.create) avec `binaryPropertyName` par défaut `data` pour les téléchargements.【F:workflows/tools/google-drive.workflow.json†L96-L156】
+- Nombre total de nodes : 8
+- Liste : Manual Trigger, Normalize Input, Dispatch Operation, file.download, file.upload, fileFolder.search, folder.create, sampleFetch
+- Champs requis mappés : `fileId` (download/sample), `binary` + `folderId` + `name` (upload), `query` (fileFolder.search), `name` (folder.create) avec `binaryPropertyName` par défaut `data` dans `options` pour les téléchargements.【F:workflows/tools/google-drive.workflow.json†L93-L154】
 
 ### OpenAI (`workflows/tools/openai.workflow.json`)
 - Nombre total de nodes : 7
-- Liste : Manual Trigger, Normalize Input, Dispatch Operation, assistant.classify, assistant.extract, assistant.summarize, sampleFetch
-- Champs requis mappés : `labels`/`text` pour `assistant.classify`, `schema`/`text` pour `assistant.extract`, `text` (et option `instructions`) pour `assistant.summarize` et `sampleFetch`.【F:workflows/tools/openai.workflow.json†L90-L144】
+- Liste : Manual Trigger, Normalize Input, Dispatch Operation, text.classifyTextForViolations, text.generateModelResponse, text.generateChatCompletion, sampleFetch
+- Champs requis mappés : `text` pour chaque opération, avec `labels` et `schema` injectés dans le prompt pour les actions de classification et d'extraction.【F:workflows/tools/openai.workflow.json†L90-L144】
 
 ### Slack (`workflows/tools/slack.workflow.json`)
 - Nombre total de nodes : 12

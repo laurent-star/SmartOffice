@@ -4,14 +4,14 @@
   "description": "LLM pour résumer, classifier ou extraire des informations textuelles.",
   "actions": [
     {
-      "name": "assistant.summarize",
+      "name": "text.generateChatCompletion",
       "input": [
         "text"
       ],
-      "output": "summary"
+      "output": "completion"
     },
     {
-      "name": "assistant.classify",
+      "name": "text.classifyTextForViolations",
       "input": [
         "labels",
         "text"
@@ -19,12 +19,12 @@
       "output": "classification"
     },
     {
-      "name": "assistant.extract",
+      "name": "text.generateModelResponse",
       "input": [
         "schema",
         "text"
       ],
-      "output": "structured_data"
+      "output": "response"
     },
     {
       "name": "sampleFetch",
