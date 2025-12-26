@@ -47,31 +47,31 @@ Nodes (par workflow)
 
 - google-calendar.workflow.json (`n8n-nodes-base.googleCalendar`)
   - Manual Trigger / Normalize Input / Dispatch Operation identiques.
-  - event.create — Google Calendar : attend `params.calendar`, `params.summary`, `params.start`, `params.end`; renvoie l'event cree.
-  - event.getMany — Google Calendar : attend `params.calendar` et filtres (timeMin, timeMax...); renvoie les evenements.
+  - event.create — Google Calendar : attend `params.title`, `params.start`, `params.end` et optionnellement `params.attendees`/`params.description`; renvoie l'event cree.
+  - event.getMany — Google Calendar : attend les filtres `params.timeMin`, `params.timeMax`, `params.limit` et s'appuie sur le calendrier par defaut faute de `params.calendar` (ecart a corriger pour selectionner explicitement un calendrier).
   - sampleFetch — Google Calendar : recupere un event exemple.
 
 - google-docs.workflow.json (`n8n-nodes-base.googleDocs`)
   - Manual Trigger / Normalize Input / Dispatch Operation identiques.
   - document.create — Google Docs : attend `params.title`; renvoie le doc cree.
   - document.get — Google Docs : attend `params.documentId`; renvoie le contenu.
-  - document.update — Google Docs : attend `params.documentId` et `params.requests` (batchUpdate) ; renvoie la reponse update.
+  - document.update — Google Docs : attend `params.documentId` et optionnellement `params.requests`/`params.html`/`params.text`; renvoie la reponse update.
   - sampleFetch — Google Docs : recupere un doc exemple.
 
 - google-drive.workflow.json (`n8n-nodes-base.googleDrive`)
   - Manual Trigger / Normalize Input / Dispatch Operation identiques.
-  - file.download — Google Drive : attend `params.fileId`; renvoie le fichier en binaire ou metadata.
+  - file.download — Google Drive : attend `params.fileId` et optionnellement `params.binaryPropertyName` (defaut `data`); renvoie le fichier en binaire ou metadata.
   - file.get — Google Drive : attend `params.fileId`; renvoie les metadonnees.
-  - file.upload — Google Drive : attend `params.parentId`, `params.fileName`, `params.binaryProperty`; renvoie le fichier cree.
-  - fileFolder.search — Google Drive : attend `params.query`; renvoie la liste.
+  - file.upload — Google Drive : attend `params.folderId`, `params.name`, `params.binary` (defaut `data`) et `params.mimeType`; renvoie le fichier cree.
+  - fileFolder.search — Google Drive : attend `params.query` avec `params.returnAll`/`params.limit` optionnels; renvoie la liste.
   - folder.create — Google Drive : attend `params.parentId`, `params.folderName`; renvoie le dossier.
   - sampleFetch — Google Drive : exemple de resultat.
 
 - google-sheets.workflow.json (`n8n-nodes-base.googleSheets`)
   - Manual Trigger / Normalize Input / Dispatch Operation identiques.
-  - sheet.append — Google Sheets : attend `params.spreadsheetId`, `params.range`, `params.data`; renvoie la plage ecrite.
-  - sheet.read — Google Sheets : attend `params.spreadsheetId`, `params.range`; renvoie les lignes.
-  - sheet.update — Google Sheets : attend `params.spreadsheetId`, `params.range`, `params.data`; renvoie la plage mise a jour.
+  - sheet.append — Google Sheets : attend `params.spreadsheetId`, `params.range`, `params.values` et optionnellement `params.valueInputMode` ; renvoie la plage ecrite.
+  - sheet.read — Google Sheets : attend `params.spreadsheetId`, `params.range` ; renvoie les lignes.
+  - sheet.update — Google Sheets : attend `params.spreadsheetId`, `params.range`, `params.values` et eventuellement `params.valueInputMode`; renvoie la plage mise a jour.
   - spreadsheet.create — Google Sheets : attend `params.title` et eventuellement feuilles; renvoie l'id du classeur.
   - sampleFetch — Google Sheets : lecture de test.
 
@@ -112,3 +112,9 @@ Utilisation des utils
 Regle de nommage
 
 - Convention : `so.<layer>.<name>`
+
+Gaps vs doc officielle / plan d'actions
+
+- Google Calendar : les workflows n'acceptent pas encore `params.calendar` alors que le node officiel l'exige pour cibler un calendrier specifique. Action : ajouter le champ dans `event.create` et `event.getMany`, propager depuis l'enveloppe et tester avec un calendrier autre que "primary".
+- Google Drive : les params documentes utilisaient `parentId`/`fileName`/`binaryProperty` alors que le workflow consomme `folderId`/`name`/`binary` et `mimeType` (conforme aux nodes actuels). Action : aligner les steps/fonctions d'appel sur ces noms de params et fournir une valeur par defaut pour le binaire dans l'executor.
+- Google Sheets : les workflows attendent `values` + `valueInputMode` et non `data`. Action : adapter les steps agents/executor pour envoyer `values` (tableau) et optionnellement `valueInputMode`.
