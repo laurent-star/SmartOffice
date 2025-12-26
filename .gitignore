@@ -11,6 +11,3 @@ docs/n8n/raw/
 
 # Audit reports
 audit-reports/
-
-# Local golden exports
-workflows/golden/Tool.drive.json

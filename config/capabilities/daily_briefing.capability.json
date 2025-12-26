@@ -71,7 +71,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "text.generateChatCompletion",
+        "action": "assistant.summarize",
         "text": "Rédige un briefing quotidien clair et concis pour la période {{input.time_window.start}} -> {{input.time_window.end}}.\n- Emails Gmail (peut être vide): {{memory.state.gmail.messages}}\n- Evénements Calendar (peut être vide): {{memory.state.calendar.events}}\n- Tâches Monday (peut être vide): {{memory.state.monday.items}}\nFormate en markdown avec des puces. Pour chaque source, saute les sections sans données, affiche les intitulés lisibles et propose des liens cliquables quand un champ de lien ou d'identifiant est fourni (ex: htmlLink, webViewLink, permalink, id). Termine par des appels à l'action explicites (répondre à un mail, ouvrir une tâche, rejoindre un événement)."
       },
       "save": {

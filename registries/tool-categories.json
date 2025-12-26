@@ -42,7 +42,7 @@
       "ged.document.create",
       "ged.document.get",
       "ged.document.update",
-      "ged.file.download",
+      "ged.file.get",
       "ged.file.upload",
       "ged.fileFolder.search",
       "ged.sampleFetch"
@@ -53,9 +53,9 @@
       "openai"
     ],
     "operations": [
-      "llm.text.classifyTextForViolations",
-      "llm.text.generateModelResponse",
-      "llm.text.generateChatCompletion",
+      "llm.assistant.classify",
+      "llm.assistant.extract",
+      "llm.assistant.summarize",
       "llm.sampleFetch"
     ]
   },

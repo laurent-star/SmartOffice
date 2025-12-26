@@ -21,7 +21,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "text.generateModelResponse",
+        "action": "assistant.extract",
         "schema": "mapping_proposal_v1",
         "text": "TOOL={{input.tool_id}}\nDOMAIN={{input.domain}}\nSAMPLE={{input.sample_payload}}"
       },

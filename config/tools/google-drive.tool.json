@@ -13,7 +13,7 @@
       "output": "file"
     },
     {
-      "name": "file.download",
+      "name": "file.get",
       "input": [
         "fileId"
       ],

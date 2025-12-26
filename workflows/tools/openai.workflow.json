@@ -58,15 +58,15 @@
         "rules": [
           {
             "operation": "equal",
-            "value": "text.classifyTextForViolations"
+            "value": "assistant.classify"
           },
           {
             "operation": "equal",
-            "value": "text.generateModelResponse"
+            "value": "assistant.extract"
           },
           {
             "operation": "equal",
-            "value": "text.generateChatCompletion"
+            "value": "assistant.summarize"
           },
           {
             "operation": "equal",
@@ -77,46 +77,53 @@
     },
     {
       "id": "assistant-classify",
-      "name": "text.classifyTextForViolations",
-      "type": "n8n-nodes-langchain.openai",
+      "name": "assistant.classify",
+      "type": "n8n-nodes-langchain.lmchatopenai",
       "typeVersion": 1,
       "position": [
         920,
         150
       ],
       "parameters": {
-        "resource": "text",
-        "operation": "classifyTextForViolations",
-        "text": "={{'Labels: ' + (($json.params.labels || []).join(', ')) + '\\nText: ' + ($json.params.text || '')}}"
+        "resource": "assistant",
+        "operation": "classify",
+        "additionalFields": {},
+        "labels": "={{$json.params.labels}}",
+        "text": "={{$json.params.text}}"
       }
     },
     {
       "id": "assistant-extract",
-      "name": "text.generateModelResponse",
-      "type": "n8n-nodes-langchain.openai",
+      "name": "assistant.extract",
+      "type": "n8n-nodes-langchain.lmchatopenai",
       "typeVersion": 1,
       "position": [
         920,
         300
       ],
       "parameters": {
-        "resource": "text",
-        "operation": "generateModelResponse",
-        "text": "={{'Schema: ' + ($json.params.schema || '') + '\\nText: ' + ($json.params.text || '')}}"
+        "resource": "assistant",
+        "operation": "extract",
+        "additionalFields": {},
+        "schema": "={{$json.params.schema}}",
+        "text": "={{$json.params.text}}"
       }
     },
     {
       "id": "assistant-summarize",
-      "name": "text.generateChatCompletion",
-      "type": "n8n-nodes-langchain.openai",
+      "name": "assistant.summarize",
+      "type": "n8n-nodes-langchain.lmchatopenai",
       "typeVersion": 1,
       "position": [
         920,
         450
       ],
       "parameters": {
-        "resource": "text",
-        "operation": "generateChatCompletion",
+        "resource": "assistant",
+        "operation": "summarize",
+        "additionalFields": {
+          "instructions": "={{$json.params.instructions}}"
+        },
         "text": "={{$json.params.text}}"
       }
     },
@@ -139,7 +146,10 @@
             }
           ]
         },
-        "text": "={{$json.params.text}}"
+        "text": "={{$json.params.text}}",
+        "additionalFields": {
+          "instructions": "={{$json.params.instructions}}"
+        }
       }
     }
   ],
@@ -169,17 +179,17 @@
     "Dispatch Operation": {
       "main": [
         {
-          "node": "text.classifyTextForViolations",
+          "node": "assistant.classify",
           "type": "main",
           "index": 0
         },
         {
-          "node": "text.generateModelResponse",
+          "node": "assistant.extract",
           "type": "main",
           "index": 0
         },
         {
-          "node": "text.generateChatCompletion",
+          "node": "assistant.summarize",
           "type": "main",
           "index": 0
         },
@@ -190,13 +200,13 @@
         }
       ]
     },
-    "text.classifyTextForViolations": {
+    "assistant.classify": {
       "main": []
     },
-    "text.generateModelResponse": {
+    "assistant.extract": {
       "main": []
     },
-    "text.generateChatCompletion": {
+    "assistant.summarize": {
       "main": []
     },
     "sampleFetch": {

@@ -19,7 +19,7 @@
       "type": "tool",
       "ref": "openai",
       "params": {
-        "action": "text.generateModelResponse",
+        "action": "assistant.extract",
         "text": "{{memory.state.document.brief}}",
         "schema": "{{memory.state.document.schema}}"
       },
@@ -59,7 +59,7 @@
       "type": "tool",
       "ref": "google-drive",
       "params": {
-        "action": "file.download",
+        "action": "file.get",
         "fileId": "{{memory.state.document.id}}"
       },
       "save": {
