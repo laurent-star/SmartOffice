@@ -7,8 +7,12 @@ cd "$repo_root"
 echo "==> Update repo"
 git pull --ff-only
 
-echo "==> Refresh n8n docs"
-./scripts/fetch_n8n_docs.sh --build --rebuild-raw
+if [[ "${SKIP_FETCH:-}" == "1" ]]; then
+  echo "==> Refresh n8n docs skipped (SKIP_FETCH=1)"
+else
+  echo "==> Refresh n8n docs"
+  ./scripts/fetch_n8n_docs.sh --build --rebuild-raw
+fi
 
 echo "==> Validate contracts/formats"
 NODE_PATH=./node_modules node scripts/validate_contracts_preload.js
