@@ -43,6 +43,16 @@ Each capability includes:
 
 ---
 
+## Capability: onboarding_mapping_intelligent
+
+Purpose:
+- Propose un mapping via LLM, demande validation Slack, puis stocke le mapping sur Drive.
+
+Notes:
+- Le sample payload est fourni par le tool workflow (operation `sampleFetch` a ajouter).
+
+---
+
 ## Rules
 
 - Capabilities must be deterministic.

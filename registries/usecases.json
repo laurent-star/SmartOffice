@@ -128,5 +128,24 @@
       "memory.state.briefing.summary",
       "memory.state.briefing.sent_message"
     ]
+  },
+  {
+    "id": "onboarding_mapping_intelligent",
+    "version": "1.0.0",
+    "description": "Orchestre l'onboarding mapping par tool avec proposition LLM, validation Slack et stockage Drive.",
+    "path": "config/use-cases/onboarding_mapping_intelligent.usecase.json",
+    "inputs": [
+      "input.tool_id",
+      "input.domain",
+      "input.sample_payload",
+      "context.slack.channel",
+      "context.drive.mappings_folder_id"
+    ],
+    "outputs": [
+      "memory.state.mapping.proposal_yaml",
+      "memory.state.mapping.justification",
+      "memory.state.mapping.drive_file_id",
+      "memory.state.mapping.slack_message_id"
+    ]
   }
 ]

@@ -1,0 +1,67 @@
+{
+  "id": "onboarding_mapping_intelligent",
+  "version": "1.0.0",
+  "description": "Genere un mapping a partir d'un sample, propose une version justifiee via LLM et demande validation Slack avant stockage sur Drive.",
+  "inputs": [
+    "input.tool_id",
+    "input.domain",
+    "input.sample_payload",
+    "context.slack.channel",
+    "context.drive.mappings_folder_id"
+  ],
+  "outputs": [
+    "memory.state.mapping.proposal_yaml",
+    "memory.state.mapping.justification",
+    "memory.state.mapping.drive_file_id",
+    "memory.state.mapping.slack_message_id"
+  ],
+  "steps": [
+    {
+      "id": "propose_mapping",
+      "type": "tool",
+      "ref": "openai",
+      "params": {
+        "action": "assistant.extract",
+        "schema": "mapping_proposal_v1",
+        "text": "TOOL={{input.tool_id}}\nDOMAIN={{input.domain}}\nSAMPLE={{input.sample_payload}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.mapping.proposal_yaml": "$.data.structured_data.mapping_yaml",
+          "memory.state.mapping.justification": "$.data.structured_data.justification"
+        }
+      }
+    },
+    {
+      "id": "request_validation",
+      "type": "tool",
+      "ref": "slack",
+      "params": {
+        "action": "message.send",
+        "channel": "{{context.slack.channel}}",
+        "text": "Mapping propose pour {{input.tool_id}}/{{input.domain}}. Justification: {{memory.state.mapping.justification}}. Merci de valider ou d'indiquer les corrections."
+      },
+      "save": {
+        "to": {
+          "memory.state.mapping.slack_message_id": "$.data"
+        }
+      }
+    },
+    {
+      "id": "store_mapping",
+      "type": "tool",
+      "ref": "google-drive",
+      "params": {
+        "action": "file.upload",
+        "name": "{{input.tool_id}}-{{input.domain}}-mapping.yaml",
+        "folderId": "{{context.drive.mappings_folder_id}}",
+        "binary": "{{memory.state.mapping.proposal_yaml}}"
+      },
+      "save": {
+        "to": {
+          "memory.state.mapping.drive_file_id": "$.data.file.id"
+        }
+      }
+    }
+  ]
+}
