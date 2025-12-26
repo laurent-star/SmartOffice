@@ -30,6 +30,9 @@ qu'elles respectent l'architecture.
 - 15_agent_planner.json
   Exemple de planification avec boucle de clarification.
 
+- 16_agent_supervisor.json
+  Exemple de supervision du plan avant execution.
+
 - 20_tools.json
   Exemples de pattern d'execution d'un tool (I/O standardise).
 

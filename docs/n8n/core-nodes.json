@@ -4,6 +4,7 @@
     "n8n-nodes-base.manualTrigger",
     "n8n-nodes-base.webhook",
     "n8n-nodes-base.scheduleTrigger",
+    "n8n-nodes-base.code",
     "n8n-nodes-base.set",
     "n8n-nodes-base.function",
     "n8n-nodes-base.switch",

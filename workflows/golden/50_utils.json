@@ -11,11 +11,12 @@
     {
       "id": "node-normalize",
       "name": "Normalize Text",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.code",
       "typeVersion": 1,
       "position": [420, 300],
       "parameters": {
-        "functionCode": "const input = items[0].json || {};\nconst text = typeof input.text === 'string' ? input.text : 'Hello Utils';\nconst normalized = text.trim().toLowerCase();\n\nreturn [{ json: { text, normalized } }];"
+        "language": "javascript",
+        "jsCode": "const input = items[0].json || {};\nconst text = typeof input.text === 'string' ? input.text : 'Hello Utils';\nconst normalized = text.trim().toLowerCase();\n\nreturn [{ json: { text, normalized } }];"
       }
     }
   ],

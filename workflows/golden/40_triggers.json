@@ -11,11 +11,12 @@
     {
       "id": "node-build-legacy",
       "name": "Build Legacy Envelope",
-      "type": "n8n-nodes-base.function",
+      "type": "n8n-nodes-base.code",
       "typeVersion": 1,
       "position": [420, 300],
       "parameters": {
-        "functionCode": "const envelope = {\n  context: {\n    memory: {\n      session_id: 'sess_001',\n      state: {},\n      stack: []\n    }\n  },\n  input: {\n    steps: [\n      {\n        type: 'tool',\n        ref: 'slack',\n        params: {\n          channel: '#ops',\n          text: 'Hello from trigger'\n        }\n      }\n    ]\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];"
+        "language": "javascript",
+        "jsCode": "const envelope = {\n  context: {\n    memory: {\n      session_id: 'sess_001',\n      state: {},\n      stack: []\n    }\n  },\n  input: {\n    steps: [\n      {\n        type: 'tool',\n        ref: 'slack',\n        params: {\n          channel: '#ops',\n          text: 'Hello from trigger'\n        }\n      }\n    ]\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];"
       }
     }
   ],
