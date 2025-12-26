@@ -1,0 +1,45 @@
+{
+  "name": "so.tool.google-drive",
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "id": "placeholder",
+      "name": "Configure Provider Nodes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        420,
+        300
+      ],
+      "parameters": {
+        "language": "JavaScript",
+        "jsCode": "const provider = 'google-drive';\n// Ajouter depuis l'UI les nodes connecteur du provider (documentes dans exports/README.md)\n// et cabler leurs sorties vers ce workflow selon vos besoins.\nreturn items.map(item => ({ json: {\n  ...item.json,\n  note: 'Ajoutez les nodes connecteur pour ' + provider + ' dans l\\'UI (voir exports/README.md).',\n  expectedProvider: provider\n}}));\n"
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Configure Provider Nodes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "pinData": {},
+  "tags": []
+}
