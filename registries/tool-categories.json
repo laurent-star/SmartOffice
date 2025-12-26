@@ -5,7 +5,8 @@
     ],
     "operations": [
       "billing.company.update",
-      "billing.contact.create"
+      "billing.contact.create",
+      "billing.sampleFetch"
     ]
   },
   "calendar": {
@@ -14,7 +15,8 @@
     ],
     "operations": [
       "calendar.event.create",
-      "calendar.event.getMany"
+      "calendar.event.getMany",
+      "calendar.sampleFetch"
     ]
   },
   "crm": {
@@ -27,7 +29,8 @@
       "crm.boardItem.getMany",
       "crm.boardItem.updateColumnValues",
       "crm.company.update",
-      "crm.contact.create"
+      "crm.contact.create",
+      "crm.sampleFetch"
     ]
   },
   "ged": {
@@ -41,7 +44,8 @@
       "ged.document.update",
       "ged.file.get",
       "ged.file.upload",
-      "ged.fileFolder.search"
+      "ged.fileFolder.search",
+      "ged.sampleFetch"
     ]
   },
   "llm": {
@@ -51,7 +55,8 @@
     "operations": [
       "llm.assistant.classify",
       "llm.assistant.extract",
-      "llm.assistant.summarize"
+      "llm.assistant.summarize",
+      "llm.sampleFetch"
     ]
   },
   "marketing": {
@@ -60,7 +65,8 @@
     ],
     "operations": [
       "marketing.campaign.createCampaign",
-      "marketing.email.sendEmail"
+      "marketing.email.sendEmail",
+      "marketing.sampleFetch"
     ]
   },
   "sales": {
@@ -73,7 +79,8 @@
       "sales.boardItem.getMany",
       "sales.boardItem.updateColumnValues",
       "sales.company.update",
-      "sales.contact.create"
+      "sales.contact.create",
+      "sales.sampleFetch"
     ]
   },
   "task_manager": {
@@ -83,7 +90,8 @@
     "operations": [
       "task_manager.boardItem.create",
       "task_manager.boardItem.getMany",
-      "task_manager.boardItem.updateColumnValues"
+      "task_manager.boardItem.updateColumnValues",
+      "task_manager.sampleFetch"
     ]
   },
   "trigger_message": {
@@ -92,7 +100,8 @@
     ],
     "operations": [
       "trigger_message.message.getMany",
-      "trigger_message.message.send"
+      "trigger_message.message.send",
+      "trigger_message.sampleFetch"
     ]
   },
   "validation_humaine": {
@@ -102,7 +111,8 @@
     "operations": [
       "validation_humaine.conversation.getMany",
       "validation_humaine.message.search",
-      "validation_humaine.message.send"
+      "validation_humaine.message.send",
+      "validation_humaine.sampleFetch"
     ]
   }
 }

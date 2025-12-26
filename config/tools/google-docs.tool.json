@@ -25,6 +25,11 @@
         "documentId"
       ],
       "output": "document"
+    },
+    {
+      "name": "sampleFetch",
+      "input": [],
+      "output": "sample_payload"
     }
   ],
   "categories": [

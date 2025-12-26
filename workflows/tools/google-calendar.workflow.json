@@ -63,6 +63,10 @@
           {
             "operation": "equal",
             "value": "event.getMany"
+          },
+          {
+            "operation": "equal",
+            "value": "sampleFetch"
           }
         ]
       }
@@ -91,6 +95,21 @@
         920,
         300
       ],
+      "parameters": {
+        "resource": "event",
+        "operation": "getMany",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "sample-fetch",
+      "name": "sampleFetch",
+      "typeVersion": 1,
+      "position": [
+        920,
+        450
+      ],
+      "type": "n8n-nodes-base.googleCalendar",
       "parameters": {
         "resource": "event",
         "operation": "getMany",
@@ -132,6 +151,11 @@
           "node": "event.getMany",
           "type": "main",
           "index": 0
+        },
+        {
+          "node": "sampleFetch",
+          "type": "main",
+          "index": 0
         }
       ]
     },
@@ -139,6 +163,9 @@
       "main": []
     },
     "event.getMany": {
+      "main": []
+    },
+    "sampleFetch": {
       "main": []
     }
   },

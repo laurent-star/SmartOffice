@@ -71,6 +71,10 @@
           {
             "operation": "equal",
             "value": "spreadsheet.create"
+          },
+          {
+            "operation": "equal",
+            "value": "sampleFetch"
           }
         ]
       }
@@ -134,6 +138,21 @@
         "operation": "create",
         "additionalFields": {}
       }
+    },
+    {
+      "id": "sample-fetch",
+      "name": "sampleFetch",
+      "typeVersion": 1,
+      "position": [
+        920,
+        750
+      ],
+      "type": "n8n-nodes-base.googleSheets",
+      "parameters": {
+        "resource": "sheet",
+        "operation": "read",
+        "additionalFields": {}
+      }
     }
   ],
   "connections": {
@@ -180,6 +199,11 @@
           "node": "spreadsheet.create",
           "type": "main",
           "index": 0
+        },
+        {
+          "node": "sampleFetch",
+          "type": "main",
+          "index": 0
         }
       ]
     },
@@ -193,6 +217,9 @@
       "main": []
     },
     "spreadsheet.create": {
+      "main": []
+    },
+    "sampleFetch": {
       "main": []
     }
   },

@@ -25,6 +25,11 @@
         "text"
       ],
       "output": "structured_data"
+    },
+    {
+      "name": "sampleFetch",
+      "input": [],
+      "output": "sample_payload"
     }
   ],
   "categories": [

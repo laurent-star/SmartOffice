@@ -25,6 +25,11 @@
         "query"
       ],
       "output": "items"
+    },
+    {
+      "name": "sampleFetch",
+      "input": [],
+      "output": "sample_payload"
     }
   ],
   "categories": [

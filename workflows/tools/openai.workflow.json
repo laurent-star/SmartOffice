@@ -67,6 +67,10 @@
           {
             "operation": "equal",
             "value": "assistant.summarize"
+          },
+          {
+            "operation": "equal",
+            "value": "sampleFetch"
           }
         ]
       }
@@ -115,6 +119,27 @@
         "operation": "summarize",
         "additionalFields": {}
       }
+    },
+    {
+      "id": "sample-fetch",
+      "name": "sampleFetch",
+      "typeVersion": 1,
+      "position": [
+        920,
+        600
+      ],
+      "type": "n8n-nodes-base.set",
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "json": [
+            {
+              "name": "sample_payload",
+              "value": "={{$json.params.sample_payload}}"
+            }
+          ]
+        }
+      }
     }
   ],
   "connections": {
@@ -156,6 +181,11 @@
           "node": "assistant.summarize",
           "type": "main",
           "index": 0
+        },
+        {
+          "node": "sampleFetch",
+          "type": "main",
+          "index": 0
         }
       ]
     },
@@ -166,6 +196,9 @@
       "main": []
     },
     "assistant.summarize": {
+      "main": []
+    },
+    "sampleFetch": {
       "main": []
     }
   },

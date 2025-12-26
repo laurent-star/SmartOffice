@@ -67,6 +67,10 @@
           {
             "operation": "equal",
             "value": "document.update"
+          },
+          {
+            "operation": "equal",
+            "value": "sampleFetch"
           }
         ]
       }
@@ -115,6 +119,21 @@
         "operation": "update",
         "additionalFields": {}
       }
+    },
+    {
+      "id": "sample-fetch",
+      "name": "sampleFetch",
+      "typeVersion": 1,
+      "position": [
+        920,
+        600
+      ],
+      "type": "n8n-nodes-base.googleDocs",
+      "parameters": {
+        "resource": "document",
+        "operation": "get",
+        "additionalFields": {}
+      }
     }
   ],
   "connections": {
@@ -156,6 +175,11 @@
           "node": "document.update",
           "type": "main",
           "index": 0
+        },
+        {
+          "node": "sampleFetch",
+          "type": "main",
+          "index": 0
         }
       ]
     },
@@ -166,6 +190,9 @@
       "main": []
     },
     "document.update": {
+      "main": []
+    },
+    "sampleFetch": {
       "main": []
     }
   },

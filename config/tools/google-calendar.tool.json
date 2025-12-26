@@ -20,6 +20,11 @@
         "limit"
       ],
       "output": "events"
+    },
+    {
+      "name": "sampleFetch",
+      "input": [],
+      "output": "sample_payload"
     }
   ],
   "categories": [

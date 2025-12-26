@@ -63,6 +63,10 @@
           {
             "operation": "equal",
             "value": "contact.create"
+          },
+          {
+            "operation": "equal",
+            "value": "sampleFetch"
           }
         ]
       }
@@ -95,6 +99,27 @@
         "resource": "contact",
         "operation": "create",
         "additionalFields": {}
+      }
+    },
+    {
+      "id": "sample-fetch",
+      "name": "sampleFetch",
+      "typeVersion": 1,
+      "position": [
+        920,
+        450
+      ],
+      "type": "n8n-nodes-base.set",
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "json": [
+            {
+              "name": "sample_payload",
+              "value": "={{$json.params.sample_payload}}"
+            }
+          ]
+        }
       }
     }
   ],
@@ -132,6 +157,11 @@
           "node": "contact.create",
           "type": "main",
           "index": 0
+        },
+        {
+          "node": "sampleFetch",
+          "type": "main",
+          "index": 0
         }
       ]
     },
@@ -139,6 +169,9 @@
       "main": []
     },
     "contact.create": {
+      "main": []
+    },
+    "sampleFetch": {
       "main": []
     }
   },

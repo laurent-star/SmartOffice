@@ -75,6 +75,10 @@
           {
             "operation": "equal",
             "value": "boardItem.updateColumnValues"
+          },
+          {
+            "operation": "equal",
+            "value": "sampleFetch"
           }
         ]
       }
@@ -153,6 +157,21 @@
         "operation": "updateColumnValues",
         "additionalFields": {}
       }
+    },
+    {
+      "id": "sample-fetch",
+      "name": "sampleFetch",
+      "typeVersion": 1,
+      "position": [
+        920,
+        900
+      ],
+      "type": "n8n-nodes-base.mondayCom",
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getMany",
+        "additionalFields": {}
+      }
     }
   ],
   "connections": {
@@ -204,6 +223,11 @@
           "node": "boardItem.updateColumnValues",
           "type": "main",
           "index": 0
+        },
+        {
+          "node": "sampleFetch",
+          "type": "main",
+          "index": 0
         }
       ]
     },
@@ -220,6 +244,9 @@
       "main": []
     },
     "boardItem.updateColumnValues": {
+      "main": []
+    },
+    "sampleFetch": {
       "main": []
     }
   },

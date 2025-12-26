@@ -24,6 +24,11 @@
           "fields"
         ],
         "output": "company_id"
+      },
+      {
+        "name": "sampleFetch",
+        "input": [],
+        "output": "sample_payload"
       }
     ]
   },
@@ -53,6 +58,11 @@
           "content"
         ],
         "output": "campaign_id"
+      },
+      {
+        "name": "sampleFetch",
+        "input": [],
+        "output": "sample_payload"
       }
     ]
   },
@@ -81,6 +91,11 @@
           "limit"
         ],
         "output": "messages"
+      },
+      {
+        "name": "sampleFetch",
+        "input": [],
+        "output": "sample_payload"
       }
     ]
   },
@@ -110,6 +125,11 @@
           "limit"
         ],
         "output": "events"
+      },
+      {
+        "name": "sampleFetch",
+        "input": [],
+        "output": "sample_payload"
       }
     ]
   },
@@ -144,6 +164,11 @@
           "documentId"
         ],
         "output": "document"
+      },
+      {
+        "name": "sampleFetch",
+        "input": [],
+        "output": "sample_payload"
       }
     ]
   },
@@ -178,6 +203,11 @@
           "query"
         ],
         "output": "items"
+      },
+      {
+        "name": "sampleFetch",
+        "input": [],
+        "output": "sample_payload"
       }
     ]
   },
@@ -215,6 +245,11 @@
           "columnValues"
         ],
         "output": "itemId"
+      },
+      {
+        "name": "sampleFetch",
+        "input": [],
+        "output": "sample_payload"
       }
     ]
   },
@@ -249,6 +284,11 @@
           "text"
         ],
         "output": "structured_data"
+      },
+      {
+        "name": "sampleFetch",
+        "input": [],
+        "output": "sample_payload"
       }
     ]
   },
@@ -283,6 +323,11 @@
           "limit"
         ],
         "output": "conversations"
+      },
+      {
+        "name": "sampleFetch",
+        "input": [],
+        "output": "sample_payload"
       }
     ]
   }

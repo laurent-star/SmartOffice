@@ -74,7 +74,8 @@ function generate() {
         errors.push({ file, message: "Action sans nom" });
         continue;
       }
-      if (!allowedOpsByProvider[provider].has(action.name)) {
+      const isSampleFetch = action.name === "sampleFetch";
+      if (!isSampleFetch && !allowedOpsByProvider[provider].has(action.name)) {
         errors.push({
           file,
           message: `Action ${action.name} non referencee pour ${provider}`

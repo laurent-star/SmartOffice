@@ -20,6 +20,11 @@
         "content"
       ],
       "output": "campaign_id"
+    },
+    {
+      "name": "sampleFetch",
+      "input": [],
+      "output": "sample_payload"
     }
   ],
   "categories": [

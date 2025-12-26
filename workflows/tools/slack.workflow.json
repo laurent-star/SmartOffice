@@ -87,6 +87,10 @@
           {
             "operation": "equal",
             "value": "message.send"
+          },
+          {
+            "operation": "equal",
+            "value": "sampleFetch"
           }
         ]
       }
@@ -210,6 +214,21 @@
         "operation": "send",
         "additionalFields": {}
       }
+    },
+    {
+      "id": "sample-fetch",
+      "name": "sampleFetch",
+      "typeVersion": 1,
+      "position": [
+        920,
+        1350
+      ],
+      "type": "n8n-nodes-base.slack",
+      "parameters": {
+        "resource": "message",
+        "operation": "search",
+        "additionalFields": {}
+      }
     }
   ],
   "connections": {
@@ -276,6 +295,11 @@
           "node": "message.send",
           "type": "main",
           "index": 0
+        },
+        {
+          "node": "sampleFetch",
+          "type": "main",
+          "index": 0
         }
       ]
     },
@@ -301,6 +325,9 @@
       "main": []
     },
     "message.send": {
+      "main": []
+    },
+    "sampleFetch": {
       "main": []
     }
   },

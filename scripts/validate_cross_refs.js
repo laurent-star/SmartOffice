@@ -76,6 +76,9 @@ function main() {
       errors.push(`Provider-category mapping missing for tool ${toolId}`);
     }
     (tool.data.actions || []).forEach((action) => {
+      if (action.name === 'sampleFetch') {
+        return;
+      }
       const [resource, operation] = (action.name || '').split('.');
       const resourceDef = providerDef.resources && providerDef.resources[resource];
       const opDef = resourceDef && resourceDef.operations && resourceDef.operations[operation];

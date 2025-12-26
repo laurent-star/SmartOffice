@@ -49,6 +49,10 @@ Each tool definition lists:
 
 `params` provided in tool steps must match the `actions[].input` list.
 
+Special case:
+- `sampleFetch` is a virtual action used for onboarding mapping.
+- It may rely on optional params and return a minimal sample payload.
+
 Categories reference:
 
 - `docs/tools-catalog.md`
