@@ -3,7 +3,7 @@
     "initiative": "mapping_onboarding_hardening",
     "single_pr": true,
     "owner": "codex",
-    "updated_at": "2025-12-26T03:22:55Z"
+    "updated_at": "2025-12-26T03:55:00Z"
   },
   "discovery": {
     "package_manager": "npm",
@@ -93,6 +93,21 @@
       "checks": [
         "Prereqs + commands + troubleshooting included"
       ]
+    },
+    {
+      "id": "intelligent_onboarding_usecase",
+      "title": "Use case onboarding intelligent + sampleFetch tools",
+      "status": "done",
+      "files_expected": [
+        "config/capabilities/onboarding_mapping_intelligent.capability.json",
+        "config/use-cases/onboarding_mapping_intelligent.usecase.json",
+        "workflows/tools/*.workflow.json"
+      ],
+      "checks": [
+        "sampleFetch present in tool workflows",
+        "use case documented",
+        "LLM + Slack + Drive flow defined"
+      ]
     }
   ],
   "log": [
@@ -140,6 +155,11 @@
       "at": "2025-12-26T03:29:00Z",
       "event": "onboarding_client_laure",
       "details": "Onboarding considered complete for Laurent based on current mapping plan and tasks marked done."
+    },
+    {
+      "at": "2025-12-26T03:55:00Z",
+      "event": "intelligent_onboarding_ready",
+      "details": "Added onboarding_mapping_intelligent use case and sampleFetch action across tool workflows."
     }
   ]
 }

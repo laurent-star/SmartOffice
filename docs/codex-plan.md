@@ -82,7 +82,9 @@ Livrable :
 - Les registries sont generes via `validate_all.sh`.
 - Le loader Google Drive pour les registries est disponible.
 - La doc et les scripts de validation sont en place.
- - Onboarding intelligent documente dans `docs/.codex/PLAN_MAPPING_ONBOARDING.md`.
+- Onboarding intelligent documente dans `docs/.codex/PLAN_MAPPING_ONBOARDING.md`.
+- Use case `onboarding_mapping_intelligent` disponible (LLM + Slack + Drive).
+- `sampleFetch` ajoute dans tous les tools workflows.
 
 ---
 
@@ -97,6 +99,7 @@ Livrable :
 - Verifier que les credentials Google Drive sont associes.
 - Executer un test n8n de bout en bout (trigger -> executor -> tool).
 - Activer ou forcer `payload.options.debug = true` pour tracer l'execution.
+- Lancer l'onboarding mapping intelligent si besoin (Slack #smartoffice + Drive mappings).
 
 ---
 

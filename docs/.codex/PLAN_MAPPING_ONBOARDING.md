@@ -4,6 +4,7 @@ Objectif
 - Finaliser l’expérience d’onboarding “mappings” en verrouillant la qualité via CI + tests,
   en ajoutant des samples JSON versionnés, en rendant le lint utilisable en interactif,
   et en fournissant des checklists par source.
+- Ajouter un onboarding intelligent via Agent (LLM + validation Slack + stockage Drive).
 
 Contrainte
 - Tout livrer dans UNE SEULE PR.
@@ -16,6 +17,8 @@ Périmètre des tâches (issues internes)
 3) Tests unitaires mapping runtime
 4) Lint interactif avec complétion des mappings
 5) Checklists d’onboarding par source (Monday/Drive/Slack/Gmail/Google Calendar/Google Docs/Google Sheets/Axonaut/Brevo)
+6) Use case onboarding intelligent (LLM + Slack + Drive)
+7) Ajout de l’operation `sampleFetch` dans tous les tools workflows
 
 Arborescence cible (proposition)
 - scripts/
@@ -59,6 +62,9 @@ Arborescence cible (proposition)
     - mapping_runtime.test.js            (ou __tests__/ selon stack)
 - .github/workflows/
   - mapping-lint.yml                     (nouveau ou extension CI)
+- config/
+  - capabilities/onboarding_mapping_intelligent.capability.json
+  - use-cases/onboarding_mapping_intelligent.usecase.json
 
 Exigences fonctionnelles détaillées
 
@@ -115,6 +121,17 @@ Exigences fonctionnelles détaillées
   - Commandes à exécuter (lint, dry-run)
   - Erreurs fréquentes + correctifs
 
+(6) Use case onboarding intelligent
+- Use case `onboarding_mapping_intelligent` pour orchestrer :
+  - sampleFetch (tool workflow)
+  - proposition LLM + justification
+  - validation humaine via Slack
+  - stockage Drive du mapping valide
+
+(7) Ajout de `sampleFetch` dans les tools
+- Ajouter `sampleFetch` dans chaque workflow tool (switch).
+- Ajouter `sampleFetch` dans chaque config tool (action virtuelle).
+
 Acceptance criteria (DoD)
 - Une PR unique contenant:
   - workflow CI opérationnel (mapping lint)
@@ -122,6 +139,8 @@ Acceptance criteria (DoD)
   - tests unitaires verts en local + CI
   - lint interactif utilisable (manuel) + CI stable
   - docs checklists ajoutées
+  - use case onboarding intelligent disponible
+  - tools enrichis avec `sampleFetch`
 - README / docs mis à jour pour pointer vers:
   - commandes lint
   - chemin des samples
@@ -141,7 +160,8 @@ Plan d’exécution (ordre)
 5) Ajouter workflow GitHub Actions.
 6) Ajouter mode --interactive (inquirer/readline) + écriture patch mapping.
 7) Ajouter checklists par source.
-8) Mise à jour docs centrale + validation finale (lint + tests).
+8) Ajouter use case onboarding intelligent + sampleFetch tools.
+9) Mise à jour docs centrale + validation finale (lint + tests).
 
 Notes
 - Si le repo utilise pnpm/yarn, adapter toutes les commandes CI.
@@ -166,3 +186,5 @@ ci-dessous sont necessaires (le reste est deja en place une fois pour toutes).
 
 4) Passer a l'onboarding n8n (workflows + credentials)
    - suivre `docs/n8n-installation.md`
+5) Lancer l'onboarding intelligent (si active)
+   - use case `onboarding_mapping_intelligent`
