@@ -111,6 +111,7 @@ Pour demarrer, un nouveau client ne fait que :
 - [docs/codex-plan.md](docs/codex-plan.md)
 - [docs/tools-catalog.md](docs/tools-catalog.md)
 - [docs/n8n-installation.md](docs/n8n-installation.md)
+- [docs/human-plan.md](docs/human-plan.md)
 - [docs/n8n/README.md](docs/n8n/README.md)
 - [docs/n8n/minimal-types.md](docs/n8n/minimal-types.md)
 - [docs/n8n/core-nodes.json](docs/n8n/core-nodes.json)

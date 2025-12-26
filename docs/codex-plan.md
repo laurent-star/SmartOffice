@@ -78,6 +78,29 @@ Livrable :
 
 ---
 
+## Etat actuel
+
+- Les goldens sont en place et valides.
+- Les workflows reels sont generes et coherents.
+- Les registries sont generes via `validate_all.sh`.
+- Le loader Google Drive pour les registries est disponible.
+- La doc et les scripts de validation sont en place.
+
+---
+
+## Reste a faire (operationnel)
+
+- Uploader les registries (`registries/tools.json`, `registries/capabilities.json`, `registries/usecases.json`) sur Google Drive.
+- Definir les variables d'environnement n8n :
+  - `REGISTRY_TOOLS_FILE_ID`
+  - `REGISTRY_CAPABILITIES_FILE_ID`
+  - `REGISTRY_USECASES_FILE_ID`
+- Importer le workflow `workflows/triggers/registry-loader.trigger.workflow.json`.
+- Verifier que les credentials Google Drive sont associes.
+- Executer un test n8n de bout en bout (trigger -> executor -> tool).
+
+---
+
 ## Definition of Done
 
 - Goldens complets et coherents ✅
