@@ -12,6 +12,8 @@ if [[ "${SKIP_FETCH:-}" == "1" ]]; then
 else
   echo "==> Refresh n8n docs"
   ./scripts/fetch_n8n_docs.sh --build --rebuild-raw
+  echo "==> Validate n8n ops fragments"
+  node scripts/validate_n8n_official_ops_fragments.js
 fi
 
 echo "==> Validate contracts/formats"
