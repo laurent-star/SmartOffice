@@ -1,5 +1,5 @@
 {
-  "name": "so.tool.google-docs",
+  "name": "google-docs tool workflow",
   "nodes": [
     {
       "id": "manual",
@@ -27,22 +27,6 @@
       }
     },
     {
-      "id": "dispatch",
-      "name": "Dispatch Operation",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        660,
-        300
-      ],
-      "parameters": {
-        "language": "JavaScript",
-        "mode": "runOnceForAllItems",
-        "numberOutputs": 4,
-        "jsCode": "const routes = {\n  \"document.create\": 0,\n  \"document.get\": 1,\n  \"document.update\": 2,\n  \"sampleFetch\": 3\n};\nconst outputs = Array.from({ length: 4 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
-      }
-    },
-    {
       "id": "document-create",
       "name": "document.create",
       "type": "n8n-nodes-base.googleDocs",
@@ -54,26 +38,8 @@
       "parameters": {
         "resource": "document",
         "operation": "create",
-        "additionalFields": {
-          "folderId": "={{$json.params.folderId}}"
-        },
-        "title": "={{$json.params.title}}"
-      }
-    },
-    {
-      "id": "document-get",
-      "name": "document.get",
-      "type": "n8n-nodes-base.googleDocs",
-      "typeVersion": 1,
-      "position": [
-        920,
-        300
-      ],
-      "parameters": {
-        "resource": "document",
-        "operation": "get",
-        "additionalFields": {},
-        "documentId": "={{$json.params.documentId}}"
+        "title": "={{$json.params.title}}",
+        "additionalFields": {}
       }
     },
     {
@@ -83,17 +49,29 @@
       "typeVersion": 1,
       "position": [
         920,
-        450
+        300
       ],
       "parameters": {
         "resource": "document",
         "operation": "update",
-        "additionalFields": {
-          "html": "={{$json.params.html}}",
-          "requests": "={{$json.params.requests}}",
-          "text": "={{$json.params.text}}"
-        },
-        "documentId": "={{$json.params.documentId}}"
+        "documentId": "={{$json.params.documentId}}",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "document-get",
+      "name": "document.get",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 1,
+      "position": [
+        920,
+        450
+      ],
+      "parameters": {
+        "resource": "document",
+        "operation": "get",
+        "documentId": "={{$json.params.documentId}}",
+        "additionalFields": {}
       }
     },
     {
@@ -109,6 +87,22 @@
         "language": "JavaScript",
         "mode": "runOnceForAllItems",
         "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'google-docs', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
+      }
+    },
+    {
+      "id": "dispatch",
+      "name": "Dispatch Operation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "numberOutputs": 4,
+        "jsCode": "const routes = {\n  \"document.create\": 0,\n  \"document.update\": 1,\n  \"document.get\": 2,\n  \"sampleFetch\": 3\n};\nconst outputs = Array.from({ length: 4 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     }
   ],
@@ -137,35 +131,43 @@
     },
     "Dispatch Operation": {
       "main": [
-        {
-          "node": "document.create",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "document.get",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "document.update",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "sampleFetch",
-          "type": "main",
-          "index": 0
-        }
+        [
+          {
+            "node": "document.create",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "document.update",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "document.get",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "sampleFetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "document.create": {
       "main": []
     },
-    "document.get": {
+    "document.update": {
       "main": []
     },
-    "document.update": {
+    "document.get": {
       "main": []
     },
     "sampleFetch": {

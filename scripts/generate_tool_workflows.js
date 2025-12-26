@@ -93,6 +93,17 @@ function buildWorkflow(tool, ops) {
 
     const [resource, operation] = action.split('.');
     if (!resource || !operation) return;
+    const opDef =
+      ops.providers[tool.id].resources &&
+      ops.providers[tool.id].resources[resource] &&
+      ops.providers[tool.id].resources[resource].operations &&
+      ops.providers[tool.id].resources[resource].operations[operation];
+    const requiredParams = (opDef && opDef.params && opDef.params.required) || [];
+    const requiredMap = requiredParams.reduce((acc, param) => {
+      acc[param] = `={{$json.params.${param}}}`;
+      return acc;
+    }, {});
+
     const actionNode = {
       id: `${resource}-${operation}`,
       name: `${resource}.${operation}`,
@@ -102,6 +113,7 @@ function buildWorkflow(tool, ops) {
       parameters: {
         resource,
         operation,
+        ...requiredMap,
         additionalFields: {}
       }
     };

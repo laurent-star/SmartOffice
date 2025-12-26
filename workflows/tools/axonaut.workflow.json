@@ -1,5 +1,5 @@
 {
-  "name": "so.tool.axonaut",
+  "name": "axonaut tool workflow",
   "nodes": [
     {
       "id": "manual",
@@ -27,19 +27,19 @@
       }
     },
     {
-      "id": "dispatch",
-      "name": "Dispatch Operation",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "id": "contact-create",
+      "name": "contact.create",
+      "type": "n8n-nodes-base.axonaut",
+      "typeVersion": 1,
       "position": [
-        660,
-        300
+        920,
+        150
       ],
       "parameters": {
-        "language": "JavaScript",
-        "mode": "runOnceForAllItems",
-        "numberOutputs": 3,
-        "jsCode": "const routes = {\n  \"company.update\": 0,\n  \"contact.create\": 1,\n  \"sampleFetch\": 2\n};\nconst outputs = Array.from({ length: 3 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
+        "resource": "contact",
+        "operation": "create",
+        "contact": "={{$json.params.contact}}",
+        "additionalFields": {}
       }
     },
     {
@@ -49,29 +49,13 @@
       "typeVersion": 1,
       "position": [
         920,
-        150
+        300
       ],
       "parameters": {
         "resource": "company",
         "operation": "update",
-        "additionalFields": {},
-        "company": "={{$json.params.company}}"
-      }
-    },
-    {
-      "id": "contact-create",
-      "name": "contact.create",
-      "type": "n8n-nodes-base.axonaut",
-      "typeVersion": 1,
-      "position": [
-        920,
-        300
-      ],
-      "parameters": {
-        "resource": "contact",
-        "operation": "create",
-        "additionalFields": {},
-        "contact": "={{$json.params.contact}}"
+        "company": "={{$json.params.company}}",
+        "additionalFields": {}
       }
     },
     {
@@ -87,6 +71,22 @@
         "language": "JavaScript",
         "mode": "runOnceForAllItems",
         "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'axonaut', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
+      }
+    },
+    {
+      "id": "dispatch",
+      "name": "Dispatch Operation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "numberOutputs": 3,
+        "jsCode": "const routes = {\n  \"contact.create\": 0,\n  \"company.update\": 1,\n  \"sampleFetch\": 2\n};\nconst outputs = Array.from({ length: 3 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     }
   ],
@@ -115,27 +115,33 @@
     },
     "Dispatch Operation": {
       "main": [
-        {
-          "node": "company.update",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "contact.create",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "sampleFetch",
-          "type": "main",
-          "index": 0
-        }
+        [
+          {
+            "node": "contact.create",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "company.update",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "sampleFetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
-    "company.update": {
+    "contact.create": {
       "main": []
     },
-    "contact.create": {
+    "company.update": {
       "main": []
     },
     "sampleFetch": {

@@ -1,5 +1,5 @@
 {
-  "name": "so.tool.monday",
+  "name": "monday tool workflow",
   "nodes": [
     {
       "id": "manual",
@@ -27,6 +27,71 @@
       }
     },
     {
+      "id": "boardItem-create",
+      "name": "boardItem.create",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        920,
+        150
+      ],
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "create",
+        "boardId": "={{$json.params.boardId}}",
+        "itemName": "={{$json.params.itemName}}",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "boardItem-getMany",
+      "name": "boardItem.getMany",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        920,
+        300
+      ],
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getMany",
+        "boardId": "={{$json.params.boardId}}",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "boardItem-updateColumnValues",
+      "name": "boardItem.updateColumnValues",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        920,
+        450
+      ],
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "updateColumnValues",
+        "columnValues": "={{$json.params.columnValues}}",
+        "itemId": "={{$json.params.itemId}}",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "sample-fetch",
+      "name": "sampleFetch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        920,
+        600
+      ],
+      "parameters": {
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'monday', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
+      }
+    },
+    {
       "id": "dispatch",
       "name": "Dispatch Operation",
       "type": "n8n-nodes-base.code",
@@ -38,112 +103,8 @@
       "parameters": {
         "language": "JavaScript",
         "mode": "runOnceForAllItems",
-        "numberOutputs": 6,
-        "jsCode": "const routes = {\n  \"boardItem.addUpdate\": 0,\n  \"boardItem.create\": 1,\n  \"boardItem.get\": 2,\n  \"boardItem.getMany\": 3,\n  \"boardItem.updateColumnValues\": 4,\n  \"sampleFetch\": 5\n};\nconst outputs = Array.from({ length: 6 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
-      }
-    },
-    {
-      "id": "boardItem-addUpdate",
-      "name": "boardItem.addUpdate",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        920,
-        150
-      ],
-      "parameters": {
-        "resource": "boardItem",
-        "operation": "addUpdate",
-        "additionalFields": {},
-        "itemId": "={{$json.params.itemId}}",
-        "text": "={{$json.params.text}}"
-      }
-    },
-    {
-      "id": "boardItem-create",
-      "name": "boardItem.create",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        920,
-        300
-      ],
-      "parameters": {
-        "resource": "boardItem",
-        "operation": "create",
-        "additionalFields": {
-          "columnValues": "={{$json.params.columnValues}}",
-          "groupId": "={{$json.params.groupId}}"
-        },
-        "boardId": "={{$json.params.boardId}}",
-        "itemName": "={{$json.params.itemName}}"
-      }
-    },
-    {
-      "id": "boardItem-get",
-      "name": "boardItem.get",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        920,
-        450
-      ],
-      "parameters": {
-        "resource": "boardItem",
-        "operation": "get",
-        "additionalFields": {},
-        "itemId": "={{$json.params.itemId}}"
-      }
-    },
-    {
-      "id": "boardItem-getMany",
-      "name": "boardItem.getMany",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        920,
-        600
-      ],
-      "parameters": {
-        "resource": "boardItem",
-        "operation": "getMany",
-        "additionalFields": {
-          "limit": "={{$json.params.limit}}",
-          "page": "={{$json.params.page}}"
-        },
-        "boardId": "={{$json.params.boardId}}"
-      }
-    },
-    {
-      "id": "boardItem-updateColumnValues",
-      "name": "boardItem.updateColumnValues",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        920,
-        750
-      ],
-      "parameters": {
-        "resource": "boardItem",
-        "operation": "updateColumnValues",
-        "additionalFields": {},
-        "columnValues": "={{$json.params.columnValues}}",
-        "itemId": "={{$json.params.itemId}}"
-      }
-    },
-    {
-      "id": "sample-fetch",
-      "name": "sampleFetch",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        920,
-        900
-      ],
-      "parameters": {
-        "language": "JavaScript",
-        "mode": "runOnceForAllItems",
-        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'monday', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
+        "numberOutputs": 4,
+        "jsCode": "const routes = {\n  \"boardItem.create\": 0,\n  \"boardItem.getMany\": 1,\n  \"boardItem.updateColumnValues\": 2,\n  \"sampleFetch\": 3\n};\nconst outputs = Array.from({ length: 4 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     }
   ],
@@ -172,45 +133,37 @@
     },
     "Dispatch Operation": {
       "main": [
-        {
-          "node": "boardItem.addUpdate",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "boardItem.create",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "boardItem.get",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "boardItem.getMany",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "boardItem.updateColumnValues",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "sampleFetch",
-          "type": "main",
-          "index": 0
-        }
+        [
+          {
+            "node": "boardItem.create",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "boardItem.getMany",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "boardItem.updateColumnValues",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "sampleFetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
-    "boardItem.addUpdate": {
-      "main": []
-    },
     "boardItem.create": {
-      "main": []
-    },
-    "boardItem.get": {
       "main": []
     },
     "boardItem.getMany": {

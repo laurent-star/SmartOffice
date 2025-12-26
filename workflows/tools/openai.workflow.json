@@ -1,5 +1,5 @@
 {
-  "name": "so.tool.openai",
+  "name": "openai tool workflow",
   "nodes": [
     {
       "id": "manual",
@@ -27,24 +27,8 @@
       }
     },
     {
-      "id": "dispatch",
-      "name": "Dispatch Operation",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        660,
-        300
-      ],
-      "parameters": {
-        "language": "JavaScript",
-        "mode": "runOnceForAllItems",
-        "numberOutputs": 4,
-        "jsCode": "const routes = {\n  \"text.classifyTextForViolations\": 0,\n  \"text.generateModelResponse\": 1,\n  \"text.generateChatCompletion\": 2,\n  \"sampleFetch\": 3\n};\nconst outputs = Array.from({ length: 4 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
-      }
-    },
-    {
-      "id": "assistant-classify",
-      "name": "text.classifyTextForViolations",
+      "id": "text-generateChatCompletion",
+      "name": "text.generateChatCompletion",
       "type": "n8n-nodes-langchain.openai",
       "typeVersion": 1,
       "position": [
@@ -53,13 +37,14 @@
       ],
       "parameters": {
         "resource": "text",
-        "operation": "classifyTextForViolations",
-        "text": "={{'Labels: ' + (($json.params.labels || []).join(', ')) + '\\nText: ' + ($json.params.text || '')}}"
+        "operation": "generateChatCompletion",
+        "text": "={{$json.params.text}}",
+        "additionalFields": {}
       }
     },
     {
-      "id": "assistant-extract",
-      "name": "text.generateModelResponse",
+      "id": "text-classifyTextForViolations",
+      "name": "text.classifyTextForViolations",
       "type": "n8n-nodes-langchain.openai",
       "typeVersion": 1,
       "position": [
@@ -68,13 +53,14 @@
       ],
       "parameters": {
         "resource": "text",
-        "operation": "generateModelResponse",
-        "text": "={{'Schema: ' + ($json.params.schema || '') + '\\nText: ' + ($json.params.text || '')}}"
+        "operation": "classifyTextForViolations",
+        "text": "={{$json.params.text}}",
+        "additionalFields": {}
       }
     },
     {
-      "id": "assistant-summarize",
-      "name": "text.generateChatCompletion",
+      "id": "text-generateModelResponse",
+      "name": "text.generateModelResponse",
       "type": "n8n-nodes-langchain.openai",
       "typeVersion": 1,
       "position": [
@@ -83,8 +69,9 @@
       ],
       "parameters": {
         "resource": "text",
-        "operation": "generateChatCompletion",
-        "text": "={{$json.params.text}}"
+        "operation": "generateModelResponse",
+        "text": "={{$json.params.text}}",
+        "additionalFields": {}
       }
     },
     {
@@ -100,6 +87,22 @@
         "language": "JavaScript",
         "mode": "runOnceForAllItems",
         "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'openai', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
+      }
+    },
+    {
+      "id": "dispatch",
+      "name": "Dispatch Operation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "numberOutputs": 4,
+        "jsCode": "const routes = {\n  \"text.generateChatCompletion\": 0,\n  \"text.classifyTextForViolations\": 1,\n  \"text.generateModelResponse\": 2,\n  \"sampleFetch\": 3\n};\nconst outputs = Array.from({ length: 4 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     }
   ],
@@ -128,35 +131,43 @@
     },
     "Dispatch Operation": {
       "main": [
-        {
-          "node": "text.classifyTextForViolations",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "text.generateModelResponse",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "text.generateChatCompletion",
-          "type": "main",
-          "index": 0
-        },
-        {
-          "node": "sampleFetch",
-          "type": "main",
-          "index": 0
-        }
+        [
+          {
+            "node": "text.generateChatCompletion",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "text.classifyTextForViolations",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "text.generateModelResponse",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "sampleFetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
+    },
+    "text.generateChatCompletion": {
+      "main": []
     },
     "text.classifyTextForViolations": {
       "main": []
     },
     "text.generateModelResponse": {
-      "main": []
-    },
-    "text.generateChatCompletion": {
       "main": []
     },
     "sampleFetch": {

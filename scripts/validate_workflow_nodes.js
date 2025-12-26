@@ -104,11 +104,8 @@ function main() {
           return;
         }
 
-        const paramDef = opDef.params || { required: [], optional: [] };
-        const expectedParams = [
-          ...(paramDef.required || []),
-          ...(paramDef.optional || [])
-        ];
+        const paramDef = opDef.params || { required: [] };
+        const expectedParams = [...(paramDef.required || [])];
 
           expectedParams.forEach((param) => {
             if (!hasParameter(params, param)) {
