@@ -33,6 +33,10 @@ Use `node scripts/mapping_lint.js <mapping.yaml> <domain.yaml> [sample.json]` to
 - flag mapping targets that do not exist in the domain definition;
 - optionally map a sample payload and surface validation errors.
 
+Additional modes:
+- `node scripts/mapping_lint.js --ci` scans every mapping under `registries/mappings` and fails with a non-zero exit code when required targets are missing, unknown targets are present, or sample validation fails.
+- `node scripts/mapping_lint.js --interactive <mapping> <domain> [sample]` prompts for missing required targets (TTY only) and writes the updated mapping file with deterministic ordering.
+
 ### Integration in workflows (fetch → map → persist)
 1. Fetch raw data from the source (tool-specific workflow).
 2. Apply `mapPayloadToDomain` with the proper mapping file.
@@ -43,3 +47,9 @@ Use `node scripts/mapping_lint.js <mapping.yaml> <domain.yaml> [sample.json]` to
 - Prefer declarative converters (enum_map, date_iso, normalize_array, concat) before adding custom hooks.
 - Keep mappings minimal to reduce maintenance when source schemas change.
 - Align validations with `registries/domain/` required fields so downstream use cases stay consistent.
+
+## Onboarding assets
+- Samples for dry-run: see `samples/<source>/payload.example.json` (Monday, HubSpot, Drive, Slack, Gmail, Google Calendar, Google Docs, Axonaut, Brevo).
+- Checklists: `docs/onboarding/*.checklist.md` provide per-source prerequisites, conventions and troubleshooting.
+- Mapping lint in CI: `.github/workflows/mapping-lint.yml` runs `npm run lint:mappings` on pull requests.
+- Local commands: `npm run lint:mappings` for non-interactive lint, `npm run test:mapping` for runtime tests, and `node scripts/mapping_lint.js --interactive ...` for assisted completion.

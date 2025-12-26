@@ -1,0 +1,14 @@
+{
+  "document": {
+    "documentId": "docs-123",
+    "title": "Project charter",
+    "body": {
+      "content": [
+        { "paragraph": { "elements": [ { "textRun": { "content": "Goals" } } ] } }
+      ]
+    },
+    "namedRanges": [],
+    "revisionId": "000001",
+    "lastModifiedBy": { "email": "author@example.com" }
+  }
+}

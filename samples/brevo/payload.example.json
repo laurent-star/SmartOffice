@@ -1,0 +1,14 @@
+{
+  "contact": {
+    "id": 12345,
+    "email": "subscriber@example.com",
+    "emailBlacklisted": false,
+    "smsBlacklisted": false,
+    "attributes": {
+      "FIRSTNAME": "Sam",
+      "LASTNAME": "Lee",
+      "COMPANY": "Example Inc"
+    },
+    "listIds": [12, 34]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "event": {
+    "id": "cal-event-001",
+    "status": "confirmed",
+    "summary": "Kickoff with customer",
+    "creator": { "email": "pm@example.com" },
+    "organizer": { "email": "sales@example.com" },
+    "start": { "dateTime": "2024-12-05T09:00:00Z" },
+    "end": { "dateTime": "2024-12-05T10:00:00Z" },
+    "attendees": [
+      { "email": "customer@example.com" },
+      { "email": "sales@example.com" }
+    ],
+    "conferenceData": {
+      "entryPoints": [
+        { "entryPointType": "video", "uri": "https://meet.example.com/abc-def" }
+      ]
+    }
+  }
+}
