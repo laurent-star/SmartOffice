@@ -22,6 +22,16 @@ Workflows
 - Chaque branche renvoie un "tool-result" minimal
 - Les operations doivent exister dans n8n-official-ops
 
+I/O contract
+
+- Input attendu (cote tool) : `toolInput` conforme a `contracts/tool-input.schema.json`.
+- Normalisation recommande :
+  - `tool.operation` -> `operation`
+  - `tool.provider` -> `provider`
+  - `params` -> `params`
+- Output obligatoire : `toolResult` conforme a `contracts/tool-result.schema.json`.
+- L'Executor consomme `toolResult` et alimente `output.results[]` + `memory.state` si `save` est defini.
+
 Nodes (par workflow)
 
 - axonaut.workflow.json (`n8n-nodes-base.axonaut`)

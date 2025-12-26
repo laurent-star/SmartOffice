@@ -31,6 +31,15 @@ Tools accept a tool input object defined by:
 
 This payload is produced by the Executor when it resolves a `tool` step.
 
+Input mapping rules:
+
+- Executor builds `toolInput` with `{ runId, stepId, tool, params, context.memory }`.
+- Tool workflows often normalize the incoming item into `{ provider, operation, params }`.
+- If a workflow receives the full `toolInput`, it must map:
+  - `tool.operation` → `operation`
+  - `tool.provider` → `provider`
+  - `params` → `params`
+
 ---
 
 ## Official tool catalog
@@ -66,6 +75,12 @@ Tools return a result object defined by:
 - `contracts/tool-result.schema.json`
 
 The result must be deterministic for a given API response.
+
+Output rules:
+
+- Always return a single `toolResult` object: `{ ok, data, error, meta? }`.
+- On API success: `ok=true`, `data` filled, `error=null`.
+- On API failure: `ok=false`, `data=null`, `error` filled with a stable code/message.
 
 ---
 

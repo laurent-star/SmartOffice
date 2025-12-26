@@ -85,6 +85,16 @@ L'executor produit un Result a la fin :
 
 { "success": true, "data": null, "error": null, "meta": {} }
 
+Lecture / ecriture d'enveloppe
+
+- Lecture:
+  - legacy: lit `context.memory` + `input.steps` puis reconstruit un state d'execution.
+  - execution: lit `header`, `payload.steps`, `payload.memory`, `payload.registryFiles`, `payload.options`.
+- Ecriture:
+  - renvoie `{ header, output, error }` ou `error` est nul en cas de succes.
+  - `output` contient `results` et `memory` (plus `trace`/`debug` si `options.debug`).
+  - Pour un strict execution envelope, prevoir un adaptateur qui copie `output` dans `payload.result`.
+
 Invariants
 
 - Respect des schemas JSON

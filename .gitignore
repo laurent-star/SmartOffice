@@ -14,3 +14,7 @@ audit-reports/
 
 # Local golden exports
 workflows/golden/Tool.drive.json
+
+# Local working files
+drive registry.json
+so.tool.openai.json

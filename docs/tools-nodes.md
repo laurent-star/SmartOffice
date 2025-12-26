@@ -2,6 +2,12 @@
 
 Tous les workflows d'outils normalisent l'entrée (`provider`, `operation`, `params`) puis alimentent les champs requis documentés dans `registries/n8n-official-ops/*.json`. Les options facultatives sont regroupées dans `additionalFields` ou `options` selon le node.
 
+I/O contract (rappel):
+
+- Input attendu : `toolInput` (voir `contracts/tool-input.schema.json`).
+- Normalisation type : `tool.operation` -> `operation`, `tool.provider` -> `provider`, `params` -> `params`.
+- Output obligatoire : `toolResult` (voir `contracts/tool-result.schema.json`).
+
 ## Tools
 
 ### Google Drive (`workflows/tools/google-drive.workflow.json`)

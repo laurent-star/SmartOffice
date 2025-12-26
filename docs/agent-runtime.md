@@ -59,6 +59,15 @@ Minimum output requirements:
 - `payload.steps` as a non-empty array
 - each step conforms to `contracts/step.schema.json`
 
+Envelope fabrication (Agent output):
+
+- `header` must be fully populated (id/version/timestamp/source/destination/type).
+- `payload.memory` must exist (even if empty) and is the only mutable state.
+- `payload.steps` must be ordered and explicit; no implicit defaults in tools.
+- If the Agent receives a legacy envelope, it must map:
+  - `context.memory` → `payload.memory`
+  - `input.steps` → `payload.steps`
+
 ---
 
 ## Planning rules

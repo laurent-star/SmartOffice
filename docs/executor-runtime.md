@@ -74,6 +74,30 @@ All behaviors are driven **only by JSON configuration**.
 
 ---
 
+## Envelope I/O (read + write)
+
+Read:
+
+- Legacy envelope: `input.steps` + `context.memory` are normalized into an execution state.
+- Execution envelope: `header`, `payload.steps`, `payload.memory`, `payload.registryFiles`, `payload.options` are used as-is.
+- If the incoming envelope is legacy, a default `header` is created and the payload is rebuilt from legacy fields.
+
+Write:
+
+- The Executor emits a **result envelope** shaped as:
+  - `header`: copied from the execution state (or generated if missing).
+  - `output`: `{ results[], memory }` with optional `trace`/`debug` when `options.debug = true`.
+  - `error`: `null` on success, or a structured error object.
+- This output is a legacy-compatible result envelope. If you need a strict execution envelope, wrap it in a trigger/adapter that maps `output` into `payload.result`.
+
+Tool I/O bridge:
+
+- The Executor builds `toolInput` using `contracts/tool-input.schema.json`.
+- Tools must return `toolResult` using `contracts/tool-result.schema.json`.
+- The Executor stores each `toolResult` in `output.results[]` and can project it into `memory.state` via `save`.
+
+---
+
 ## What the Executor MUST NOT DO
 
 The Executor must never:

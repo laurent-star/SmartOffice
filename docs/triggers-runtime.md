@@ -55,6 +55,16 @@ with minimal context and input. The legacy envelope must include
 `context.memory` (can be empty) to satisfy the schema.
 If the trigger targets the Executor, it must emit a full execution envelope.
 
+Envelope fabrication rules:
+
+- Legacy envelope:
+  - `context.memory` is required (empty object allowed).
+  - `input.steps` is optional (triggers may forward raw event data instead).
+- Execution envelope:
+  - `header` must be complete.
+  - `payload.memory` must exist.
+  - `payload.steps` must exist when targeting the Executor.
+
 ## Registry injection (Google Drive)
 
 When routing directly to the Executor, triggers should inject registries
