@@ -569,7 +569,7 @@
       }
     },
     "openai": {
-      "nodeType": "n8n-nodes-base.openAi",
+      "nodeType": "n8n-nodes-langchain.lmchatopenai",
       "resources": {
         "assistant": {
           "operations": {

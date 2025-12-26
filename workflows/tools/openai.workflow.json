@@ -78,7 +78,7 @@
     {
       "id": "assistant-classify",
       "name": "assistant.classify",
-      "type": "n8n-nodes-base.openAi",
+      "type": "n8n-nodes-langchain.lmchatopenai",
       "typeVersion": 1,
       "position": [
         920,
@@ -93,7 +93,7 @@
     {
       "id": "assistant-extract",
       "name": "assistant.extract",
-      "type": "n8n-nodes-base.openAi",
+      "type": "n8n-nodes-langchain.lmchatopenai",
       "typeVersion": 1,
       "position": [
         920,
@@ -108,7 +108,7 @@
     {
       "id": "assistant-summarize",
       "name": "assistant.summarize",
-      "type": "n8n-nodes-base.openAi",
+      "type": "n8n-nodes-langchain.lmchatopenai",
       "typeVersion": 1,
       "position": [
         920,
