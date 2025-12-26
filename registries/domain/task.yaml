@@ -1,0 +1,36 @@
+domain: task
+version: 0.1
+summary: Canonical task entity for project/task boards.
+fields:
+  - name: id
+    type: string
+    required: true
+    description: Stable identifier for the task.
+  - name: title
+    type: string
+    required: true
+    description: Short label for the task.
+  - name: project_id
+    type: string
+    description: Associated project identifier when applicable.
+  - name: assignees
+    type: array
+    items:
+      type: string
+    description: Emails or user IDs assigned to the task.
+  - name: status
+    type: enum
+    values: [todo, in_progress, blocked, done]
+    description: Delivery status.
+  - name: priority
+    type: enum
+    values: [low, medium, high, urgent]
+    description: Priority for triage.
+  - name: due_date
+    type: date
+    description: Requested due date.
+  - name: tags
+    type: array
+    items:
+      type: string
+    description: Labels for routing or reporting.
