@@ -4,6 +4,61 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
+AUDIT_ONLY="0"
+SKIP_AUDIT="0"
+SKIP_LINKS="0"
+AUTO_CLEAN="0"
+CLEAN_LAST="0"
+
+usage() {
+  cat <<'EOF'
+Usage: validate_all.sh [options]
+
+Options:
+  --audit-only         Run audit only, skip validations
+  --refresh-docs       Force docs fetch (overrides SKIP_FETCH)
+  --no-fetch           Skip docs fetch
+  --clean              Auto-confirm clean when candidates exist
+  --no-clean           Skip clean prompt
+  --clean-last         Clean using the last audit report
+  --skip-links         Skip markdown linkify step
+  --help               Show this help
+EOF
+}
+
+for arg in "$@"; do
+  case "$arg" in
+    --audit-only)
+      AUDIT_ONLY="1"
+      ;;
+    --refresh-docs)
+      SKIP_FETCH="0"
+      ;;
+    --no-fetch)
+      SKIP_FETCH="1"
+      ;;
+    --clean)
+      AUTO_CLEAN="1"
+      ;;
+    --no-clean)
+      SKIP_CLEAN="1"
+      ;;
+    --clean-last)
+      CLEAN_LAST="1"
+      SKIP_AUDIT="1"
+      ;;
+    --skip-links)
+      SKIP_LINKS="1"
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
+    *)
+      ;;
+  esac
+done
+
 echo "==> Update repo"
 git pull --ff-only
 
@@ -16,22 +71,59 @@ else
   node scripts/validate_n8n_official_ops_fragments.js
 fi
 
-echo "==> Validate contracts/formats"
-NODE_PATH=./node_modules node scripts/validate_contracts_preload.js
+if [[ "$AUDIT_ONLY" == "1" ]]; then
+  echo "==> Audit-only mode"
+  SKIP_AUDIT="0"
+else
+  echo "==> Validate contracts/formats"
+  NODE_PATH=./node_modules node scripts/validate_contracts_preload.js
 
-echo "==> Validate config and cross-refs"
-node scripts/validate_config.js
-node scripts/validate_cross_refs.js
+  echo "==> Validate config and cross-refs"
+  node scripts/validate_config.js
+  node scripts/validate_cross_refs.js
 
-echo "==> Generate registries"
-node scripts/generate_registries.js
+  echo "==> Generate registries"
+  node scripts/generate_registries.js
 
-echo "==> Validate workflows"
-node scripts/validate_workflows.js
-node scripts/validate_workflow_nodes.js
+  echo "==> Validate workflows"
+  node scripts/validate_workflows.js
+  node scripts/validate_workflow_nodes.js
 
-echo "==> Validate and update markdown links"
-node scripts/linkify_md_refs.js
+  if [[ "$SKIP_LINKS" == "1" ]]; then
+    echo "==> Markdown linkify skipped (--skip-links)"
+  else
+    echo "==> Validate and update markdown links"
+    node scripts/linkify_md_refs.js
+  fi
+fi
+
+if [[ "$CLEAN_LAST" == "1" ]]; then
+  echo "==> Clean using last audit report"
+  last_dir="$(ls -1 audit-reports 2>/dev/null | sort | tail -1 || true)"
+  if [[ -z "$last_dir" ]]; then
+    echo "No audit-reports found." >&2
+    exit 1
+  fi
+  to_delete="$repo_root/audit-reports/$last_dir/to_delete.txt"
+  if [[ ! -f "$to_delete" ]]; then
+    echo "Missing $to_delete" >&2
+    exit 1
+  fi
+  while IFS= read -r rel; do
+    [[ -n "$rel" ]] && rm -f "$repo_root/$rel"
+  done < "$to_delete"
+  find "$repo_root/docs" "$repo_root/workflows" "$repo_root/config" "$repo_root/registries" \
+    "$repo_root/formats" "$repo_root/contracts" "$repo_root/scripts" -type d -empty -delete
+  echo "==> Clean (last audit) complete"
+  echo "OK: validation complete"
+  exit 0
+fi
+
+if [[ "$SKIP_AUDIT" == "1" ]]; then
+  echo "==> Audit skipped"
+  echo "OK: validation complete"
+  exit 0
+fi
 
 echo "==> Audit: detect redundant/unused/inconsistent files"
 audit_dir="$(mktemp -d)"
@@ -196,12 +288,15 @@ echo "==> Audit logs saved to $report_dir"
 
 to_delete="$audit_dir/to_delete.txt"
 cat "$not_in_readme" "$not_in_docs" "$invalid_json" "$unused_utils" "$dupe_unreferenced" 2>/dev/null | sort -u > "$to_delete"
+cp "$to_delete" "$report_dir/to_delete.txt" 2>/dev/null || true
 
 if [[ -s "$to_delete" ]]; then
   echo "==> Clean candidates"
   cat "$to_delete"
   if [[ "${SKIP_CLEAN:-}" == "1" ]]; then
     echo "==> Clean skipped (SKIP_CLEAN=1)"
+  elif [[ "$AUTO_CLEAN" == "1" ]]; then
+    confirm="y"
   else
     if [[ -t 0 ]]; then
       read -r -p "Proceed with clean (delete files + empty dirs)? [y/N] " confirm
