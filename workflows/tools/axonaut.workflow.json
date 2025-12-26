@@ -14,61 +14,32 @@
     {
       "id": "normalize",
       "name": "Normalize Input",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         420,
         300
       ],
       "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
-            {
-              "name": "provider",
-              "value": "axonaut"
-            },
-            {
-              "name": "operation",
-              "value": "={{$json.operation}}"
-            }
-          ],
-          "json": [
-            {
-              "name": "params",
-              "value": "={{$json.params}}"
-            }
-          ]
-        }
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  const tool = input.tool || {};\n  const params = input.params ?? tool.params ?? {};\n  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n  return {\n    json: {\n      provider: 'axonaut',\n      operation,\n      params\n    }\n  };\n});\n"
       }
     },
     {
       "id": "dispatch",
       "name": "Dispatch Operation",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         660,
         300
       ],
       "parameters": {
-        "propertyName": "={{$json.operation}}",
-        "dataType": "string",
-        "outputData": "inputData",
-        "rules": [
-          {
-            "operation": "equal",
-            "value": "company.update"
-          },
-          {
-            "operation": "equal",
-            "value": "contact.create"
-          },
-          {
-            "operation": "equal",
-            "value": "sampleFetch"
-          }
-        ]
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "numberOutputs": 3,
+        "jsCode": "const routes = {\n  \"company.update\": 0,\n  \"contact.create\": 1,\n  \"sampleFetch\": 2\n};\nconst outputs = Array.from({ length: 3 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     },
     {
@@ -106,24 +77,16 @@
     {
       "id": "sample-fetch",
       "name": "sampleFetch",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         920,
         450
       ],
-      "type": "n8n-nodes-base.set",
+      "type": "n8n-nodes-base.code",
       "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "json": [
-            {
-              "name": "sample_payload",
-              "value": "={{$json.params.sample_payload}}"
-            }
-          ]
-        },
-        "contact": "={{$json.params.contact}}",
-        "additionalFields": {}
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'axonaut', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
       }
     }
   ],

@@ -3,6 +3,6 @@
   "required_fields": ["name", "nodes", "connections"],
   "required_node_types": [
     "n8n-nodes-base.webhook",
-    "n8n-nodes-base.function"
+    "n8n-nodes-base.code"
   ]
 }

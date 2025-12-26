@@ -14,85 +14,32 @@
     {
       "id": "normalize",
       "name": "Normalize Input",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         420,
         300
       ],
       "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
-            {
-              "name": "provider",
-              "value": "slack"
-            },
-            {
-              "name": "operation",
-              "value": "={{$json.operation}}"
-            }
-          ],
-          "json": [
-            {
-              "name": "params",
-              "value": "={{$json.params}}"
-            }
-          ]
-        }
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  const tool = input.tool || {};\n  const params = input.params ?? tool.params ?? {};\n  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n  return {\n    json: {\n      provider: 'slack',\n      operation,\n      params\n    }\n  };\n});\n"
       }
     },
     {
       "id": "dispatch",
       "name": "Dispatch Operation",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         660,
         300
       ],
       "parameters": {
-        "propertyName": "={{$json.operation}}",
-        "dataType": "string",
-        "outputData": "inputData",
-        "rules": [
-          {
-            "operation": "equal",
-            "value": "conversation.getMany"
-          },
-          {
-            "operation": "equal",
-            "value": "file.get"
-          },
-          {
-            "operation": "equal",
-            "value": "file.getMany"
-          },
-          {
-            "operation": "equal",
-            "value": "file.upload"
-          },
-          {
-            "operation": "equal",
-            "value": "message.delete"
-          },
-          {
-            "operation": "equal",
-            "value": "message.getPermalink"
-          },
-          {
-            "operation": "equal",
-            "value": "message.search"
-          },
-          {
-            "operation": "equal",
-            "value": "message.send"
-          },
-          {
-            "operation": "equal",
-            "value": "sampleFetch"
-          }
-        ]
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "numberOutputs": 9,
+        "jsCode": "const routes = {\n  \"conversation.getMany\": 0,\n  \"file.get\": 1,\n  \"file.getMany\": 2,\n  \"file.upload\": 3,\n  \"message.delete\": 4,\n  \"message.getPermalink\": 5,\n  \"message.search\": 6,\n  \"message.send\": 7,\n  \"sampleFetch\": 8\n};\nconst outputs = Array.from({ length: 9 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     },
     {

@@ -53,9 +53,17 @@ function main() {
     const workflow = loadJson(file);
     const nodes = Array.isArray(workflow.nodes) ? workflow.nodes : [];
     const isToolWorkflow = file.includes(path.join('workflows', 'tools'));
+    const forbiddenTypes = new Set([
+      'n8n-nodes-base.switch',
+      'n8n-nodes-base.set'
+    ]);
 
     nodes.forEach((node) => {
       if (!node.type) return;
+      if (forbiddenTypes.has(node.type)) {
+        errors.push(`Forbidden node type ${node.type} in ${file}`);
+        return;
+      }
       if (providerNodeTypes.has(node.type)) return;
       if (allowedCoreNodes.has(node.type)) return;
       errors.push(`Unknown node type ${node.type} in ${file}`);

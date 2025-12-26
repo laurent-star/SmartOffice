@@ -14,69 +14,32 @@
     {
       "id": "normalize",
       "name": "Normalize Input",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         420,
         300
       ],
       "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
-            {
-              "name": "provider",
-              "value": "google-drive"
-            },
-            {
-              "name": "operation",
-              "value": "={{$json.operation}}"
-            }
-          ],
-          "json": [
-            {
-              "name": "params",
-              "value": "={{$json.params}}"
-            }
-          ]
-        }
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  const tool = input.tool || {};\n  const params = input.params ?? tool.params ?? {};\n  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n  return {\n    json: {\n      provider: 'google-drive',\n      operation,\n      params\n    }\n  };\n});\n"
       }
     },
     {
       "id": "dispatch",
       "name": "Dispatch Operation",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         660,
         300
       ],
       "parameters": {
-        "propertyName": "={{$json.operation}}",
-        "dataType": "string",
-        "outputData": "inputData",
-        "rules": [
-          {
-            "operation": "equal",
-            "value": "file.download"
-          },
-          {
-            "operation": "equal",
-            "value": "file.upload"
-          },
-          {
-            "operation": "equal",
-            "value": "fileFolder.search"
-          },
-          {
-            "operation": "equal",
-            "value": "folder.create"
-          },
-          {
-            "operation": "equal",
-            "value": "sampleFetch"
-          }
-        ]
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "numberOutputs": 5,
+        "jsCode": "const routes = {\n  \"file.download\": 0,\n  \"file.upload\": 1,\n  \"fileFolder.search\": 2,\n  \"folder.create\": 3,\n  \"sampleFetch\": 4\n};\nconst outputs = Array.from({ length: 5 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     },
     {

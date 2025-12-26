@@ -43,12 +43,23 @@ function validateWorkflow(file, schema) {
   const data = loadJson(file);
   const errors = [];
 
+  const forbiddenTypes = new Set([
+    "n8n-nodes-base.switch",
+    "n8n-nodes-base.set"
+  ]);
+
   (schema.required_fields || []).forEach((field) => {
     if (data[field] === undefined) errors.push(`missing field: ${field}`);
   });
 
   const nodes = Array.isArray(data.nodes) ? data.nodes : [];
   const nodeNames = new Set(nodes.map((n) => n.name));
+
+  nodes.forEach((node) => {
+    if (forbiddenTypes.has(node.type)) {
+      errors.push(`forbidden node type ${node.type} in ${node.name}`);
+    }
+  });
 
   (schema.required_nodes || []).forEach((req) => {
     const names = Array.isArray(req.name) ? req.name : [req.name];

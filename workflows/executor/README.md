@@ -123,8 +123,8 @@ Detail des nodes
 - Has Error? (Guards) — If (`n8n-nodes-base.if`) : deroute vers sortie erreur si un guard a echoue.
 - Resolve Step — Code (`n8n-nodes-base.code`) : attend le step courant; selon `type`, resolve tool/provider/operation, ou injecte les steps d'une capability/usecase depuis le registry, ou positionne `error`.
 - Has Error? (Resolve) — If (`n8n-nodes-base.if`) : stoppe si la resolution a echoue.
-- Switch Step Type — Switch (`n8n-nodes-base.switch`) : oriente vers le run tool ou les branches capability/usecase (deja expansees) selon `currentStep.type`.
-- Switch Tool Provider — Switch (`n8n-nodes-base.switch`) : oriente vers l'execution tool selon `currentStep.tool.provider` (mock dans l'implementation actuelle).
+- Dispatch Step Type — Code (`n8n-nodes-base.code`) : oriente vers le run tool ou les branches capability/usecase (deja expansees) selon `currentStep.type`.
+- Dispatch Tool Provider — Code (`n8n-nodes-base.code`) : oriente vers l'execution tool selon `currentStep.tool.provider` (mock dans l'implementation actuelle).
 - Execute Tool — Code (`n8n-nodes-base.code`) : construit `toolInput` (runId, stepId, tool, params, context.memory), renvoie `toolResult` (mock ou erreur TOOL_NOT_IMPLEMENTED), stocke `toolInput`/`toolResult`.
 - Append Step Result — Code (`n8n-nodes-base.code`) : ajoute une entree dans `results`, sauvegarde `memory[saveAs]` si demande et `ok`, et avance le curseur; positionne `error` si le tool a echoue.
 - Has Error? (Append) — If (`n8n-nodes-base.if`) : deroute vers Build Error Envelope en cas d'echec d'etape.

@@ -14,65 +14,32 @@
     {
       "id": "normalize",
       "name": "Normalize Input",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         420,
         300
       ],
       "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
-            {
-              "name": "provider",
-              "value": "openai"
-            },
-            {
-              "name": "operation",
-              "value": "={{$json.operation}}"
-            }
-          ],
-          "json": [
-            {
-              "name": "params",
-              "value": "={{$json.params}}"
-            }
-          ]
-        }
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  const tool = input.tool || {};\n  const params = input.params ?? tool.params ?? {};\n  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n  return {\n    json: {\n      provider: 'openai',\n      operation,\n      params\n    }\n  };\n});\n"
       }
     },
     {
       "id": "dispatch",
       "name": "Dispatch Operation",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         660,
         300
       ],
       "parameters": {
-        "propertyName": "={{$json.operation}}",
-        "dataType": "string",
-        "outputData": "inputData",
-        "rules": [
-          {
-            "operation": "equal",
-            "value": "text.classifyTextForViolations"
-          },
-          {
-            "operation": "equal",
-            "value": "text.generateModelResponse"
-          },
-          {
-            "operation": "equal",
-            "value": "text.generateChatCompletion"
-          },
-          {
-            "operation": "equal",
-            "value": "sampleFetch"
-          }
-        ]
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "numberOutputs": 4,
+        "jsCode": "const routes = {\n  \"text.classifyTextForViolations\": 0,\n  \"text.generateModelResponse\": 1,\n  \"text.generateChatCompletion\": 2,\n  \"sampleFetch\": 3\n};\nconst outputs = Array.from({ length: 4 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     },
     {
@@ -123,23 +90,16 @@
     {
       "id": "sample-fetch",
       "name": "sampleFetch",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [
         920,
         600
       ],
-      "type": "n8n-nodes-base.set",
+      "type": "n8n-nodes-base.code",
       "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "json": [
-            {
-              "name": "sample_payload",
-              "value": "={{$json.params.sample_payload}}"
-            }
-          ]
-        },
-        "text": "={{$json.params.text}}"
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'openai', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
       }
     }
   ],

@@ -18,7 +18,7 @@ Workflows
 
 - 1 workflow par provider (workflows/tools/<provider>.workflow.json)
 - Nommage n8n recommande : `so.tool.<provider>`
-- Routage par Switch(operation) couvrant toutes les actions declarees
+- Routage par node Code couvrant toutes les actions declarees
 - Chaque branche renvoie un "tool-result" minimal
 - Les operations doivent exister dans n8n-official-ops
 
@@ -36,8 +36,8 @@ Nodes (par workflow)
 
 - axonaut.workflow.json (`n8n-nodes-base.axonaut`)
   - Manual Trigger — Manual Trigger : point d'entree de test.
-  - Normalize Input — Set : reduit l'item a `provider`, `operation`, `params` venant de l'input.
-  - Dispatch Operation — Switch : route sur `operation` (company.update, contact.create, sampleFetch).
+  - Normalize Input — Code : reduit l'item a `provider`, `operation`, `params` venant de l'input.
+  - Dispatch Operation — Code : route sur `operation` (company.update, contact.create, sampleFetch).
   - company.update — Axonaut : attend `params.companyId` et champs de mise a jour; renvoie la reponse API Axonaut.
   - contact.create — Axonaut : attend `params.companyId` et donnees de contact; renvoie l'objet contact cree.
   - sampleFetch — Set : renvoie un exemple statique (outil de test) avec `ok`, `data`.
@@ -94,7 +94,7 @@ Nodes (par workflow)
   - boardItem.updateColumnValues — Monday.com : attend `params.boardId`, `params.itemId`, `params.columnValues`; renvoie l'item.
   - sampleFetch — Monday.com : jeu de donnees exemple.
 
-- openai.workflow.json (`n8n-nodes-langchain.lmchatopenai` + Set)
+- openai.workflow.json (`n8n-nodes-langchain.lmchatopenai` + Code)
   - Manual Trigger / Normalize Input / Dispatch Operation identiques.
   - assistant.classify — LangChain ChatOpenAI : attend `params.prompt`/`params.messages`, `params.model`, `params.temperature`; renvoie `data.response` avec la classification.
   - assistant.extract — LangChain ChatOpenAI : attend `params.prompt`/`params.schema`; renvoie les champs extraits.

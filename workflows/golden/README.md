@@ -70,7 +70,7 @@ Preferer :
 - Aggregate
 - Merge
 - If
-- Switch
+- Dispatch (Code)
 - Split In Batches
 - Limit
 - Sort

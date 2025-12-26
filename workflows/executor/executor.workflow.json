@@ -209,59 +209,34 @@
     },
     {
       "id": "switch-type",
-      "name": "Switch Step Type",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 1,
+      "name": "Dispatch Step Type",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         2840,
         200
       ],
       "parameters": {
-        "value1": "={{$json.currentStep.type}}",
-        "rules": [
-          {
-            "value2": "tool"
-          },
-          {
-            "value2": "capability"
-          },
-          {
-            "value2": "usecase"
-          }
-        ]
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "numberOutputs": 3,
+        "jsCode": "const routes = {\n  \"tool\": 0,\n  \"capability\": 1,\n  \"usecase\": 2\n};\nconst outputs = Array.from({ length: 3 }, () => []);\nfor (const item of items) {\n  const key = item.json?.currentStep?.type ?? item.json?.currentStep?.tool?.provider;\n  const index = routes[key];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     },
     {
       "id": "switch-provider",
-      "name": "Switch Tool Provider",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 1,
+      "name": "Dispatch Tool Provider",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         3060,
         80
       ],
       "parameters": {
-        "value1": "={{$json.currentStep.tool.provider}}",
-        "rules": [
-          {
-            "value2": "gmail"
-          },
-          {
-            "value2": "drive"
-          },
-          {
-            "value2": "monday"
-          },
-          {
-            "value2": "slack"
-          },
-          {
-            "value2": "axonaut"
-          },
-          {
-            "value2": "brevo"
-          }
-        ]
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems",
+        "numberOutputs": 1,
+        "jsCode": "return [items];\n"
       }
     },
     {
@@ -506,78 +481,7 @@
         ],
         [
           {
-            "node": "Switch Step Type",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Switch Step Type": {
-      "main": [
-        [
-          {
-            "node": "Switch Tool Provider",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Resolve Step",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Resolve Step",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Switch Tool Provider": {
-      "main": [
-        [
-          {
-            "node": "Execute Tool",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Execute Tool",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Execute Tool",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Execute Tool",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Execute Tool",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Execute Tool",
+            "node": "Dispatch Step Type",
             "type": "main",
             "index": 0
           }
@@ -618,6 +522,42 @@
         [
           {
             "node": "Has Next Step?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch Step Type": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Tool Provider",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resolve Step",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resolve Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch Tool Provider": {
+      "main": [
+        [
+          {
+            "node": "Execute Tool",
             "type": "main",
             "index": 0
           }

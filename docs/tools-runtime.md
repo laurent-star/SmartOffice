@@ -35,6 +35,8 @@ Input mapping rules:
 
 - Executor builds `toolInput` with `{ runId, stepId, tool, params, context.memory }`.
 - Tool workflows often normalize the incoming item into `{ provider, operation, params }`.
+- This normalization is done via a Code node (or Update Fields) to avoid legacy Set nodes.
+- Dispatch is performed by a Code node (no Switch), to keep routing deterministic in one place.
 - If a workflow receives the full `toolInput`, it must map:
   - `tool.operation` → `operation`
   - `tool.provider` → `provider`

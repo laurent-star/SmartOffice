@@ -21,33 +21,26 @@ function createBaseNodes(toolId) {
     {
       id: 'normalize',
       name: 'Normalize Input',
-      type: 'n8n-nodes-base.set',
-      typeVersion: 1,
+      type: 'n8n-nodes-base.code',
+      typeVersion: 2,
       position: [420, 300],
       parameters: {
-        keepOnlySet: true,
-        values: {
-          string: [
-            { name: 'provider', value: toolId },
-            { name: 'operation', value: '={{$json.operation}}' }
-          ],
-          json: [
-            { name: 'params', value: '={{$json.params}}' }
-          ]
-        }
-      }
-    },
-    {
-      id: 'dispatch',
-      name: 'Dispatch Operation',
-      type: 'n8n-nodes-base.switch',
-      typeVersion: 1,
-      position: [660, 300],
-      parameters: {
-        propertyName: '={{$json.operation}}',
-        dataType: 'string',
-        outputData: 'inputData',
-        rules: []
+        language: 'JavaScript',
+        mode: 'runOnceForAllItems',
+        jsCode:
+          "return items.map((item) => {\n" +
+          "  const input = item.json || {};\n" +
+          "  const tool = input.tool || {};\n" +
+          "  const params = input.params ?? tool.params ?? {};\n" +
+          "  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n" +
+          "  return {\n" +
+          "    json: {\n" +
+          `      provider: '${toolId}',\n` +
+          "      operation,\n" +
+          "      params\n" +
+          "    }\n" +
+          "  };\n" +
+          "});\n"
       }
     }
   ];
@@ -61,9 +54,45 @@ function buildWorkflow(tool, ops) {
     'Dispatch Operation': { main: [] }
   };
 
-  const actions = tool.actions || [];
+  const actions = (tool.actions || []).map((action) =>
+    typeof action === 'string' ? action : action.name
+  );
+  const rules = [];
+  const outputs = [];
   actions.forEach((action, index) => {
+    if (!action) return;
+    if (action === 'sampleFetch') {
+      const sampleNode = {
+        id: 'sample-fetch',
+        name: 'sampleFetch',
+        type: 'n8n-nodes-base.code',
+        typeVersion: 2,
+        position: [920, 150 + index * 150],
+        parameters: {
+          language: 'JavaScript',
+          mode: 'runOnceForAllItems',
+          jsCode:
+            "return items.map((item) => {\n" +
+            "  const input = item.json || {};\n" +
+            "  return {\n" +
+            "    json: {\n" +
+            "      ok: true,\n" +
+            `      data: { sample: true, provider: '${tool.id}', operation: 'sampleFetch', params: input.params || {} },\n` +
+            "      error: null\n" +
+            "    }\n" +
+            "  };\n" +
+            "});\n"
+        }
+      };
+      nodes.push(sampleNode);
+      outputs.push([{ node: sampleNode.name, type: 'main', index: 0 }]);
+      connections[sampleNode.name] = { main: [] };
+      rules.push(action);
+      return;
+    }
+
     const [resource, operation] = action.split('.');
+    if (!resource || !operation) return;
     const actionNode = {
       id: `${resource}-${operation}`,
       name: `${resource}.${operation}`,
@@ -77,11 +106,41 @@ function buildWorkflow(tool, ops) {
       }
     };
     nodes.push(actionNode);
-
-    connections['Dispatch Operation'].main.push({ node: actionNode.name, type: 'main', index: 0 });
+    outputs.push([{ node: actionNode.name, type: 'main', index: 0 }]);
     connections[actionNode.name] = { main: [] };
-    nodes.find((n) => n.id === 'dispatch').parameters.rules.push({ operation: 'equal', value: action });
+    rules.push(action);
   });
+
+  const routeMap = rules.reduce((acc, action, idx) => {
+    acc[action] = idx;
+    return acc;
+  }, {});
+
+  nodes.push({
+    id: 'dispatch',
+    name: 'Dispatch Operation',
+    type: 'n8n-nodes-base.code',
+    typeVersion: 2,
+    position: [660, 300],
+    parameters: {
+      language: 'JavaScript',
+      mode: 'runOnceForAllItems',
+      numberOutputs: outputs.length,
+      jsCode:
+        `const routes = ${JSON.stringify(routeMap, null, 2)};\n` +
+        `const outputs = Array.from({ length: ${outputs.length} }, () => []);\n` +
+        "for (const item of items) {\n" +
+        "  const op = item.json?.operation;\n" +
+        "  const index = routes[op];\n" +
+        "  if (index !== undefined) {\n" +
+        "    outputs[index].push(item);\n" +
+        "  }\n" +
+        "}\n" +
+        "return outputs;\n"
+    }
+  });
+
+  connections['Dispatch Operation'].main = outputs;
 
   return {
     name: `${tool.id} tool workflow`,
