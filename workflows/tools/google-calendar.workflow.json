@@ -83,7 +83,13 @@
       "parameters": {
         "resource": "event",
         "operation": "create",
-        "additionalFields": {}
+        "additionalFields": {
+          "attendees": "={{$json.params.attendees}}",
+          "description": "={{$json.params.description}}"
+        },
+        "title": "={{$json.params.title}}",
+        "start": "={{$json.params.start}}",
+        "end": "={{$json.params.end}}"
       }
     },
     {
@@ -98,7 +104,11 @@
       "parameters": {
         "resource": "event",
         "operation": "getMany",
-        "additionalFields": {}
+        "additionalFields": {
+          "limit": "={{$json.params.limit}}",
+          "timeMax": "={{$json.params.timeMax}}",
+          "timeMin": "={{$json.params.timeMin}}"
+        }
       }
     },
     {
@@ -113,7 +123,13 @@
       "parameters": {
         "resource": "event",
         "operation": "getMany",
-        "additionalFields": {}
+        "additionalFields": {
+          "attendees": "={{$json.params.attendees}}",
+          "description": "={{$json.params.description}}"
+        },
+        "title": "={{$json.params.title}}",
+        "start": "={{$json.params.start}}",
+        "end": "={{$json.params.end}}"
       }
     }
   ],

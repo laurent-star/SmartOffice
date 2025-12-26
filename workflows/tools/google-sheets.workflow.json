@@ -91,7 +91,12 @@
       "parameters": {
         "resource": "sheet",
         "operation": "append",
-        "additionalFields": {}
+        "additionalFields": {
+          "valueInputMode": "={{$json.params.valueInputMode}}"
+        },
+        "range": "={{$json.params.range}}",
+        "spreadsheetId": "={{$json.params.spreadsheetId}}",
+        "values": "={{$json.params.values}}"
       }
     },
     {
@@ -106,7 +111,11 @@
       "parameters": {
         "resource": "sheet",
         "operation": "read",
-        "additionalFields": {}
+        "additionalFields": {
+          "returnAll": "={{$json.params.returnAll}}"
+        },
+        "range": "={{$json.params.range}}",
+        "spreadsheetId": "={{$json.params.spreadsheetId}}"
       }
     },
     {
@@ -121,7 +130,12 @@
       "parameters": {
         "resource": "sheet",
         "operation": "update",
-        "additionalFields": {}
+        "additionalFields": {
+          "valueInputMode": "={{$json.params.valueInputMode}}"
+        },
+        "range": "={{$json.params.range}}",
+        "spreadsheetId": "={{$json.params.spreadsheetId}}",
+        "values": "={{$json.params.values}}"
       }
     },
     {
@@ -136,7 +150,11 @@
       "parameters": {
         "resource": "spreadsheet",
         "operation": "create",
-        "additionalFields": {}
+        "additionalFields": {
+          "folderId": "={{$json.params.folderId}}",
+          "templateId": "={{$json.params.templateId}}"
+        },
+        "title": "={{$json.params.title}}"
       }
     },
     {
@@ -151,7 +169,11 @@
       "parameters": {
         "resource": "sheet",
         "operation": "read",
-        "additionalFields": {}
+        "additionalFields": {
+          "returnAll": "={{$json.params.returnAll}}"
+        },
+        "range": "={{$json.params.range}}",
+        "spreadsheetId": "={{$json.params.spreadsheetId}}"
       }
     }
   ],

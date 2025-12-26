@@ -107,7 +107,11 @@
       "parameters": {
         "resource": "conversation",
         "operation": "getMany",
-        "additionalFields": {}
+        "additionalFields": {
+          "cursor": "={{$json.params.cursor}}",
+          "limit": "={{$json.params.limit}}",
+          "types": "={{$json.params.types}}"
+        }
       }
     },
     {
@@ -122,7 +126,8 @@
       "parameters": {
         "resource": "file",
         "operation": "get",
-        "additionalFields": {}
+        "additionalFields": {},
+        "fileId": "={{$json.params.fileId}}"
       }
     },
     {
@@ -137,7 +142,14 @@
       "parameters": {
         "resource": "file",
         "operation": "getMany",
-        "additionalFields": {}
+        "additionalFields": {
+          "channel": "={{$json.params.channel}}",
+          "count": "={{$json.params.count}}",
+          "page": "={{$json.params.page}}",
+          "tsFrom": "={{$json.params.tsFrom}}",
+          "tsTo": "={{$json.params.tsTo}}",
+          "user": "={{$json.params.user}}"
+        }
       }
     },
     {
@@ -152,7 +164,13 @@
       "parameters": {
         "resource": "file",
         "operation": "upload",
-        "additionalFields": {}
+        "additionalFields": {
+          "filename": "={{$json.params.filename}}",
+          "initialComment": "={{$json.params.initialComment}}",
+          "title": "={{$json.params.title}}"
+        },
+        "binary": "={{$json.params.binary}}",
+        "channels": "={{$json.params.channels}}"
       }
     },
     {
@@ -167,7 +185,9 @@
       "parameters": {
         "resource": "message",
         "operation": "delete",
-        "additionalFields": {}
+        "additionalFields": {},
+        "channel": "={{$json.params.channel}}",
+        "messageTs": "={{$json.params.messageTs}}"
       }
     },
     {
@@ -182,7 +202,9 @@
       "parameters": {
         "resource": "message",
         "operation": "getPermalink",
-        "additionalFields": {}
+        "additionalFields": {},
+        "channel": "={{$json.params.channel}}",
+        "messageTs": "={{$json.params.messageTs}}"
       }
     },
     {
@@ -197,7 +219,13 @@
       "parameters": {
         "resource": "message",
         "operation": "search",
-        "additionalFields": {}
+        "additionalFields": {
+          "count": "={{$json.params.count}}",
+          "page": "={{$json.params.page}}",
+          "sort": "={{$json.params.sort}}",
+          "sortDir": "={{$json.params.sortDir}}"
+        },
+        "query": "={{$json.params.query}}"
       }
     },
     {
@@ -212,7 +240,13 @@
       "parameters": {
         "resource": "message",
         "operation": "send",
-        "additionalFields": {}
+        "additionalFields": {
+          "attachments": "={{$json.params.attachments}}",
+          "blocks": "={{$json.params.blocks}}",
+          "threadTs": "={{$json.params.threadTs}}"
+        },
+        "channel": "={{$json.params.channel}}",
+        "text": "={{$json.params.text}}"
       }
     },
     {
@@ -227,7 +261,13 @@
       "parameters": {
         "resource": "message",
         "operation": "search",
-        "additionalFields": {}
+        "additionalFields": {
+          "count": "={{$json.params.count}}",
+          "page": "={{$json.params.page}}",
+          "sort": "={{$json.params.sort}}",
+          "sortDir": "={{$json.params.sortDir}}"
+        },
+        "query": "={{$json.params.query}}"
       }
     }
   ],
