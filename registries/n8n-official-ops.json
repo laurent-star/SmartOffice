@@ -567,20 +567,6 @@
                 "binary": []
               }
             },
-            "generateModelResponse": {
-              "params": {
-                "required": [
-                  "text"
-                ],
-                "optional": []
-              },
-              "returns": {
-                "data": [
-                  "response"
-                ],
-                "binary": []
-              }
-            },
             "generateChatCompletion": {
               "params": {
                 "required": [
@@ -591,6 +577,20 @@
               "returns": {
                 "data": [
                   "completion"
+                ],
+                "binary": []
+              }
+            },
+            "generateModelResponse": {
+              "params": {
+                "required": [
+                  "text"
+                ],
+                "optional": []
+              },
+              "returns": {
+                "data": [
+                  "response"
                 ],
                 "binary": []
               }

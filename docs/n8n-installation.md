@@ -69,7 +69,7 @@ toujours d'un catalogue valide.
 ## Onboarding intelligent (mapping)
 
 Pour un onboarding complet des mappings tools, suivre le plan :
-- docs/.codex/PLAN_MAPPING_ONBOARDING.md
+- [docs/.codex/PLAN_MAPPING_ONBOARDING.md](docs/.codex/PLAN_MAPPING_ONBOARDING.md)
 
 Etat et suivi :
 - docs/.codex/STATE_MAPPING_ONBOARDING.json

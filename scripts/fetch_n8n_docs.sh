@@ -46,6 +46,7 @@ CORE_EXPR_DOCS=(
   "expressions-data-mapping|https://docs.n8n.io/data/data-mapping/data-mapping-expressions/"
   "expressions-common-issues|https://docs.n8n.io/code/cookbook/expressions/common-issues/"
   "code-node|https://docs.n8n.io/code/code-node/"
+  "builtin-metadata|https://docs.n8n.io/code/builtin/n8n-metadata/"
 )
 
 CONNECTOR_DOCS=(

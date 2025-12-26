@@ -97,6 +97,15 @@ else
   echo "==> Generate registries"
   node scripts/generate_registries.js
 
+  echo "==> Generate golden workflows"
+  node scripts/generate_golden_workflows.js
+
+  echo "==> Generate agent workflows"
+  node scripts/generate_agent_workflows.js
+
+  echo "==> Generate tool workflows"
+  node scripts/generate_tool_workflows.js
+
   echo "==> Validate workflows"
   node scripts/validate_workflows.js
   node scripts/validate_workflow_nodes.js

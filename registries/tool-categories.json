@@ -53,10 +53,10 @@
       "openai"
     ],
     "operations": [
+      "llm.sampleFetch",
       "llm.text.classifyTextForViolations",
-      "llm.text.generateModelResponse",
       "llm.text.generateChatCompletion",
-      "llm.sampleFetch"
+      "llm.text.generateModelResponse"
     ]
   },
   "marketing": {

@@ -47,16 +47,16 @@ Arborescence cible (proposition)
     - payload.example.json
 - docs/
   - onboarding/
-    - monday.checklist.md
-    - drive.checklist.md
-    - slack.checklist.md
-    - gmail.checklist.md
-    - google-calendar.checklist.md
-    - google-docs.checklist.md
-    - google-sheets.checklist.md
-    - axonaut.checklist.md
-    - brevo.checklist.md
-    - mappings.md                        (si doc centrale)
+    - [monday.checklist.md](monday.checklist.md)
+    - [drive.checklist.md](drive.checklist.md)
+    - [slack.checklist.md](slack.checklist.md)
+    - [gmail.checklist.md](gmail.checklist.md)
+    - [google-calendar.checklist.md](google-calendar.checklist.md)
+    - [google-docs.checklist.md](google-docs.checklist.md)
+    - [google-sheets.checklist.md](google-sheets.checklist.md)
+    - [axonaut.checklist.md](axonaut.checklist.md)
+    - [brevo.checklist.md](brevo.checklist.md)
+    - [mappings.md](mappings.md)                        (si doc centrale)
 - tests/
   - mapping/
     - mapping_runtime.test.js            (ou __tests__/ selon stack)
