@@ -45,26 +45,16 @@ Ce document liste les taches a realiser cote operations/deploiement.
    - Dossier Drive : creer automatiquement `mappings/` via workflow
    - Use case : `onboarding_mapping_intelligent`
    - Les tools utilisent `sampleFetch` pour recuperer un payload minimal
+   - Plan detaille : `docs/.codex/PLAN_MAPPING_ONBOARDING.md`
+   - Etat : `docs/.codex/STATE_MAPPING_ONBOARDING.json`
 
-## Onboarding intelligent (mapping)
-
-Objectif : finaliser le mapping des tools pour un nouveau client.
-
-1) Suivre le plan d'onboarding
-   - `docs/.codex/PLAN_MAPPING_ONBOARDING.md`
-
-2) Mettre a jour l'etat du mapping
-   - `docs/.codex/STATE_MAPPING_ONBOARDING.json`
-
-3) Verifier le runtime de mapping (tests)
-   - `node --test tests/mapping/mapping_runtime.test.js`
-
-### Pour un nouveau client (minimum requis)
-
-- Adapter les mappings dans `registries/mappings/<source>/*.json`
-- Valider via `node scripts/mapping_lint.js --interactive` si besoin
-- Repasser `node scripts/mapping_lint.js --ci`
-- Poursuivre l'onboarding n8n (workflows + credentials) via `docs/n8n-installation.md`
+   - Verifier le runtime de mapping (tests) si besoin :
+     - `node --test tests/mapping/mapping_runtime.test.js`
+   - Pour un nouveau client (minimum) :
+     - adapter les mappings `registries/mappings/<source>/*.json`
+     - `node scripts/mapping_lint.js --interactive` (si besoin)
+     - `node scripts/mapping_lint.js --ci`
+     - suivre `docs/n8n-installation.md`
 
 ## Debug runtime (executor)
 

@@ -17,6 +17,7 @@ Catalogue :
 Workflows
 
 - 1 workflow par provider (workflows/tools/<provider>.workflow.json)
+- Nommage n8n recommande : `so.tool.<provider>`
 - Routage par Switch(operation) couvrant toutes les actions declarees
 - Chaque branche renvoie un "tool-result" minimal
 - Les operations doivent exister dans n8n-official-ops
@@ -26,3 +27,7 @@ Utilisation des utils
 - Normalisation des params d'entree
 - Validation du tool-input et du tool-result
 - Mapping uniforme des erreurs
+
+Regle de nommage
+
+- Convention : `so.<layer>.<name>`

@@ -9,12 +9,12 @@ Spec de reference : [docs/triggers-runtime.md](docs/triggers-runtime.md)
 
 Workflows
 
-- gmail.trigger.workflow.json
-- manual.trigger.workflow.json
-- schedule.trigger.workflow.json
-- slack.trigger.workflow.json
-- webhook.trigger.workflow.json
-- registry-loader.trigger.workflow.json (charge les registries depuis Google Drive)
+- gmail.trigger.workflow.json (`so.trigger.gmail`)
+- manual.trigger.workflow.json (`so.trigger.manual`)
+- schedule.trigger.workflow.json (`so.trigger.schedule`)
+- slack.trigger.workflow.json (`so.trigger.slack`)
+- webhook.trigger.workflow.json (`so.trigger.webhook`)
+- registry-loader.trigger.workflow.json (`so.trigger.registry-loader`)
 
 Variables attendues (n8n env)
 
@@ -33,3 +33,7 @@ Utilisation des utils
 - Normalisation des payloads entrants
 - Construction d'enveloppe minimale
 - Validation Ajv avant emission
+
+Regle de nommage
+
+- Convention : `so.<layer>.<name>`

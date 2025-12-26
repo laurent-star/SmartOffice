@@ -99,7 +99,6 @@ Livrable :
 - Verifier que les credentials Google Drive sont associes.
 - Executer un test n8n de bout en bout (trigger -> executor -> tool).
 - Activer ou forcer `payload.options.debug = true` pour tracer l'execution.
-- Lancer l'onboarding mapping intelligent si besoin (Slack #smartoffice + Drive mappings).
 
 ---
 

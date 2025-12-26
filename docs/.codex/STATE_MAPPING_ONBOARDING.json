@@ -3,7 +3,7 @@
     "initiative": "mapping_onboarding_hardening",
     "single_pr": true,
     "owner": "codex",
-    "updated_at": "2025-12-26T03:55:00Z"
+    "updated_at": "2025-12-26T04:05:00Z"
   },
   "discovery": {
     "package_manager": "npm",
@@ -160,6 +160,11 @@
       "at": "2025-12-26T03:55:00Z",
       "event": "intelligent_onboarding_ready",
       "details": "Added onboarding_mapping_intelligent use case and sampleFetch action across tool workflows."
+    },
+    {
+      "at": "2025-12-26T04:05:00Z",
+      "event": "workflow_naming_convention",
+      "details": "Applied so.<layer>.<name> naming convention for all workflows to simplify routing."
     }
   ]
 }

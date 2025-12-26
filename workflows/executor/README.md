@@ -16,7 +16,7 @@ Executor
 Tools
 
 Il n'existe qu'un seul executor.
-Fichier : workflows/executor/executor.workflow.json
+Fichier : workflows/executor/executor.workflow.json (`so.executor.core`)
 
 Ce que l'executor fait
 
@@ -99,14 +99,9 @@ Notes d'implementation (n8n)
 - Appel des tools via Execute Workflow
 - Catalogue tools : registries/tools.json (actions et params attendus)
 
-Utilisation des utils
+Regle de nommage
 
-Les utils peuvent etre appeles depuis l'executor pour factoriser :
-- Normalisation d'enveloppe
-- Validation AJV des contrats
-- Guards de controle (maxSteps, maxDepth)
-- Expansion de steps (capability/usecase)
-- Application des policies (when, save, on_error)
+- Convention : `so.<layer>.<name>`
 
 Hors scope
 

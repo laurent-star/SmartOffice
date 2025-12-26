@@ -9,10 +9,10 @@ Spec de reference : [docs/agent-runtime.md](docs/agent-runtime.md)
 
 Workflows
 
-- planner.workflow.json
+- planner.workflow.json (`so.agent.planner`)
   Construit un plan d'execution (steps) a partir d'un contexte et ajoute un step de clarification si les inputs sont incomplets.
 
-- supervisor.workflow.json
+- supervisor.workflow.json (`so.agent.supervisor`)
   Supervise ou ajuste le plan avant execution; injecte une clarification si le plan manque des prerequis.
 
 Regles
@@ -22,8 +22,6 @@ Regles
 - Les decisions restent dans l'agent, jamais dans l'executor.
 - Les boucles de clarification/human validation renvoient vers l'agent avant toute execution.
 
-Utilisation des utils
+Regle de nommage
 
-- Normalisation d'entrees (legacy -> execution envelope)
-- Validation des steps avant envoi a l'executor
-- Evaluation des conditions when lors de la planification
+- Convention : `so.<layer>.<name>`

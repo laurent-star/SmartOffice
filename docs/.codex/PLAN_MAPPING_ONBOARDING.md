@@ -166,6 +166,7 @@ Plan d’exécution (ordre)
 Notes
 - Si le repo utilise pnpm/yarn, adapter toutes les commandes CI.
 - Si les mappings ne sont pas dans /mappings, détecter et ajuster.
+- Convention de nommage workflows : `so.<layer>.<name>` (ex: `so.tool.google-drive`).
 
 ---
 

@@ -6,7 +6,7 @@ Les workflows golden sont des implementations de reference.
 Ils servent de base stable pour les humains et les assistants AI.
 Ils doivent rester coherents avec les specs dans docs/ et contracts/.
 
-Spec de reference : [docs/golden-workflows.md](docs/golden-workflows.md)
+Spec de reference : [docs/codex-plan.md](docs/codex-plan.md)
 
 ---
 
@@ -24,24 +24,24 @@ qu'elles respectent l'architecture.
 
 ## Workflows
 
-- 10_agent.json
+- 10_agent.json (`so.golden.agent`)
   Exemples de construction d'enveloppe d'execution par un agent.
 
-- 15_agent_planner.json
+- 15_agent_planner.json (`so.golden.agent_planner`)
   Exemple de planification avec boucle de clarification.
 
-- 16_agent_supervisor.json
+- 16_agent_supervisor.json (`so.golden.agent_supervisor`)
   Exemple de supervision du plan avant execution.
 
-- 20_tools.json
+- 20_tools.json (`so.golden.tools`)
   Exemples de pattern d'execution d'un tool (I/O standardise).
 
   Moteur d'execution canonique (iteration, dispatch, output).
 
-- 40_triggers.json
+- 40_triggers.json (`so.golden.triggers`)
   Patterns de triggers et emission d'enveloppe.
 
-- 50_utils.json
+- 50_utils.json (`so.golden.utils`)
   Utils deterministes et reusables.
 
 ---
@@ -97,12 +97,9 @@ Trigger
 - I/O explicites et deterministes.
 - Modifications directes permises si elles améliorent clarte et cohérence.
 
-## Utilisation des utils
+Regle de nommage
 
-- Normalisation d'enveloppe en entree
-- Validation Ajv des contrats
-- Guards d'execution (maxSteps, maxDepth)
-- Application des policies (when, save, on_error)
+- Convention : `so.<layer>.<name>`
 
 ---
 
