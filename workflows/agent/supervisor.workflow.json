@@ -1,5 +1,5 @@
 {
-  "name": "agent-supervisor",
+  "name": "so.agent.supervisor",
   "nodes": [
     {
       "id": "node-trigger",

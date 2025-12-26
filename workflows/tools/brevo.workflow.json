@@ -1,5 +1,5 @@
 {
-  "name": "brevo tool workflow",
+  "name": "so.tool.brevo",
   "nodes": [
     {
       "id": "manual",

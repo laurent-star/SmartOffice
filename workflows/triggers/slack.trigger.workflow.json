@@ -1,5 +1,5 @@
 {
-  "name": "trigger-slack",
+  "name": "so.trigger.slack",
   "nodes": [
     {
       "id": "node-trigger",

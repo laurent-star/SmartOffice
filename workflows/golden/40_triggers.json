@@ -1,19 +1,25 @@
 {
-  "name": "golden-triggers",
+  "name": "so.golden.triggers",
   "nodes": [
     {
       "id": "node-trigger",
       "name": "Trigger Event",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [
+        200,
+        300
+      ]
     },
     {
       "id": "node-build-legacy",
       "name": "Build Legacy Envelope",
       "type": "n8n-nodes-base.code",
       "typeVersion": 1,
-      "position": [420, 300],
+      "position": [
+        420,
+        300
+      ],
       "parameters": {
         "language": "javascript",
         "jsCode": "const envelope = {\n  context: {\n    memory: {\n      session_id: 'sess_001',\n      state: {},\n      stack: []\n    }\n  },\n  input: {\n    steps: [\n      {\n        type: 'tool',\n        ref: 'slack',\n        params: {\n          channel: '#ops',\n          text: 'Hello from trigger'\n        }\n      }\n    ]\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];"
@@ -22,9 +28,19 @@
   ],
   "connections": {
     "Trigger Event": {
-      "main": [[{ "node": "Build Legacy Envelope", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Build Legacy Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" }
+  "settings": {
+    "executionOrder": "v1"
+  }
 }

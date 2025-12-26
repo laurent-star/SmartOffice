@@ -1,5 +1,5 @@
 {
-  "name": "monday tool workflow",
+  "name": "so.tool.monday",
   "nodes": [
     {
       "id": "manual",

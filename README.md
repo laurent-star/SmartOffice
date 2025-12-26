@@ -98,6 +98,20 @@ Pour demarrer, un nouveau client ne fait que :
 - importer les workflows dans n8n
 - connecter les credentials pour chaque tool
 
+## Regle de nommage des workflows
+
+Convention : `so.<layer>.<name>`
+
+Exemples :
+- `so.tool.google-drive`
+- `so.trigger.webhook`
+- `so.agent.planner`
+- `so.executor.core`
+- `so.golden.tools`
+
+Quand un workflow en appelle un autre (Execute Workflow),
+utiliser le nom conforme a cette convention pour garantir le routage.
+
 ## Documentation runtime
 
 - [docs/executor-runtime.md](docs/executor-runtime.md)
@@ -107,7 +121,6 @@ Pour demarrer, un nouveau client ne fait que :
 - [docs/usecases-runtime.md](docs/usecases-runtime.md)
 - [docs/triggers-runtime.md](docs/triggers-runtime.md)
 - [docs/utils-runtime.md](docs/utils-runtime.md)
-- [docs/golden-workflows.md](docs/golden-workflows.md)
 - [docs/codex-plan.md](docs/codex-plan.md)
 - [docs/tools-catalog.md](docs/tools-catalog.md)
 - [docs/n8n-installation.md](docs/n8n-installation.md)

@@ -1,5 +1,5 @@
 {
-  "name": "trigger-manual",
+  "name": "so.trigger.manual",
   "nodes": [
     {
       "id": "node-trigger",

@@ -1,5 +1,5 @@
 {
-  "name": "gmail tool workflow",
+  "name": "so.tool.gmail",
   "nodes": [
     {
       "id": "manual",

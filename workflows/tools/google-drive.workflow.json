@@ -1,5 +1,5 @@
 {
-  "name": "google-drive tool workflow",
+  "name": "so.tool.google-drive",
   "nodes": [
     {
       "id": "manual",

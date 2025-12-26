@@ -1,5 +1,5 @@
 {
-  "name": "trigger-gmail",
+  "name": "so.trigger.gmail",
   "nodes": [
     {
       "id": "node-trigger",

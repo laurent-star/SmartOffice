@@ -1,5 +1,5 @@
 {
-  "name": "executor",
+  "name": "so.executor.core",
   "nodes": [
     {
       "id": "trigger",

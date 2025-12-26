@@ -1,5 +1,5 @@
 {
-  "name": "slack tool workflow",
+  "name": "so.tool.slack",
   "nodes": [
     {
       "id": "manual",

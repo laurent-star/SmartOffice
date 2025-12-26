@@ -1,5 +1,5 @@
 {
-  "name": "openai tool workflow",
+  "name": "so.tool.openai",
   "nodes": [
     {
       "id": "manual",

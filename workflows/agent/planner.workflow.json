@@ -1,5 +1,5 @@
 {
-  "name": "agent-planner",
+  "name": "so.agent.planner",
   "nodes": [
     {
       "id": "node-trigger",

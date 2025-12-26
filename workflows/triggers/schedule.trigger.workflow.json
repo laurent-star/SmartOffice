@@ -1,5 +1,5 @@
 {
-  "name": "trigger-schedule",
+  "name": "so.trigger.schedule",
   "nodes": [
     {
       "id": "node-trigger",

@@ -1,5 +1,5 @@
 {
-  "name": "axonaut tool workflow",
+  "name": "so.tool.axonaut",
   "nodes": [
     {
       "id": "manual",

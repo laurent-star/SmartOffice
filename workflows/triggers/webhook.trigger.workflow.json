@@ -1,5 +1,5 @@
 {
-  "name": "trigger-webhook",
+  "name": "so.trigger.webhook",
   "nodes": [
     {
       "id": "node-trigger",
