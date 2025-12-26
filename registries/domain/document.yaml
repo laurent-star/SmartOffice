@@ -1,0 +1,32 @@
+domain: document
+version: 0.1
+summary: Canonical document entity covering Drive or knowledge bases.
+fields:
+  - name: id
+    type: string
+    required: true
+    description: Stable identifier for the document.
+  - name: title
+    type: string
+    required: true
+    description: Display title.
+  - name: mime_type
+    type: string
+    description: MIME type or inferred document type.
+  - name: url
+    type: string
+    description: Public or internal URL for access.
+  - name: owner
+    type: string
+    description: Owner email or internal user ID.
+  - name: created_at
+    type: datetime
+    description: Creation timestamp.
+  - name: updated_at
+    type: datetime
+    description: Last update timestamp.
+  - name: tags
+    type: array
+    items:
+      type: string
+    description: Labels for discovery and routing.

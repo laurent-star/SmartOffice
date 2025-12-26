@@ -1,0 +1,37 @@
+version: 0.1
+source: drive
+domain: document
+description: Mapping Google Drive file metadata into canonical document entities.
+source_descriptor:
+  collection: files
+converters:
+  - name: enum_map
+    id: mime_to_type
+    map:
+      application/vnd.google-apps.document: doc
+      application/vnd.google-apps.spreadsheet: sheet
+      application/vnd.google-apps.presentation: slide
+      application/pdf: pdf
+fields:
+  - target: id
+    source: file.id
+    required: true
+  - target: title
+    source: file.name
+    required: true
+  - target: mime_type
+    source: file.mimeType
+    converter:
+      use: mime_to_type
+  - target: url
+    source: file.webViewLink
+  - target: owner
+    source: file.owners[0].emailAddress
+  - target: created_at
+    source: file.createdTime
+  - target: updated_at
+    source: file.modifiedTime
+  - target: tags
+    source: file.labels[]
+    converter:
+      name: normalize_array

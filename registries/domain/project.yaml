@@ -1,0 +1,33 @@
+domain: project
+version: 0.1
+summary: Canonical project entity used across delivery boards and document stores.
+fields:
+  - name: id
+    type: string
+    required: true
+    description: Stable identifier for the project.
+  - name: name
+    type: string
+    required: true
+    description: Display name of the project.
+  - name: client_id
+    type: string
+    description: Reference to the canonical client entity.
+  - name: status
+    type: enum
+    values: [backlog, in_progress, blocked, done, archived]
+    description: Delivery status.
+  - name: start_date
+    type: date
+    description: Planned start date.
+  - name: due_date
+    type: date
+    description: Planned delivery date.
+  - name: owner
+    type: string
+    description: Internal project lead.
+  - name: tags
+    type: array
+    items:
+      type: string
+    description: Labels for routing or reporting.

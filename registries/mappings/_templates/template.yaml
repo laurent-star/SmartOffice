@@ -1,0 +1,49 @@
+# Generic mapping template
+version: 0.1
+source: <source name>
+domain: <domain name>
+description: >-
+  Declarative mapping between <source> payloads and the canonical <domain> schema.
+
+source_descriptor:
+  collection: <API collection, board ID, table name, etc>
+  sample_payload: path/to/sample.json # optional
+
+converters:
+  # Register reusable converters when necessary (date_iso, enum_map, combine, fallback)
+  # - name: date_iso
+  #   type: builtin
+  #   params: { timezone: UTC }
+
+fields:
+  # Example of a mapped field with an enum conversion
+  - target: status
+    source: column.status
+    type: enum
+    converter:
+      name: enum_map
+      map:
+        new: backlog
+        working on it: in_progress
+        stuck: blocked
+        done: done
+    required: false
+
+  # Example with default fallback and combination
+  - target: title
+    source: item.name
+    required: true
+    fallback: "Untitled"
+
+  # Example combining multiple inputs
+  - target: owner
+    source: [column.owner.email, column.owner.text]
+    converter:
+      name: coalesce
+      order: [column.owner.email, column.owner.text]
+
+  # Example passthrough
+  - target: tags
+    source: column.labels[]
+    converter:
+      name: normalize_array
