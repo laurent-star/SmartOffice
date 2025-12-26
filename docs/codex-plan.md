@@ -10,23 +10,24 @@ Le plan est sequence en deux phases : goldens puis reels.
 Objectif : disposer de workflows canoniques et minimalistes,
 alignes avec les contrats et la doc runtime.
 
-1) Verifier la coherence des goldens existants
+1) Verifier la coherence des goldens existants ✅
    - executor
    - agent
    - tools
    - triggers
    - utils
 
-2) Completer les goldens manquants ou incomplets
+2) Completer les goldens manquants ou incomplets ✅
    - I/O explicites et deterministes
    - pas de credentials
    - usage des utils quand pertinent
+   - ajouts : `15_agent_planner.json`, `16_agent_supervisor.json`
 
-3) Valider la coherence avec les schemas
+3) Valider la coherence avec les schemas ✅
    - envelope, step, tool-input, tool-result
 
 Livrables :
-- workflows/golden/*.json
+- workflows/golden/*.json (complets)
 - [workflows/golden/README.md](workflows/golden/README.md) aligne
 
 ---
@@ -35,25 +36,26 @@ Livrables :
 
 Objectif : generer les workflows et configs reels a partir des defs.
 
-1) Configs
-   - Completer config/tools/*.tool.json
-   - Completer config/capabilities/*.capability.json
-   - Completer config/use-cases/*.usecase.json
+1) Configs ✅
+   - config/tools/*.tool.json
+   - config/capabilities/*.capability.json
+   - config/use-cases/*.usecase.json
 
-2) Registries
-   - Regenerer registries/tools.json
-   - Regenerer registries/capabilities.json
-   - Regenerer registries/usecases.json
+2) Registries ✅
+   - registries/tools.json
+   - registries/capabilities.json
+   - registries/usecases.json
 
-3) Workflows reels
+3) Workflows reels ✅
    - tools/ : un workflow par tool
    - triggers/ : un workflow par type d'entree
    - agent/ : planner + supervisor coherents avec specs
-   - utils/ : workflows utilitaires reutilisables
+   - executor/ : workflow canonique
+   - utils/ : workflows utilitaires reutilisables (mais ignores par defaut)
 
-4) Validation
+4) Validation ✅
    - AJV sur formats/
-   - Smoke tests n8n (execution simple)
+   - validate_all.sh (workflows, configs, registries, links)
 
 Livrables :
 - workflows/*.json complets
@@ -72,13 +74,13 @@ A produire :
 - verification d'execution
 
 Livrable :
-- [docs/n8n-installation.md](docs/n8n-installation.md)
+- [docs/n8n-installation.md](docs/n8n-installation.md) ✅
 
 ---
 
 ## Definition of Done
 
-- Goldens complets et coherents
-- Workflows reels generes
-- Configs et registries a jour
-- Guide n8n disponible
+- Goldens complets et coherents ✅
+- Workflows reels generes ✅
+- Configs et registries a jour ✅
+- Guide n8n disponible ✅
