@@ -15,7 +15,7 @@ Périmètre des tâches (issues internes)
 2) Samples JSON pour lint interactif
 3) Tests unitaires mapping runtime
 4) Lint interactif avec complétion des mappings
-5) Checklists d’onboarding par source (Monday/Drive/Slack/Gmail/Google Calendar/Google Docs/Axonaut/Brevo)
+5) Checklists d’onboarding par source (Monday/Drive/Slack/Gmail/Google Calendar/Google Docs/Google Sheets/Axonaut/Brevo)
 
 Arborescence cible (proposition)
 - scripts/
@@ -36,6 +36,8 @@ Arborescence cible (proposition)
     - payload.example.json
   - google-docs/
     - payload.example.json
+  - google-sheets/
+    - payload.example.json
   - axonaut/
     - payload.example.json
   - brevo/
@@ -48,6 +50,7 @@ Arborescence cible (proposition)
     - gmail.checklist.md
     - google-calendar.checklist.md
     - google-docs.checklist.md
+    - google-sheets.checklist.md
     - axonaut.checklist.md
     - brevo.checklist.md
     - mappings.md                        (si doc centrale)
@@ -77,6 +80,7 @@ Exigences fonctionnelles détaillées
   - Gmail
   - Google Calendar
   - Google Docs
+  - Google Sheets
   - Axonaut
   - Brevo
 - But : permettre un “dry-run” du lint / mapping sur un input connu.
@@ -104,7 +108,7 @@ Exigences fonctionnelles détaillées
 - En CI, l’interactif doit être désactivé par défaut.
 
 (5) Checklists par source
-- Ajouter des checklists Markdown (Monday/Drive/Slack/Gmail/Google Calendar/Google Docs/Axonaut/Brevo) décrivant:
+- Ajouter des checklists Markdown (Monday/Drive/Slack/Gmail/Google Calendar/Google Docs/Google Sheets/Axonaut/Brevo) décrivant:
   - Pré-requis opérateur
   - Champs attendus / IDs / colonnes
   - Conventions de mapping (ex: date formats, enums, null handling)

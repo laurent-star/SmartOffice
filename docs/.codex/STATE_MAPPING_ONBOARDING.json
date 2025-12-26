@@ -3,7 +3,7 @@
     "initiative": "mapping_onboarding_hardening",
     "single_pr": true,
     "owner": "codex",
-    "updated_at": "2025-12-26T03:03:15Z"
+    "updated_at": "2025-12-26T03:22:55Z"
   },
   "discovery": {
     "package_manager": "npm",
@@ -39,6 +39,7 @@
         "samples/gmail/payload.example.json",
         "samples/google-calendar/payload.example.json",
         "samples/google-docs/payload.example.json",
+        "samples/google-sheets/payload.example.json",
         "samples/axonaut/payload.example.json",
         "samples/brevo/payload.example.json"
       ],
@@ -85,6 +86,7 @@
         "docs/onboarding/gmail.checklist.md",
         "docs/onboarding/google-calendar.checklist.md",
         "docs/onboarding/google-docs.checklist.md",
+        "docs/onboarding/google-sheets.checklist.md",
         "docs/onboarding/axonaut.checklist.md",
         "docs/onboarding/brevo.checklist.md"
       ],
@@ -107,7 +109,7 @@
     {
       "at": "2025-12-26T03:03:15Z",
       "event": "samples_json_done",
-      "details": "Added example payloads for monday, hubspot, drive, slack, gmail, google-calendar, google-docs, axonaut, brevo"
+      "details": "Added example payloads for monday, drive, slack, gmail, google-calendar, google-docs, google-sheets, axonaut, brevo"
     },
     {
       "at": "2025-12-26T03:03:15Z",
@@ -127,7 +129,12 @@
     {
       "at": "2025-12-26T03:03:15Z",
       "event": "source_checklists_done",
-      "details": "Published onboarding checklists for Monday, Drive, Slack, Gmail, Google Calendar, Google Docs, Axonaut, Brevo"
+      "details": "Published onboarding checklists for Monday, Drive, Slack, Gmail, Google Calendar, Google Docs, Google Sheets, Axonaut, Brevo"
+    },
+    {
+      "at": "2025-12-26T03:22:55Z",
+      "event": "sources_aligned",
+      "details": "Removed HubSpot assets and added Google Sheets sample/checklist to match current tool list"
     }
   ]
 }

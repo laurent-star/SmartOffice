@@ -38,22 +38,7 @@ test('monday mapping produces normalized project entity', () => {
   assert.deepStrictEqual(validationErrors, []);
 });
 
-test('hubspot mapping applies converters and validates required fields', () => {
-  const { mappingPath, domainPath } = buildPaths('hubspot', 'prospect');
-  const mapping = loadYaml(mappingPath);
-  const domain = loadDomain(domainPath);
-  const payload = readSample('hubspot');
-
-  const entity = mapPayloadToDomain(mapping, payload);
-  const validationErrors = validateEntity(entity, domain);
-
-  assert.strictEqual(entity.lifecycle_stage, 'marketing_qualified');
-  assert.strictEqual(entity.name, 'Alex Martin');
-  assert.deepStrictEqual(entity.emails, ['alex.martin@example.com']);
-  assert.deepStrictEqual(validationErrors, []);
-});
-
-test('drive mapping supports enum conversion and arrays', () => {
+test('drive mapping applies converters and validates required fields', () => {
   const { mappingPath, domainPath } = buildPaths('drive', 'document');
   const mapping = loadYaml(mappingPath);
   const domain = loadDomain(domainPath);
@@ -64,6 +49,20 @@ test('drive mapping supports enum conversion and arrays', () => {
 
   assert.strictEqual(entity.mime_type, 'doc');
   assert.deepStrictEqual(entity.tags, ['proposal', 'draft']);
+  assert.deepStrictEqual(validationErrors, []);
+});
+
+test('monday mapping supports enum conversion and arrays', () => {
+  const { mappingPath, domainPath } = buildPaths('monday', 'project');
+  const mapping = loadYaml(mappingPath);
+  const domain = loadDomain(domainPath);
+  const payload = readSample('monday');
+
+  const entity = mapPayloadToDomain(mapping, payload);
+  const validationErrors = validateEntity(entity, domain);
+
+  assert.strictEqual(entity.status, 'in_progress');
+  assert.deepStrictEqual(entity.tags, ['priority', 'q4']);
   assert.deepStrictEqual(validationErrors, []);
 });
 

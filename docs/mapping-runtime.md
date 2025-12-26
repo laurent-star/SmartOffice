@@ -10,7 +10,7 @@ This document summarizes how to map heterogeneous tools (Monday, CRM, Drive, etc
 ## Registry layout
 - `registries/domain/`: canonical domain definitions with required fields and types.
 - `registries/mappings/_templates/`: starting templates for new mappings.
-- `registries/mappings/<source>/<domain>.yaml`: concrete mappings (e.g., Monday → project, HubSpot → prospect, Drive → document).
+- `registries/mappings/<source>/<domain>.yaml`: concrete mappings (e.g., Monday → project, Drive → document).
 
 ## Sequential onboarding flow
 1. **Discover source schema**: list fields/columns for the source collection (board, pipeline, drive files, etc.).
@@ -49,7 +49,7 @@ Additional modes:
 - Align validations with `registries/domain/` required fields so downstream use cases stay consistent.
 
 ## Onboarding assets
-- Samples for dry-run: see `samples/<source>/payload.example.json` (Monday, HubSpot, Drive, Slack, Gmail, Google Calendar, Google Docs, Axonaut, Brevo).
+- Samples for dry-run: see `samples/<source>/payload.example.json` (Monday, Drive, Slack, Gmail, Google Calendar, Google Docs, Google Sheets, Axonaut, Brevo).
 - Checklists: `docs/onboarding/*.checklist.md` provide per-source prerequisites, conventions and troubleshooting.
 - Mapping lint in CI: `.github/workflows/mapping-lint.yml` runs `npm run lint:mappings` on pull requests.
 - Local commands: `npm run lint:mappings` for non-interactive lint, `npm run test:mapping` for runtime tests, and `node scripts/mapping_lint.js --interactive ...` for assisted completion.
