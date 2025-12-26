@@ -198,7 +198,14 @@ if [[ -s "$to_delete" ]]; then
   if [[ "${SKIP_CLEAN:-}" == "1" ]]; then
     echo "==> Clean skipped (SKIP_CLEAN=1)"
   else
-    read -r -p "Proceed with clean (delete files + empty dirs)? [y/N] " confirm
+    if [[ -t 0 ]]; then
+      read -r -p "Proceed with clean (delete files + empty dirs)? [y/N] " confirm
+    elif [[ -r /dev/tty ]]; then
+      read -r -p "Proceed with clean (delete files + empty dirs)? [y/N] " confirm </dev/tty
+    else
+      echo "==> Clean prompt skipped (no TTY); set SKIP_CLEAN=1 or run interactively."
+      confirm="n"
+    fi
     if [[ "$confirm" =~ ^[Yy]$ ]]; then
       while IFS= read -r rel; do
         rm -f "$repo_root/$rel"
