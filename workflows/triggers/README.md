@@ -9,6 +9,7 @@ Spec de reference : [docs/triggers-runtime.md](docs/triggers-runtime.md)
 
 Workflows
 
+- google-drive.trigger.workflow.json (`so.trigger.google-drive`)
 - gmail.trigger.workflow.json (`so.trigger.gmail`)
 - manual.trigger.workflow.json (`so.trigger.manual`)
 - schedule.trigger.workflow.json (`so.trigger.schedule`)
@@ -17,6 +18,10 @@ Workflows
 - registry-loader.trigger.workflow.json (`so.trigger.registry-loader`)
 
 Nodes et I/O
+
+- google-drive.trigger.workflow.json
+  - Trigger Event — Google Drive Trigger (`n8n-nodes-base.googleDriveTrigger`) : surveille un dossier specifique; emet les metadonnees de changement Drive.
+  - Build Legacy Envelope — Code (`n8n-nodes-base.code`) : enveloppe legacy avec `input.event.source = google-drive`.
 
 - gmail.trigger.workflow.json
   - Trigger Event — Gmail Trigger (`n8n-nodes-base.gmailTrigger`) : recoit les evenements Gmail (nouveaux messages) ; produit le payload Gmail brut.

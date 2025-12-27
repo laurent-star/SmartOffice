@@ -1,0 +1,64 @@
+{
+  "name": "so.trigger.google-drive",
+  "nodes": [
+    {
+      "id": "node-trigger",
+      "name": "Trigger Event",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ],
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "mode": "url",
+          "value": "",
+          "__regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
+        },
+        "event": "folderUpdated"
+      }
+    },
+    {
+      "id": "node-build-envelope",
+      "name": "Build Legacy Envelope",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        420,
+        300
+      ],
+      "parameters": {
+        "jsCode": "const payload = items[0].json || {};\nconst now = new Date().toISOString();\n\nconst envelope = {\n  context: {\n    memory: {\n      session_id: payload.session_id || `sess_${Date.now()}`,\n      state: payload.state || {},\n      stack: payload.stack || []\n    }\n  },\n  input: {\n    event: {\n      source: 'google-drive',\n      timestamp: now,\n      payload\n    }\n  },\n  output: {},\n  error: null\n};\n\nreturn [{ json: envelope }];",
+        "language": "JavaScript",
+        "mode": "runOnceForAllItems"
+      }
+    }
+  ],
+  "connections": {
+    "Trigger Event": {
+      "main": [
+        [
+          {
+            "node": "Build Legacy Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
