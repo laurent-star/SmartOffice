@@ -23,7 +23,7 @@
       "parameters": {
         "language": "JavaScript",
         "mode": "runOnceForAllItems",
-        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  const tool = input.tool || {};\n  const params = input.params ?? tool.params ?? {};\n  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n  return {\n    json: {\n      provider: 'openai',\n      operation,\n      params\n    }\n  };\n});\n"
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  const tool = input.tool || {};\n  const params = input.params ?? tool.params ?? {};\n  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n  if (!params.text) {\n    const messages = params.messages?.values ?? params.messages;\n    if (Array.isArray(messages)) {\n      params.text = messages.map((m) => m.content ?? '').join('\\n');\n    }\n  }\n  if (!params.text && params.prompt) params.text = params.prompt;\n  if (!params.text && params.input) params.text = params.input;\n  return {\n    json: {\n      provider: 'openai',\n      operation,\n      params\n    }\n  };\n});\n"
       }
     },
     {

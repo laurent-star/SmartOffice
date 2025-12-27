@@ -10,6 +10,18 @@ function loadJson(p) {
 }
 
 function createBaseNodes(toolId) {
+  const openAiTextFallback =
+    toolId === 'openai'
+      ? "  if (!params.text) {\n" +
+        "    const messages = params.messages?.values ?? params.messages;\n" +
+        "    if (Array.isArray(messages)) {\n" +
+        "      params.text = messages.map((m) => m.content ?? '').join('\\n');\n" +
+        "    }\n" +
+        "  }\n" +
+        "  if (!params.text && params.prompt) params.text = params.prompt;\n" +
+        "  if (!params.text && params.input) params.text = params.input;\n"
+      : "";
+
   return [
     {
       id: 'manual',
@@ -33,6 +45,7 @@ function createBaseNodes(toolId) {
           "  const tool = input.tool || {};\n" +
           "  const params = input.params ?? tool.params ?? {};\n" +
           "  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n" +
+          openAiTextFallback +
           "  return {\n" +
           "    json: {\n" +
           `      provider: '${toolId}',\n` +
