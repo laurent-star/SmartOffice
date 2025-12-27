@@ -26,7 +26,7 @@ Agent or Executor
 
 Triggers:
 
-- receive external events (webhook, schedule, inbox, chat)
+- receive external events (webhook, schedule, inbox, chat, drive updates)
 - normalize raw payloads
 - emit an envelope for the next layer
 - can route incomplete requests toward the Agent for clarification (never performing the clarification themselves)
@@ -120,3 +120,4 @@ Convention : `so.<layer>.<name>`
 Exemples :
 - `so.trigger.webhook`
 - `so.trigger.schedule`
+- `so.trigger.google-drive`
