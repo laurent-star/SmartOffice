@@ -106,6 +106,12 @@ If planning fails, the Agent must return a structured error:
 - The clarification step must explicitly loop back to the Agent (`header.destination = "agent"` or via tool routing) so the new context can be replanned.
 - The Agent marks readiness in memory (ex: `memory.state.context_complete = true`) once all mandatory inputs are gathered.
 
+### Golden workflow coverage
+
+- The **golden planner** (`workflows/golden/15_agent_planner.json`) demonstrates the same clarification-first rule: if `memory.state.context_complete` is false, the only step is `human.validation.request`, otherwise it proceeds to a tool call. The JSON explicitly routes clarification to the Agent (`params.destination = "agent"` and `header.destination` aligned with the first step).
+- The **golden supervisor** (`workflows/golden/16_agent_supervisor.json`) mirrors the runtime supervisor by rebuilding the envelope, ensuring memory/steps exist, and injecting a validation capability when context is missing.
+- These golden files serve as reference prompts for the corresponding runtime workflows and can be reused when prompting a model.
+
 ---
 
 ## Invariants (non-negotiable)
