@@ -1,62 +1,70 @@
 # Smart Office — Bundle ChatGPT
 
 ## Objectif
-Ce guide condensé rassemble les points clés de la documentation Smart Office pour armer ChatGPT : architecture, contrats d'exécution, conventions de configuration et pipeline de registries. Il sert de référence unique sans remplacer les fichiers source.
+Super mémo unique destiné à ChatGPT qui recense **tous les fichiers Markdown du projet** (hors dépendances `node_modules`) et en résume le rôle. Le document sert de plan de découverte complet : architecture des répertoires, specs runtime, checklists d'onboarding, archives et guides n8n.【F:README.md†L121-L142】【F:README.md†L167-L180】
 
-## Vue d'ensemble de l'architecture
-- Chaîne stricte : Triggers → Agent → Executor → Tools. Les capacités et use cases se déploient entre l'Agent et l'Executor via des steps déclaratifs.【F:README.md†L57-L69】【F:docs/agent-runtime.md†L15-L24】
-- Envelope unique : tous les flux utilisent les schémas de `contracts/` (envelope, step, tool, capability, usecase). La mémoire circule uniquement via `payload.memory`/`context.memory`.【F:README.md†L49-L69】【F:docs/agent-runtime.md†L51-L70】
-- Déterminisme : aucun composant ne contient de logique heuristique ; la même entrée produit le même résultat. Le moteur d'exécution reste stateless hors envelope.【F:docs/executor-runtime.md†L117-L139】
-- Conventions de nommage : workflows `so.<layer>.<name>` ; configs `domain.resource.action`.【F:README.md†L97-L114】【F:docs/capabilities-runtime.md†L46-L52】
+## Architecture et conventions essentielles
+- Chaîne stricte : Triggers → Agent → Executor → Tools ; capabilities et use cases s'intercalent comme blocs déclaratifs.【F:README.md†L47-L69】【F:docs/agent-runtime.md†L15-L24】
+- Envelope unique issue de `contracts/` ; la mémoire circule via `payload.memory`/`context.memory` et reste l'unique état mutable.【F:README.md†L49-L69】【F:docs/agent-runtime.md†L51-L70】
+- Déterminisme absolu : aucune logique heuristique, Executor stateless et conforme aux schémas JSON publics.【F:docs/executor-runtime.md†L117-L139】
+- Nommage : workflows `so.<layer>.<name>` ; configs `domain.resource.action` pour capabilities/use cases.【F:README.md†L97-L114】【F:config/capabilities/README.md†L13-L23】
+- Cartographie racine : contracts/ (schémas), docs/ (specs), formats/ (exemples), workflows/ (agent/executor/tools/triggers/utils/golden), registries/ (catalogues), scripts/ (helpers).【F:README.md†L167-L180】
 
-## Rôles et contrats par couche
-### Agent
-- Rôle : interpréter l'intention (triggers/chat) et produire un plan ordonné de steps dans une Execution Envelope.【F:docs/agent-runtime.md†L13-L29】
-- Ne fait pas : exécuter des tools, muter l'état externe, bypasser l'Executor ou inférer des params manquants sans étape de clarification.【F:docs/agent-runtime.md†L50-L75】
-- Planning : steps `tool|capability|usecase` avec `ref` et `params` obligatoires ; politique `save/on_error` optionnelle ; boucle de clarification si le contexte manque. Règles dans `config/agent/planning_rules.json` (schema `contracts/agent-planning.schema.json`).【F:docs/agent-runtime.md†L77-L109】
-- I/O : fabrique toujours une envelope complète (`header` + `payload.memory` + `payload.steps`), même en transformant un legacy envelope.【F:docs/agent-runtime.md†L34-L48】
+## Index complet des Markdown
+### Racine et backlog
+- `README.md` — synthèse architecture, conventions et liens vers toute la doc.【F:README.md†L1-L142】
+- `TODO.md` — backlog priorisé et chantiers en attente.【F:TODO.md†L1-L41】
 
-### Executor
-- Rôle : normaliser l'envelope (legacy ou exécution), exécuter les steps séquentiellement et retourner un `Result`. Aucun choix métier.【F:docs/executor-runtime.md†L9-L44】
-- Résolution : steps routés via les registries `tools.json`/`capabilities.json`/`usecases.json`; support des politiques `when`, `save`, `on_error`; application des `payload.registryFiles` ou fallback registry.【F:docs/executor-runtime.md†L46-L82】
-- I/O : enveloppe de résultat `header` + `output { results[], memory }` (+ trace si `options.debug`); construit `toolInput` (`contracts/tool-input.schema.json`) et attend un `toolResult`.【F:docs/executor-runtime.md†L84-L120】
-- Invariants : déterminisme, respect des schémas, pas de logique métier ni d'appel API direct.【F:docs/executor-runtime.md†L121-L147】
+### Documentation runtime et catalogues (docs/)
+- `docs/agent-runtime.md` — contrat runtime de l'Agent : positionnement, interdits, fabrication de l'envelope et règles de planning.【F:docs/agent-runtime.md†L1-L76】
+- `docs/executor-runtime.md` — rôle d'exécution séquentielle, résolution par registries, invariants de déterminisme.【F:docs/executor-runtime.md†L9-L120】
+- `docs/triggers-runtime.md` — conversions d'événements externes, mémoire obligatoire, gestion des registries Drive.【F:docs/triggers-runtime.md†L7-L125】
+- `docs/tools-runtime.md` — contrat d'un tool n8n, structure `{ ok, data, error, meta? }`, inputs/outputs attendus.【F:docs/tools-runtime.md†L7-L86】
+- `docs/capabilities-runtime.md` — définition d'une capability déterministe et structure des steps.【F:docs/capabilities-runtime.md†L7-L60】
+- `docs/usecases-runtime.md` — rôle métier des use cases et composition capabilities/outils.【F:docs/usecases-runtime.md†L7-L92】
+- `docs/utils-runtime.md` — règles pour helpers sans I/O externe.【F:docs/utils-runtime.md†L7-L53】
+- `docs/mapping-runtime.md` — modèle de mapping/exécution pour orchestrer les correspondances.【F:docs/mapping-runtime.md†L1-L76】
+- `docs/tools-catalog.md` — catalogue fonctionnel et couverture des providers/tools.【F:docs/tools-catalog.md†L1-L120】
+- `docs/tools-nodes.md` — détails sur les nodes n8n/outils disponibles et leurs options.【F:docs/tools-nodes.md†L1-L80】
+- `docs/registry-loader-workflow.md` — explication du loader de registries et étapes associées.【F:docs/registry-loader-workflow.md†L1-L64】
+- `docs/n8n-installation.md` — guide d'import des workflows (golden puis réels) et configuration des registries Drive dans n8n.【F:docs/n8n-installation.md†L1-L68】
+- Plans et audits : `docs/codex-plan.md`, `docs/human-plan.md`, `docs/drive-slack-gmail-usecases-plan.md`, `docs/workflow-node-audit.md`, `docs/.codex/PLAN_MAPPING_ONBOARDING.md` détaillent roadmaps, onboarding et contrôles qualité.【F:docs/codex-plan.md†L1-L64】【F:docs/human-plan.md†L1-L52】【F:docs/drive-slack-gmail-usecases-plan.md†L1-L52】【F:docs/workflow-node-audit.md†L1-L120】【F:docs/.codex/PLAN_MAPPING_ONBOARDING.md†L1-L32】
+- Archives : `docs/archives/md-audit-2025-12-24.md` (audit Markdown), `docs/archives/status-auto.md` (statuts automatisés).【F:docs/archives/md-audit-2025-12-24.md†L1-L36】【F:docs/archives/status-auto.md†L1-L36】
+- Onboarding humain et patterns d'usage : `docs/human-plan.md` et `docs/faq.md`.【F:docs/human-plan.md†L1-L52】【F:docs/faq.md†L1-L80】
 
-### Triggers
-- Rôle : convertir un événement externe en envelope cible Agent ou Executor, avec `context.memory`/`payload.memory` toujours présent.【F:docs/triggers-runtime.md†L7-L38】【F:docs/triggers-runtime.md†L74-L96】
-- Ne font pas : planification ou choix de use case ; pas d'appels tools. Peuvent rediriger vers une capability de clarification.【F:docs/triggers-runtime.md†L40-L63】
-- Registries Drive : injectent `payload.registryFiles` et `payload.options.fallbackRegistry` en cas d'absence des fichiers Drive (IDs `REGISTRY_*_FILE_ID`).【F:docs/triggers-runtime.md†L98-L125】
+### Documentation n8n (docs/n8n/)
+- `docs/n8n/README.md` — conventions de documentation des nodes officiels et portée du catalogue.【F:docs/n8n/README.md†L1-L56】
+- `docs/n8n/minimal-types.md` — typage minimal requis pour les nodes personnalisés.【F:docs/n8n/minimal-types.md†L1-L60】
+- `docs/n8n/sources.md` — sources officielles utilisées pour construire le catalogue n8n.【F:docs/n8n/sources.md†L1-L64】
+- Guides humains par provider (`docs/n8n/human/*.md`) : Brevo, Gmail, Slack, Drive, Google Docs/Sheets/Calendar, Google Drive, Monday, Axonaut, OpenAI ; couvrent paramètres et limites propres à chaque node.【F:docs/n8n/human/slack.md†L1-L80】【F:docs/n8n/human/google-drive.md†L1-L120】
 
-### Capabilities
-- Rôle : séquences réutilisables et déterministes qui regroupent des appels tools. Pas de logique métier.【F:docs/capabilities-runtime.md†L7-L33】
-- Définition : `config/capabilities/*.capability.json` → `registries/capabilities.json`; inputs/outputs obligatoires ; steps conformes à `contracts/step.schema.json`.【F:docs/capabilities-runtime.md†L35-L60】
+### Onboarding par produit (docs/onboarding/)
+Checklists opérationnelles par outil : Slack, Gmail, Brevo, Google Drive/Docs/Sheets/Calendar, Axonaut, Monday. Chaque fichier liste prérequis, création de credentials et tests rapides.【F:docs/onboarding/slack.checklist.md†L1-L48】【F:docs/onboarding/google-calendar.checklist.md†L1-L52】
 
-### Use cases
-- Rôle : porter le scénario métier et orchestrer capabilities/use cases (outils si aucun bloc atomique).【F:docs/usecases-runtime.md†L7-L33】【F:docs/usecases-runtime.md†L59-L72】
-- Définition : `config/use-cases/*.usecase.json` → `registries/usecases.json`; inputs/outputs explicites. Exemple clé : `mapping.onboarding.run` (mapping LLM + validation Slack + stockage Drive).【F:docs/usecases-runtime.md†L35-L58】【F:docs/usecases-runtime.md†L73-L92】
+### Configurations et prompts (config/)
+- `config/README.md` — règles générales, structure des dossiers et validation par schémas.【F:config/README.md†L1-L18】
+- Capabilities/Use cases : conventions `domain.resource.action` et champs obligatoires décrits dans `config/capabilities/README.md` et `config/use-cases/README.md`.【F:config/capabilities/README.md†L13-L27】【F:config/use-cases/README.md†L13-L27】
+- Tools : structure d'un fichier `.tool.json` documentée dans `config/tools/README.md`.【F:config/tools/README.md†L1-L23】
+- Agent : prompts et règles (`system_prompt.md`, `planning_rules.json`) expliqués dans `config/agent/README.md`.【F:config/agent/README.md†L1-L24】【F:config/agent/system_prompt.md†L1-L60】
 
-### Tools
-- Rôle : action API atomique, une seule opération, résultat structuré `{ ok, data, error, meta? }`.【F:docs/tools-runtime.md†L7-L33】【F:docs/tools-runtime.md†L63-L86】
-- Définition : `config/tools/*.tool.json` (schéma `contracts/tool-definition.schema.json`) → `registries/tools.json`. Chaque action définit `input` attendu et `output` principal ; catégories fonctionnelles documentées dans `docs/tools-catalog.md`.【F:docs/tools-runtime.md†L35-L60】
-- Entrée : Executor fournit `{ runId, stepId, tool, params, context.memory }`, souvent normalisé en `{ provider, operation, params }` par Code node. Aucun dispatch par Switch.【F:docs/tools-runtime.md†L41-L62】
+### Registries, formats et contrats
+- `registries/README.md` + sous-dossiers `domain/` et `mappings/` décrivent la génération des catalogues (tools, capabilities, use cases).【F:registries/README.md†L1-L41】【F:registries/domain/README.md†L1-L44】【F:registries/mappings/README.md†L1-L22】
+- `formats/README.md` — jeux d'exemples JSON validant les schémas (envelope, tool input/result, memory).【F:formats/README.md†L1-L18】
+- `contracts/README.md` — référence des schémas (envelope, step, tool-definition, agent planning/selection).【F:contracts/README.md†L1-L38】
 
-### Utils
-- Rôle : helpers déterministes sans I/O externe (normalisation, validation, enrichissement).【F:docs/utils-runtime.md†L7-L32】
-- Contrat : entrées/sorties JSON sérialisables, pas d'effet de bord ni de décision métier.【F:docs/utils-runtime.md†L34-L53】
+### Workflows (workflows/)
+- `workflows/agent/README.md`, `workflows/executor/README.md`, `workflows/triggers/README.md`, `workflows/tools/README.md`, `workflows/golden/README.md` — scopes et attentes de chaque famille de workflows n8n ; rappels de nommage `so.<layer>.<name>`.【F:workflows/agent/README.md†L1-L48】【F:workflows/golden/README.md†L1-L28】
+- `workflows/utils/` ne contient pas de README dédié mais suit les règles générales décrites ci-dessus.【F:README.md†L86-L119】
 
-## Configurations, registries et dossiers clés
-- Configs sont la source de vérité : tools, capabilities, use cases, agent prompts/règles. Chaque fichier respecte son schéma contractuel.【F:config/README.md†L1-L15】【F:config/agent/README.md†L1-L13】
-- Conventions de nommage des configs : `domain.resource.action` pour capabilities et use cases (ex: `email.message.fetch`, `briefing.daily.generate`).【F:config/capabilities/README.md†L13-L23】【F:config/use-cases/README.md†L13-L23】
-- Registries compilées pour l'exécution : `registries/tools.json`, `registries/capabilities.json`, `registries/usecases.json`, plus catalogues n8n (`n8n-official-ops.json`, `tool-categories.json`).【F:registries/README.md†L1-L24】
-- Pipeline outils : docs n8n → fragments → build officiel → catégories → capacités → registry tools → workflows tools. Automatisé par `npm run build:tools`.【F:registries/README.md†L26-L41】
+### Scripts et moteur
+- `scripts/README.md` — scripts d'automatisation (validation de schémas, build registries).【F:scripts/README.md†L1-L32】
+- `engine/mapping/README.md` — logique de mapping exécutée par l'engine avec exemples de payloads.【F:engine/mapping/README.md†L1-L64】
 
-## Workflows et livrables
-- Workflows utilisés : `agent`, `triggers`, `executor`, `tools`, `utils` (réutilisables). Les autres artefacts restent purement déclaratifs.【F:README.md†L101-L119】
-- Règle de nommage des workflows (rappel) : `so.<layer>.<name>` pour assurer le routage (ex: `so.tool.google-drive`, `so.trigger.webhook`, `so.agent.planner`).【F:README.md†L79-L99】【F:docs/executor-runtime.md†L149-L160】
-- Onboarding client : importer les workflows n8n, connecter les credentials par tool, puis déployer les registries. Les samples/format en `formats/` fournissent des exemples valides pour les schémas.【F:README.md†L84-L99】【F:formats/README.md†L1-L18】
+### Bundles et échantillons
+- `bundle-chatgpt/README.md` (ce document) — condensé global pour assistant.【F:bundle-chatgpt/README.md†L1-L94】
+- `samples/` et `formats/` fournissent des exemples prêts à l'emploi, référencés dans les sections ci-dessus.【F:formats/README.md†L1-L18】
 
-## Références rapides
-- Schémas : `contracts/*.schema.json` (envelopes, steps, tools, capabilities, use cases, agent planning/selection).
-- Exemples validés : `formats/*.json` (tool-input, tool-result, envelope, memory, etc.).【F:formats/README.md†L1-L18】
-- Catalogues et docs : voir `docs/tools-catalog.md`, `docs/n8n/README.md` pour la couverture des nodes officiels.
+### Notes supplémentaires
+- Les fichiers Markdown inclus dans `node_modules/` (README/CHANGELOG des dépendances) restent accessibles mais ne sont pas couverts par ce mémo pour éviter le bruit côté assistant.
+- Les ressources n8n supplémentaires (workflows golden, registries) s'appuient sur les schémas décrits dans `contracts/` et doivent respecter la convention de nommage rappelée en ouverture.【F:README.md†L107-L119】
 
