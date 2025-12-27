@@ -36,8 +36,7 @@
       "parameters": {
         "resource": "document",
         "operation": "create",
-        "title": "={{$json.params.title}}",
-        "additionalFields": {}
+        "title": "={{$json.params.title}}"
       }
     },
     {
@@ -52,8 +51,7 @@
       "parameters": {
         "resource": "document",
         "operation": "update",
-        "documentId": "={{$json.params.documentId}}",
-        "additionalFields": {}
+        "documentId": "={{$json.params.documentId}}"
       }
     },
     {
@@ -68,8 +66,7 @@
       "parameters": {
         "resource": "document",
         "operation": "get",
-        "documentId": "={{$json.params.documentId}}",
-        "additionalFields": {}
+        "documentId": "={{$json.params.documentId}}"
       }
     },
     {

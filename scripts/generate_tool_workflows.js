@@ -4,6 +4,18 @@ const { buildN8nOfficialOps } = require('./build_n8n_official_ops');
 
 const workflowsDir = path.join(__dirname, '..', 'workflows', 'tools');
 const toolsRegistryPath = path.join(__dirname, '..', 'registries', 'tools.json');
+const providerTypeVersions = {
+  'google-calendar': 1.3,
+  'google-drive': 3,
+  gmail: 2.1,
+  slack: 2.3,
+  openai: 1.8
+};
+const providerOptionsKey = {
+  'google-calendar': 'options',
+  gmail: 'options',
+  slack: 'otherOptions'
+};
 
 function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, 'utf8'));
@@ -114,30 +126,32 @@ function buildWorkflow(tool, ops) {
     }, {});
 
     const isOpenAi = tool.id === 'openai';
+    const typeVersion = providerTypeVersions[tool.id] ?? 1;
+    const optionsKey = providerOptionsKey[tool.id];
+    const baseParams = {
+      resource,
+      operation,
+      ...requiredMap
+    };
     const actionNode = {
       id: `${resource}-${operation}`,
       name: `${resource}.${operation}`,
       type: ops.providers[tool.id].nodeType,
-      typeVersion: isOpenAi ? 1.8 : 1,
+      typeVersion,
       position: [920, 150 + index * 150],
       parameters: isOpenAi
         ? {
-            resource,
-            operation,
+            ...baseParams,
             modelId: {
               __rl: true,
               value: "={{$json.params.modelId || $json.params.model || ''}}",
               mode: 'list'
             },
-            ...requiredMap,
             options: {}
           }
-        : {
-            resource,
-            operation,
-            ...requiredMap,
-            additionalFields: {}
-          }
+        : optionsKey
+          ? { ...baseParams, [optionsKey]: {} }
+          : baseParams
     };
     nodes.push(actionNode);
     outputs.push([{ node: actionNode.name, type: 'main', index: 0 }]);

@@ -38,8 +38,7 @@
         "operation": "sendEmail",
         "body": "={{$json.params.body}}",
         "subject": "={{$json.params.subject}}",
-        "to": "={{$json.params.to}}",
-        "additionalFields": {}
+        "to": "={{$json.params.to}}"
       }
     },
     {
@@ -55,8 +54,7 @@
         "resource": "campaign",
         "operation": "createCampaign",
         "content": "={{$json.params.content}}",
-        "name": "={{$json.params.name}}",
-        "additionalFields": {}
+        "name": "={{$json.params.name}}"
       }
     },
     {

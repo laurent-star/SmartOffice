@@ -36,12 +36,12 @@
       "parameters": {
         "resource": "text",
         "operation": "generateChatCompletion",
+        "text": "={{$json.params.text}}",
         "modelId": {
           "__rl": true,
           "value": "={{$json.params.modelId || $json.params.model || ''}}",
           "mode": "list"
         },
-        "text": "={{$json.params.text}}",
         "options": {}
       }
     },
@@ -57,12 +57,12 @@
       "parameters": {
         "resource": "text",
         "operation": "classifyTextForViolations",
+        "text": "={{$json.params.text}}",
         "modelId": {
           "__rl": true,
           "value": "={{$json.params.modelId || $json.params.model || ''}}",
           "mode": "list"
         },
-        "text": "={{$json.params.text}}",
         "options": {}
       }
     },
@@ -78,12 +78,12 @@
       "parameters": {
         "resource": "text",
         "operation": "generateModelResponse",
+        "text": "={{$json.params.text}}",
         "modelId": {
           "__rl": true,
           "value": "={{$json.params.modelId || $json.params.model || ''}}",
           "mode": "list"
         },
-        "text": "={{$json.params.text}}",
         "options": {}
       }
     },

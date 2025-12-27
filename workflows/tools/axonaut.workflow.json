@@ -36,8 +36,7 @@
       "parameters": {
         "resource": "contact",
         "operation": "create",
-        "contact": "={{$json.params.contact}}",
-        "additionalFields": {}
+        "contact": "={{$json.params.contact}}"
       }
     },
     {
@@ -52,8 +51,7 @@
       "parameters": {
         "resource": "company",
         "operation": "update",
-        "company": "={{$json.params.company}}",
-        "additionalFields": {}
+        "company": "={{$json.params.company}}"
       }
     },
     {

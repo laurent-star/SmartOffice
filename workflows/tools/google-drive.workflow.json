@@ -28,7 +28,7 @@
       "id": "file-upload",
       "name": "file.upload",
       "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 1,
+      "typeVersion": 3,
       "position": [
         920,
         150
@@ -38,15 +38,14 @@
         "operation": "upload",
         "binary": "={{$json.params.binary}}",
         "folderId": "={{$json.params.folderId}}",
-        "name": "={{$json.params.name}}",
-        "additionalFields": {}
+        "name": "={{$json.params.name}}"
       }
     },
     {
       "id": "file-download",
       "name": "file.download",
       "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 1,
+      "typeVersion": 3,
       "position": [
         920,
         300
@@ -54,15 +53,14 @@
       "parameters": {
         "resource": "file",
         "operation": "download",
-        "fileId": "={{$json.params.fileId}}",
-        "additionalFields": {}
+        "fileId": "={{$json.params.fileId}}"
       }
     },
     {
       "id": "fileFolder-search",
       "name": "fileFolder.search",
       "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 1,
+      "typeVersion": 3,
       "position": [
         920,
         450
@@ -70,8 +68,7 @@
       "parameters": {
         "resource": "fileFolder",
         "operation": "search",
-        "query": "={{$json.params.query}}",
-        "additionalFields": {}
+        "query": "={{$json.params.query}}"
       }
     },
     {

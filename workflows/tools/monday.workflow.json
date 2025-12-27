@@ -37,8 +37,7 @@
         "resource": "boardItem",
         "operation": "create",
         "boardId": "={{$json.params.boardId}}",
-        "itemName": "={{$json.params.itemName}}",
-        "additionalFields": {}
+        "itemName": "={{$json.params.itemName}}"
       }
     },
     {
@@ -53,8 +52,7 @@
       "parameters": {
         "resource": "boardItem",
         "operation": "getMany",
-        "boardId": "={{$json.params.boardId}}",
-        "additionalFields": {}
+        "boardId": "={{$json.params.boardId}}"
       }
     },
     {
@@ -70,8 +68,7 @@
         "resource": "boardItem",
         "operation": "updateColumnValues",
         "columnValues": "={{$json.params.columnValues}}",
-        "itemId": "={{$json.params.itemId}}",
-        "additionalFields": {}
+        "itemId": "={{$json.params.itemId}}"
       }
     },
     {

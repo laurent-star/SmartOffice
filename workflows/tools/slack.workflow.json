@@ -28,7 +28,7 @@
       "id": "message-send",
       "name": "message.send",
       "type": "n8n-nodes-base.slack",
-      "typeVersion": 1,
+      "typeVersion": 2.3,
       "position": [
         920,
         150
@@ -38,14 +38,14 @@
         "operation": "send",
         "channel": "={{$json.params.channel}}",
         "text": "={{$json.params.text}}",
-        "additionalFields": {}
+        "otherOptions": {}
       }
     },
     {
       "id": "message-search",
       "name": "message.search",
       "type": "n8n-nodes-base.slack",
-      "typeVersion": 1,
+      "typeVersion": 2.3,
       "position": [
         920,
         300
@@ -54,14 +54,14 @@
         "resource": "message",
         "operation": "search",
         "query": "={{$json.params.query}}",
-        "additionalFields": {}
+        "otherOptions": {}
       }
     },
     {
       "id": "conversation-getMany",
       "name": "conversation.getMany",
       "type": "n8n-nodes-base.slack",
-      "typeVersion": 1,
+      "typeVersion": 2.3,
       "position": [
         920,
         450
@@ -69,7 +69,7 @@
       "parameters": {
         "resource": "conversation",
         "operation": "getMany",
-        "additionalFields": {}
+        "otherOptions": {}
       }
     },
     {

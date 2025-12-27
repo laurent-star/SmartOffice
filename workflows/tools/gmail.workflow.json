@@ -28,7 +28,7 @@
       "id": "message-send",
       "name": "message.send",
       "type": "n8n-nodes-base.gmail",
-      "typeVersion": 1,
+      "typeVersion": 2.1,
       "position": [
         920,
         150
@@ -38,14 +38,14 @@
         "operation": "send",
         "subject": "={{$json.params.subject}}",
         "to": "={{$json.params.to}}",
-        "additionalFields": {}
+        "options": {}
       }
     },
     {
       "id": "message-getMany",
       "name": "message.getMany",
       "type": "n8n-nodes-base.gmail",
-      "typeVersion": 1,
+      "typeVersion": 2.1,
       "position": [
         920,
         300
@@ -53,7 +53,7 @@
       "parameters": {
         "resource": "message",
         "operation": "getMany",
-        "additionalFields": {}
+        "options": {}
       }
     },
     {
