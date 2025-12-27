@@ -121,3 +121,5 @@ Exemples :
 - `so.trigger.webhook`
 - `so.trigger.schedule`
 - `so.trigger.google-drive`
+
+Voir aussi : [workflows/triggers/README.md](workflows/triggers/README.md)
