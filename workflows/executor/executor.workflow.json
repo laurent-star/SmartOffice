@@ -206,7 +206,7 @@
       ],
       "parameters": {
         "numberOutputs": 3,
-        "jsCode": "const routes = {\n  \"tool\": 0,\n  \"capability\": 1,\n  \"usecase\": 2\n};\nconst outputs = Array.from({ length: 3 }, () => []);\nfor (const item of items) {\n  const key = item.json?.currentStep?.type ?? item.json?.currentStep?.tool?.provider;\n  const index = routes[key];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
+        "jsCode": "const routes = {\n  \"tool\": 0,\n  \"capability\": 1,\n  \"usecase\": 2\n};\n/** @type {Array<Array<import('n8n-workflow').INodeExecutionData>>} */\nconst outputs = Array.from({ length: 3 }, () => []);\nfor (const item of items) {\n  const key = item.json?.currentStep?.type ?? item.json?.currentStep?.tool?.provider;\n  const index = routes[key];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
     },
     {

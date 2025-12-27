@@ -153,6 +153,7 @@ function buildWorkflow(tool, ops) {
       numberOutputs: outputs.length,
       jsCode:
         `const routes = ${JSON.stringify(routeMap, null, 2)};\n` +
+        `/** @type {Array<Array<import('n8n-workflow').INodeExecutionData>>} */\n` +
         `const outputs = Array.from({ length: ${outputs.length} }, () => []);\n` +
         "for (const item of items) {\n" +
         "  const op = item.json?.operation;\n" +
