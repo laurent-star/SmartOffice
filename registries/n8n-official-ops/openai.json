@@ -1,6 +1,6 @@
 {
   "provider": "openai",
-  "nodeType": "n8n-nodes-langchain.openai",
+  "nodeType": "@n8n/n8n-nodes-langchain.openAi",
   "resources": {
     "text": {
       "operations": {

@@ -6,6 +6,7 @@ const addFormats = require('ajv-formats');
 const REGISTRY_VERSION = process.env.N8N_OFFICIAL_OPS_VERSION || '2.0.0';
 const registryPath = path.join(__dirname, '..', 'registries', 'n8n-official-ops.json');
 const fragmentsDir = path.join(__dirname, '..', 'registries', 'n8n-official-ops');
+const overridesDir = path.join(fragmentsDir, '_overrides');
 const registrySchemaPath = path.join(__dirname, '..', 'contracts', 'n8n-official-ops.schema.json');
 const fragmentSchemaPath = path.join(__dirname, '..', 'contracts', 'n8n-official-ops-fragment.schema.json');
 
@@ -84,6 +85,21 @@ function buildN8nOfficialOps({ quiet = false } = {}) {
     }
 
     providers[providerId] = { nodeType: fragment.nodeType, resources };
+  }
+
+  if (fs.existsSync(overridesDir)) {
+    const overrideFiles = fs
+      .readdirSync(overridesDir)
+      .filter((f) => f.endsWith('.json'))
+      .sort();
+    for (const file of overrideFiles) {
+      const override = loadJson(path.join(overridesDir, file));
+      if (!override || !override.provider) continue;
+      if (!providers[override.provider]) continue;
+      if (override.nodeType) {
+        providers[override.provider].nodeType = override.nodeType;
+      }
+    }
   }
 
   const payload = {

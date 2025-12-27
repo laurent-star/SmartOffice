@@ -37,8 +37,6 @@ function createBaseNodes(toolId) {
       typeVersion: 2,
       position: [420, 300],
       parameters: {
-        language: 'JavaScript',
-        mode: 'runOnceForAllItems',
         jsCode:
           "return items.map((item) => {\n" +
           "  const input = item.json || {};\n" +
@@ -82,8 +80,6 @@ function buildWorkflow(tool, ops) {
         typeVersion: 2,
         position: [920, 150 + index * 150],
         parameters: {
-          language: 'JavaScript',
-          mode: 'runOnceForAllItems',
           jsCode:
             "return items.map((item) => {\n" +
             "  const input = item.json || {};\n" +
@@ -117,18 +113,31 @@ function buildWorkflow(tool, ops) {
       return acc;
     }, {});
 
+    const isOpenAi = tool.id === 'openai';
     const actionNode = {
       id: `${resource}-${operation}`,
       name: `${resource}.${operation}`,
       type: ops.providers[tool.id].nodeType,
-      typeVersion: 1,
+      typeVersion: isOpenAi ? 1.8 : 1,
       position: [920, 150 + index * 150],
-      parameters: {
-        resource,
-        operation,
-        ...requiredMap,
-        additionalFields: {}
-      }
+      parameters: isOpenAi
+        ? {
+            resource,
+            operation,
+            modelId: {
+              __rl: true,
+              value: "={{$json.params.modelId || $json.params.model || ''}}",
+              mode: 'list'
+            },
+            ...requiredMap,
+            options: {}
+          }
+        : {
+            resource,
+            operation,
+            ...requiredMap,
+            additionalFields: {}
+          }
     };
     nodes.push(actionNode);
     outputs.push([{ node: actionNode.name, type: 'main', index: 0 }]);
@@ -148,8 +157,6 @@ function buildWorkflow(tool, ops) {
     typeVersion: 2,
     position: [660, 300],
     parameters: {
-      language: 'JavaScript',
-      mode: 'runOnceForAllItems',
       numberOutputs: outputs.length,
       jsCode:
         `const routes = ${JSON.stringify(routeMap, null, 2)};\n` +
