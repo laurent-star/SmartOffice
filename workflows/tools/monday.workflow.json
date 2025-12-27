@@ -21,8 +21,6 @@
         300
       ],
       "parameters": {
-        "language": "JavaScript",
-        "mode": "runOnceForAllItems",
         "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  const tool = input.tool || {};\n  const params = input.params ?? tool.params ?? {};\n  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n  return {\n    json: {\n      provider: 'monday',\n      operation,\n      params\n    }\n  };\n});\n"
       }
     },
@@ -86,8 +84,6 @@
         600
       ],
       "parameters": {
-        "language": "JavaScript",
-        "mode": "runOnceForAllItems",
         "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'monday', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
       }
     },
@@ -101,8 +97,6 @@
         300
       ],
       "parameters": {
-        "language": "JavaScript",
-        "mode": "runOnceForAllItems",
         "numberOutputs": 4,
         "jsCode": "const routes = {\n  \"boardItem.create\": 0,\n  \"boardItem.getMany\": 1,\n  \"boardItem.updateColumnValues\": 2,\n  \"sampleFetch\": 3\n};\nconst outputs = Array.from({ length: 4 }, () => []);\nfor (const item of items) {\n  const op = item.json?.operation;\n  const index = routes[op];\n  if (index !== undefined) {\n    outputs[index].push(item);\n  }\n}\nreturn outputs;\n"
       }
